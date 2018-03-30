@@ -1,0 +1,32 @@
+Input file for WaveEq code							
+Last Update: 							
+							
+NMat	NPM	NEl   LoadType (0: pressure-1:DRM) LoadFunction (0:Ricker) Number of locations for history  Solver (0: Full matrices - 1: Skyline)
+4	    2	  11000  1                               0                        5                                 0
+Newmark Parameters:							
+Beta	Gama	time step	Total time 
+0.25	0.5	  0.003	     	15.0
+Model							
+Length	alpha	 P	A	order of shape functions			
+400	     10	 1	1	2
+other info
+Wave_Type (0: SV- 1: P does not matter) Wave_Func (0: sine-1: Ricker) alpha1   alpha2              Amplitude  Central cyclic frequency 
+0					                              1                              0       1.570796326794897    1             1.0
+material property							
+1	2430000.0   1.0  
+2 1080000.0   1.0
+3 607500.0    1.0
+4 120000.0    1.0 
+Layers
+150.0
+150.0
+75.0
+25.0
+Locations for history of displacements
+5
+100
+300
+375
+400
+
+
