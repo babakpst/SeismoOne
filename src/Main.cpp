@@ -4,8 +4,7 @@
 ********************G E T A F I X   1 D ***************************************
 
 Developer:         Babak Poursartip
-Code description:  Numerical solution of one-dimensional wave propagation in 
-                   heterogeneous half-space
+Code description:  Numerical solution of one-dimensional wave propagation in a heterogeneous half-space
 Date starting:     July 1, 2016
 version 1.0        July 07, 2016     Time domain
 version 1.1        July 20, 2016     output for Matlab
@@ -13,8 +12,9 @@ version 1.2        July 25, 2016     Matlab output has modified
 version 1.3        July 27, 2016     Visualization (Animation)
 version 1.4        Sept 10, 2016     Unstructured mesh
 version 2.0        Sept 22, 2016     Transfer functions (frequency domain)
+version 2.1        March 30, 2018    OOP
 
-Last Update:       Sept 28, 2016
+Last Update:       March 30, 2018
 
 Comments:
 Node number starts from 0
@@ -26,7 +26,6 @@ Equation number starts from 0
 
 ===============================================================================
 */
-
 
 #include "Variables.h"
 #include "Input.h"
