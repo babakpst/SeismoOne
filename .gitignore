@@ -1,0 +1,8 @@
+# ignore the following file types:
+*.o
+*.mod
+
+
+# ignoring the following folders:
+output/
+visualize/
