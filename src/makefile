@@ -1,4 +1,3 @@
-## Generic makefile by Heedong Goh <wellposed@gmail.com> ########
 ## Name of the executable
 NAME = oneD
 ## Complier
@@ -17,6 +16,7 @@ INC = -I./
 CFLAGS = -Wall -Wextra -pedantic -std=c++98
 ## Release option
 RFLAGS = -O3
+
 ## DO NOT CHANGE ################################################
 .PHONY: all clean dep test help
 
