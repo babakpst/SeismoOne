@@ -59,6 +59,7 @@ cout<< " Name:  " << Name << endl;
 cout<< " Directory:  " << Directory << endl;
 
 // Windows 
+/*
 Input_Dir            = Directory + "\\Input\\"   + Name + ".txt";
 OutputMatlab_Dir     = Directory + "\\Output\\"  + Name + ".Matlab";
 Info_Dir             = Directory + "\\Output\\"  + Name + ".inf";
@@ -66,17 +67,18 @@ Info_Dir             = Directory + "\\Output\\"  + Name + ".inf";
 FullFile_Dir         = Directory + "\\Output\\"  + Name + ".Res";
 HistoryFile_Dir      = Directory + "\\Output\\"  + Name + ".His";
 TransferFunction_Dir = Directory + "\\Output\\"  + Name + ".TRF";
+*/
 
 // Linux
-/*
-Input_Dir            = Directory + "/Input/"   + Name + ".txt";
-OutputMatlab_Dir     = Directory + "/Output/"  + Name + ".Input";
-Info_Dir             = Directory + "/Output/"  + Name + ".Input";
 
-FullFile_Dir         = Directory + "/Output/"  + Name + ".Input";
-HistoryFile_Dir      = Directory + "/Output/"  + Name + ".Input";
-TransferFunction_Dir = Directory + "/Output/"  + Name + ".Input";
-*/
+Input_Dir            = Directory + "/input/"   + Name + ".txt";
+OutputMatlab_Dir     = Directory + "/output/"  + Name + ".Input";
+Info_Dir             = Directory + "/output/"  + Name + ".Input";
+
+FullFile_Dir         = Directory + "/output/"  + Name + ".Input";
+HistoryFile_Dir      = Directory + "/output/"  + Name + ".Input";
+TransferFunction_Dir = Directory + "/output/"  + Name + ".Input";
+
 
 // Final Directories
 cout<< "  Input dir:   " << Input_Dir << endl;

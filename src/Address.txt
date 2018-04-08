@@ -1,7 +1,7 @@
 Input file name:
 Sediment-filled_SV_100
 Directory:
-/workspace/MyDocuments/Codes/C++/1D_Wave
+/workspace/MyDocuments/Codes/C++/SeismoOne
 
 
 EX1_homogeneous
