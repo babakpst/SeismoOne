@@ -1,0 +1,12 @@
+Input file name:
+Sediment-filled_SV_100
+Directory:
+/workspace/MyDocuments/Codes/C++/1D_Wave
+
+
+EX1_homogeneous
+EX2_homogeneous  
+Sediment-filled_SV_100
+Sediment-filled_SV_100_Freq
+Sediment-filled_SV_100_Sine8
+Three_Layer_Model_P_Ex_2
