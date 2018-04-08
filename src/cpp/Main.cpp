@@ -27,14 +27,14 @@ Equation number starts from 0
 ===============================================================================
 */
 
-#include "Variables.h"
-#include "Input.h"
-#include "Discretization.h"
-#include "GlobalMatrices_Full.h"
-#include "GlobalMatrices_Skyline.h"
-#include "Solver_Full.h"
-#include "Solver_Skyline.h"
-#include "Fre_Full.h"
+#include "../header/Variables.h"
+#include "../header/Input.h"
+#include "../header/Discretization.h"
+#include "../header/GlobalMatrices_Full.h"
+#include "../header/GlobalMatrices_Skyline.h"
+#include "../header/Solver_Full.h"
+#include "../header/Solver_Skyline.h"
+#include "../header/Fre_Full.h"
 
 int main()
 {
@@ -353,7 +353,7 @@ F  = new double [NEqM] ;
       DRM_Matrices_Full(  NNBndry, NNLayer, K, C, M, K_eb, C_eb, M_eb, ND_e, ND_b ) ;
 
       // - Computing the transfer functions in the frequency domain ------------------------------------------------------------------------------------
-      Transfer_Full ( alpha1, alpha2, L, Wave_Type, NEqM, M, C, K, F, PMat, XYZ, ND_e, ND_b, Nodal_History, info, TransferFunc );
+      Transfer_Full ( alpha1, alpha2, Wave_Type, NEqM, M, C, K, PMat, XYZ, ND_e, ND_b, TransferFunc );
         for(int i=0;i<NEqM;i++){
           delete []K[i];
         }

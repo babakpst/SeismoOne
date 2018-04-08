@@ -1,6 +1,6 @@
 
 
-#include "Fre_Full.h"
+#include "../header/Fre_Full.h"
 using namespace std;
 
 
@@ -13,7 +13,7 @@ void LDLT_Freq ( int& NEqM, double **& K_Eff)
 
 // = Local Variables ================================================================================================================================
 //int i, j, k, l ;         // Loop index
-int tempI;
+//int tempI;
 double * L;
 
 // ==================== Code ========================================================================================================================
@@ -51,7 +51,7 @@ void Substitute_Freq ( int& NEqM, double *& RHS, double **& K_Eff)
 
 // = Local Variables ================================================================================================================================
 
-int i, j, k, l ;         // Loop index
+int k, l ;         // Loop index
 double temp;
 double * L;
 
@@ -93,7 +93,7 @@ L   = new double [ 2*NEqM ];  // Identifications
 //***************************************************************************************************************************************************
 // Calculating the transfer functions 
 //***************************************************************************************************************************************************
-void Transfer_Full ( double & alpha1, double & alpha2, double & L, int & Wave_Type, int& NEqM, double **& M, double **& C, double **& K, double *& F, double **& PMat, double **& XYZ, int *&ND_e, int *&ND_b, int *&Nodal_History, ofstream& info, ofstream& TransferFunc )
+void Transfer_Full ( double & alpha1, double & alpha2, int & Wave_Type, int& NEqM, double **& M, double **& C, double **& K, double **& PMat, double **& XYZ, int *&ND_e, int *&ND_b, ofstream& TransferFunc )
 {
 
 // = Local Variables ================================================================================================================================
