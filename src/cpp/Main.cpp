@@ -12,9 +12,11 @@ version 1.2        July 25, 2016     Matlab output has modified
 version 1.3        July 27, 2016     Visualization (Animation)
 version 1.4        Sept 10, 2016     Unstructured mesh
 version 2.0        Sept 22, 2016     Transfer functions (frequency domain)
-version 2.1        March 30, 2018    OOP
+version 2.0        March 30, 2018    Check
+version 2.1        April 08, 2018    Some minor modifications
+version 2.2        April 08, 2018    Transforming the code to an OOP
 
-Last Update:       March 30, 2018
+Last Update:       April 08, 2018
 
 Comments:
 Node number starts from 0
@@ -27,14 +29,14 @@ Equation number starts from 0
 ===============================================================================
 */
 
-#include "../header/Variables.h"
-#include "../header/Input.h"
-#include "../header/Discretization.h"
-#include "../header/GlobalMatrices_Full.h"
-#include "../header/GlobalMatrices_Skyline.h"
-#include "../header/Solver_Full.h"
-#include "../header/Solver_Skyline.h"
-#include "../header/Fre_Full.h"
+#include "../include/Variables.h"
+#include "../include/Input.h"
+#include "../include/Discretization.h"
+#include "../include/GlobalMatrices_Full.h"
+#include "../include/GlobalMatrices_Skyline.h"
+#include "../include/Solver_Full.h"
+#include "../include/Solver_Skyline.h"
+#include "../include/Fre_Full.h"
 
 int main()
 {
