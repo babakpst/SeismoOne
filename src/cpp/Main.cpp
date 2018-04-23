@@ -16,7 +16,7 @@ version 2.0        March 30, 2018    Check
 version 2.1        April 08, 2018    Some minor modifications
 version 2.2        April 08, 2018    Transforming the code to an OOP
 
-Last Update:       April 08, 2018
+Last Update:       April 12, 2018
 
 Comments:
 Node number starts from 0
@@ -41,8 +41,9 @@ Equation number starts from 0
 int main()
 {
 
-// = Open input files ===============================================================================================================================
 
+
+// = Open input files ===============================================================================================================================
 // Address file
 ifstream Addressfile;
 Addressfile.open ("Address.txt", ios::in );
@@ -56,9 +57,9 @@ getline (Addressfile,TempS);
 Addressfile >> Directory ; // Directory of the input file
 
 cout << endl;
-cout<< "----- Analysis information -----" << endl;
-cout<< " Name:  " << Name << endl;
-cout<< " Directory:  " << Directory << endl;
+cout << "----- Analysis information -----" << endl;
+cout << " Name:  " << Name << endl;
+cout << " Directory:  " << Directory << endl;
 
 // Windows 
 /*
