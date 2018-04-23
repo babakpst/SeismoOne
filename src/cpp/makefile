@@ -31,7 +31,7 @@ $(TARGET): $(OBJS)
 $(OBJS): $(SRCS)
 	mkdir -p $(ODIR)
 	$(CC) $(CFLAGS) $(RFLAGS) $(INC) -c $(SRCS)
-clean:
+cln:
 	rm $(TARGET)
 test:
 	@echo "Sources are: " $(SRCS)

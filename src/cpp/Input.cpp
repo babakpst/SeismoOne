@@ -9,7 +9,7 @@
 using namespace std;
 
 // include voids
-#include "../header/Input.h"
+#include "../include/Input.h"
 
 //***************************************************************************************************************************************************
 // reading basic data from the input file

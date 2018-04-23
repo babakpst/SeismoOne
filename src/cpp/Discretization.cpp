@@ -10,7 +10,7 @@ using namespace std;
 
 // include voids
 //#include "Input.h"
-#include "../header/Discretization.h"
+#include "../include/Discretization.h"
 
 //***************************************************************************************************************************************************
 // Discretization
