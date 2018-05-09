@@ -1,10 +1,14 @@
 /*
-===============================================================================
+===================================================================================================
 
-********************G E T A F I X   1 D ***************************************
+************************************** G E T A F I X   1 D  ***************************************
+Purpose:  Numerical solution of one-dimensional wave propagation in a heterogeneous half-space.
 
 Developer:         Babak Poursartip
-Code description:  Numerical solution of one-dimensional wave propagation in a heterogeneous half-space
+                   Civil, Architectural, and Environmental Engineering department
+                   The Institute for Computational Engineering and Sciences (ICES)
+                   The University of Texas at Austin
+
 Date starting:     July 1, 2016
 version 1.0        July 07, 2016     Time domain
 version 1.1        July 20, 2016     output for Matlab
@@ -16,7 +20,7 @@ version 2.0        March 30, 2018    Check
 version 2.1        April 08, 2018    Some minor modifications
 version 2.2        April 08, 2018    Transforming the code to an OOP
 
-Last Update:       April 12, 2018
+Last Update:       May 09, 2018
 
 Comments:
 Node number starts from 0
@@ -26,7 +30,7 @@ Equation number starts from 0
      3 4 )
   ND [---x--- ---y---]
 
-===============================================================================
+===================================================================================================
 */
 
 #include "../include/Variables.h"
