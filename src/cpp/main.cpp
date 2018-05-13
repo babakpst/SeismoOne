@@ -1,4 +1,5 @@
 
+
 /*
 ===================================================================================================
 
@@ -34,19 +35,17 @@ Equation number starts from 0
 ===================================================================================================
 */
 
-#include "../include/Variables.h"
+//#include "../include/Variables.h"
 #include "../include/Input.h"
-#include "../include/Discretization.h"
-#include "../include/GlobalMatrices_Full.h"
-#include "../include/GlobalMatrices_Skyline.h"
-#include "../include/Solver_Full.h"
-#include "../include/Solver_Skyline.h"
-#include "../include/Fre_Full.h"
+//#include "../include/Discretization.h"
+//#include "../include/GlobalMatrices_Full.h"
+//#include "../include/GlobalMatrices_Skyline.h"
+//#include "../include/Solver_Full.h"
+//#include "../include/Solver_Skyline.h"
+//#include "../include/Fre_Full.h"
 
 int main()
 {
-
-
 
 // = Open input files ===============================================================================================================================
 // Address file
@@ -145,6 +144,8 @@ XYZ  = new double *[ NJ ];  // Coordinates
     XYZ[i]=new double[NDim];
   }
 
+
+/*
 // discretization
 Discretization( NEl_DRM, NDOF, Dis_History, NDim, NMat, NJ, OShFunc, NEl,  NEqM,           L,                  Length,   MTel, INod, ID, XYZ, Element_Layer, Layer_Depth, NoBndry_DRM, NoLayer_DRM, Nodal_History, Loc_History     );
 
@@ -410,7 +411,10 @@ delete []XYZ;
   cout << "End of the code \n";
   cout << "Press 'Enter' to end \n";
 //  getline (cin , TempS) ;
-  return 0;
+
+*/
+
+return 0;
 }
 
 
