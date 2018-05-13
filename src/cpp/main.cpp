@@ -47,7 +47,16 @@ Equation number starts from 0
 int main()
 {
 
+// = Welcoming message ============================================================================
+	Welcome_cls Welcome;
+
+
+// = Open input files =============================================================================
+	input_cls input;
+
+
 // = Open input files ===============================================================================================================================
+
 // Address file
 ifstream Addressfile;
 Addressfile.open ("Address.txt", ios::in );

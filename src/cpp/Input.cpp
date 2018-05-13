@@ -8,13 +8,13 @@
 #include <iomanip>
 using namespace std;
 
-// include voids
+
 #include "../include/Input.h"
 
 //***************************************************************************************************************************************************
 // reading basic data from the input file
 //***************************************************************************************************************************************************
-void InputBasic(int &  NEl_DRM, int & Solver, int & Dis_History, double & alpha1, double & alpha2, double & amplitude, double & omega, int& Wave_Type, int& Wave_Func, int& NInt, int& NDim, int& NNode, int& NDOF, int& NMat, int& NPM, int& NNodePWaveL, int& LoadType, double& Beta, double& Gama, double& DT, int& NStep, double& L, double& Alpha, double& P, double& A, int& OShFunc, ifstream& InputFile)
+void main_ns::input_ns::input_cls::InputBasic(int &  NEl_DRM, int & Solver, int & Dis_History, double & alpha1, double & alpha2, double & amplitude, double & omega, int& Wave_Type, int& Wave_Func, int& NInt, int& NDim, int& NNode, int& NDOF, int& NMat, int& NPM, int& NNodePWaveL, int& LoadType, double& Beta, double& Gama, double& DT, int& NStep, double& L, double& Alpha, double& P, double& A, int& OShFunc, ifstream& InputFile)
 {
 // = Variables ======================================================================================================================================
 
@@ -25,12 +25,6 @@ double Total_Time; // Total simulation time
 
 // - Strings --------------------------------------------------------------------------------------------------------------------------------------
 string TempS;           // Temporary variable for reading strings from input files
-
-// - bool -----------------------------------------------------------------------------------------------------------------------------------------
-
-// - arrays ---------------------------------------------------------------------------------------------------------------------------------------
-
-// - data structure -------------------------------------------------------------------------------------------------------------------------------
 
 // ==================== Code ======================================================================================================================
 
