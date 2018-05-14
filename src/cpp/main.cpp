@@ -22,7 +22,7 @@ version 2.0        March 30, 2018    Check
 version 2.1        April 08, 2018    Some minor modifications
 version 2.2        April 08, 2018    Transforming the code to an OOP
 
-Last Update:       May 09, 2018
+Last Update:       May 14, 2018
 
 Comments:
 Node number starts from 0
@@ -35,8 +35,9 @@ Equation number starts from 0
 ===================================================================================================
 */
 
-//#include "../include/Variables.h"
 #include "../include/Input.h"
+
+//#include "../include/Variables.h"
 //#include "../include/Discretization.h"
 //#include "../include/GlobalMatrices_Full.h"
 //#include "../include/GlobalMatrices_Skyline.h"
@@ -52,7 +53,7 @@ int main()
 
 
 // = Open input files =============================================================================
-	input_cls input;
+	main_ns::input_ns::input_cls input;
 
 
 // = Open input files ===============================================================================================================================
@@ -152,6 +153,13 @@ XYZ  = new double *[ NJ ];  // Coordinates
   for(int i=0;i<NJ;i++){
     XYZ[i]=new double[NDim];
   }
+
+
+
+
+
+
+
 
 
 /*
