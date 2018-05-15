@@ -36,6 +36,7 @@ Equation number starts from 0
 */
 
 #include "../include/Address.h"
+#include "../include/Model.h"
 
 //#include "../include/Variables.h"
 //#include "../include/Discretization.h"
@@ -54,42 +55,16 @@ main_ns::address_ns::address_cls input;
 input.address_fn();
 
 
-
-
-/*
-// Input File
-ifstream InputFile;
-InputFile.open (Input_Dir.c_str(), ios::in );
-
-
+// = model data ===================================================================================
+main_ns::model_ns::model_cls model(&input);
 
 // Reading basic data
-// = Reading data ===================================================================================================================================
-InputBasic (NEl_DRM, Solver, Dis_History, alpha1, alpha2, amplitude, omega, Wave_Type, Wave_Func, NInt, NDim, NNode, NDOF, NMat, NPM, NNodePWaveL, LoadType, Beta, Gama, DT, NStep, L, Alpha, P, A, OShFunc, InputFile);
+model.InputBasic();
+model.InputArrays();
+
+/*
 
 
-
-
-
-
-
-// Allocating required 1D arrays - vectors
-Length      = new double[NMat];  // Material Type of Elements
-NoBndry_DRM = new int[NNBndry];  // vector that holds the node numbers on the DRM boundary- There is only one node on the DRM boundary
-NoLayer_DRM = new int[NNLayer];  // vector that holds the node numbers on the DRM layer. Ther are only two nodes in the layer in a 1D wave motion.
-
-Nodal_History = new int[Dis_History];
-Loc_History = new double[Dis_History];
-
-PMat = new double *[NMat];  // Properties of Materials
-  for (int i = 0; i<NMat; i++){
-    PMat[i] = new double[NPM];
-  }
-
-Element_Layer = new int[NMat];
-Layer_Depth   = new int[NMat];
-
-InputArrays( omega, NNodePWaveL, Dis_History, NMat, Length, L, Loc_History, Element_Layer, Layer_Depth, NEl, OShFunc, NJ, PMat, InputFile);
 
 
 // Allocating required 1D arrays - vectors
@@ -110,7 +85,6 @@ XYZ  = new double *[ NJ ];  // Coordinates
   for(int i=0;i<NJ;i++){
     XYZ[i]=new double[NDim];
   }
-*/
 
 
 
@@ -118,8 +92,6 @@ XYZ  = new double *[ NJ ];  // Coordinates
 
 
 
-
-/*
 
 // Output file for Matlab for visualization
 ofstream OutputMatlab;

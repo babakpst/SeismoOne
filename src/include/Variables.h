@@ -1,15 +1,4 @@
 
-// include files
-#include <iostream>
-#include <string>
-#include <sstream>
-#include <fstream>
-#include <cmath>
-#include <iomanip>
-
-
-using namespace std;
-
 
 #ifndef VARIABLES_H
 #define VARIABLES_H
