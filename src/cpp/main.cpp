@@ -48,73 +48,29 @@ Equation number starts from 0
 int main()
 {
 
-// = Welcoming message ============================================================================
-	Welcome_cls Welcome;
+// = input class ==================================================================================
+main_ns::input_ns::input_cls input;
 
+input.address_fun();
 
-// = Open input files =============================================================================
-	main_ns::input_ns::input_cls input;
+input.
 
-
-// = Open input files ===============================================================================================================================
-
-// Address file
-ifstream Addressfile;
-Addressfile.open ("Address.txt", ios::in );
-
-// Reading simulation information
-getline (Addressfile,TempS);
-Addressfile >> Name ; // Input file name
-
-getline (Addressfile,TempS);
-getline (Addressfile,TempS);
-Addressfile >> Directory ; // Directory of the input file
-
-cout << endl;
-cout << "----- Analysis information -----" << endl;
-cout << " Name:  " << Name << endl;
-cout << " Directory:  " << Directory << endl;
-
-// Windows 
-/*
-Input_Dir            = Directory + "\\Input\\"   + Name + ".txt";
-OutputMatlab_Dir     = Directory + "\\Output\\"  + Name + ".Matlab";
-Info_Dir             = Directory + "\\Output\\"  + Name + ".inf";
-
-FullFile_Dir         = Directory + "\\Output\\"  + Name + ".Res";
-HistoryFile_Dir      = Directory + "\\Output\\"  + Name + ".His";
-TransferFunction_Dir = Directory + "\\Output\\"  + Name + ".TRF";
-*/
-
-// Linux
-
-Input_Dir            = Directory + "/input/"   + Name + ".txt";
-OutputMatlab_Dir     = Directory + "/output/"  + Name + ".Matlab";
-Info_Dir             = Directory + "/output/"  + Name + ".inf";
-
-FullFile_Dir         = Directory + "/output/"  + Name + ".Res";
-HistoryFile_Dir      = Directory + "/output/"  + Name + ".His";
-TransferFunction_Dir = Directory + "/output/"  + Name + ".TRF";
-
-// Final Directories
-cout<< "  Input dir:   " << Input_Dir << endl;
-cout<< "  Output dir:  " << Info_Dir  << endl;
 
 // Input File
 ifstream InputFile;
 InputFile.open (Input_Dir.c_str(), ios::in );
 
-// Output file for Matlab for visualization
-ofstream OutputMatlab;
-OutputMatlab.open (OutputMatlab_Dir.c_str(), ios::out );
 
-// Information file
-ofstream info;
-info.open (Info_Dir.c_str(), ios::out );
 
 // Reading basic data
 // = Reading data ===================================================================================================================================
 InputBasic (NEl_DRM, Solver, Dis_History, alpha1, alpha2, amplitude, omega, Wave_Type, Wave_Func, NInt, NDim, NNode, NDOF, NMat, NPM, NNodePWaveL, LoadType, Beta, Gama, DT, NStep, L, Alpha, P, A, OShFunc, InputFile);
+
+
+
+
+
+
 
 // Allocating required 1D arrays - vectors
 Length      = new double[NMat];  // Material Type of Elements
@@ -163,6 +119,15 @@ XYZ  = new double *[ NJ ];  // Coordinates
 
 
 /*
+
+// Output file for Matlab for visualization
+ofstream OutputMatlab;
+OutputMatlab.open (OutputMatlab_Dir.c_str(), ios::out );
+
+// Information file
+ofstream info;
+info.open (Info_Dir.c_str(), ios::out );
+
 // discretization
 Discretization( NEl_DRM, NDOF, Dis_History, NDim, NMat, NJ, OShFunc, NEl,  NEqM,           L,                  Length,   MTel, INod, ID, XYZ, Element_Layer, Layer_Depth, NoBndry_DRM, NoLayer_DRM, Nodal_History, Loc_History     );
 
@@ -178,7 +143,6 @@ InputMatlab ( NJ, Dis_History, NMat, NEl, DT, NStep, L, OutputMatlab, NEqM, NPM,
 
 // Close files 
 // Address file
-//Addressfile.close();
 InputFile.close();
 OutputMatlab.close();
 

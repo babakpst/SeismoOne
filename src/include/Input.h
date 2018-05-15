@@ -2,10 +2,36 @@
 #ifndef INPUTBASIC
 #define INPUTBASIC
 
-void InputBasic ( int &  NEl_DRM, int & Solver, int & Dis_History, double & alpha1, double & alpha2, double & amplitude, double & omega, int& Wave_Type, int& Wave_Func, int& NInt, int& NDim,int& NNode, int& NDOF, int& NMat, int& NPM, int& NNodePWaveL, int& LoadType, double& Beta, double& Gama, double& DT, int& NStep, double& L, double& Alpha, double& P, double& A, int& OShFunc, ifstream& InputFile);
-void InputArrays(double & omega, int & NNodePWaveL, int & Dis_History, int& NMat, double*& Length, double& L, double*& Loc_History, int*& Element_Layer, int*& Layer_Depth, int & NEl, int& OShFunc, int & NJ,  double **& PMat, ifstream& InputFile);
+namespace main_ns
+{
 
-void InputMatlab ( int & NJ, int & Dis_History, int& NMat, int& NEl, double& DT, int& NStep, double& L, ofstream& OutputMatlab, int& NEqM, int& NPM, double*& Length, double**& PMat, double*& Loc_History, double**& XYZ);
+	namespace input_ns
+	{
 
+		class input_cls {
 
+      private:
+        string TempS;         // temporary variable for reading strings from input files
+
+  		public:
+        // variables
+        string Name;          // name of the input file
+        string Directory;     // Input/output directory
+
+        string Input_Dir;            // Input directory
+        string OutputMatlab_Dir;     // directory to write the input file for Matlab visualizer interface
+        string Info_Dir;             // directory to write general information
+        string FullFile_Dir;         // directory to write the full results in the time domain analysis
+        string HistoryFile_Dir;      // directory to write the time history of displacement in the time domain analysis
+        string TransferFunction_Dir; // directory to write the frequency domain results
+
+        // functions
+      	input_cls();
+  			~input_cls();
+		    void Address_fn();
+	
+		};
+
+	}
+}
 #endif

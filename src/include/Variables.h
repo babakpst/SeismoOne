@@ -38,6 +38,7 @@ extern  int Solver;           // Solver type 0: full matrices 1: skyline method
 extern  int NNodePWaveL;      // Number of Nodes per wavelength
 extern  int NEl_DRM;          // DRM boundary
 
+
 // - Real variables -------------------------------------------------------------------------------------------------------------------------------
 extern  double DT ;           // time step
 extern  double Gama, Beta ;   // Newmark parameters
@@ -50,19 +51,7 @@ extern  double omega ;        // central cyclic frequency in the Ricker pulse wa
 
 extern  const double pi;
 
-// - Strings --------------------------------------------------------------------------------------------------------------------------------------
-extern string TempS;         // temporary variable for reading strings from input files
-extern string Name;          // name of the input file
-extern string Directory;     // Input/output directory
 
-extern string Input_Dir;            // Input directory
-extern string OutputMatlab_Dir;     // The directory to write down the input file for Matlab visualizer interface
-extern string Info_Dir;             // The directory to write down general information
-extern string FullFile_Dir;         // The directory to write down the full results in the time domain analysis
-extern string HistoryFile_Dir;      // The directory to write down the time history of displacement in the time domain analysis
-extern string TransferFunction_Dir; // The directory to write down the frequency domain results
-
-// - bool -----------------------------------------------------------------------------------------------------------------------------------------
 // - Integer arrays -------------------------------------------------------------------------------------------------------------------------------
 extern  int * MTel;           // material type of each Element
 extern  int * NoBndry_DRM;    // a vector that holds the node numbers on the DRM boundary
