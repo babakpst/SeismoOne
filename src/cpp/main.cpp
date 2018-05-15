@@ -35,7 +35,7 @@ Equation number starts from 0
 ===================================================================================================
 */
 
-#include "../include/Input.h"
+#include "../include/Address.h"
 
 //#include "../include/Variables.h"
 //#include "../include/Discretization.h"
@@ -49,13 +49,14 @@ int main()
 {
 
 // = input class ==================================================================================
-main_ns::input_ns::input_cls input;
+main_ns::address_ns::address_cls input;
 
-input.address_fun();
-
-input.
+input.address_fn();
 
 
+
+
+/*
 // Input File
 ifstream InputFile;
 InputFile.open (Input_Dir.c_str(), ios::in );
@@ -109,7 +110,7 @@ XYZ  = new double *[ NJ ];  // Coordinates
   for(int i=0;i<NJ;i++){
     XYZ[i]=new double[NDim];
   }
-
+*/
 
 
 
