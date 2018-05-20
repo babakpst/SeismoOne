@@ -1,19 +1,13 @@
 
-// include files
-
-using namespace std;
-
 #include "../include/Address.h"
-
 
 // Constructor
 main_ns::address_ns::address_cls::address_cls(){
-std::cout << " --------------- SeismoOne ---------------" << endl;
-std::cout << " ----- Developed by: Babak Poursartip ----" << endl;
-std::cout << " -------------- version 3.0 --------------" << endl;
-std::cout << endl;
+std::cout << " --------------- SeismoOne ---------------" << std::endl;
+std::cout << " ----- Developed by: Babak Poursartip ----" << std::endl;
+std::cout << " -------------- version 3.0 --------------" << std::endl;
+std::cout << std::endl;
 }
-
 
 /*
 ##################################################################################################
@@ -33,12 +27,12 @@ V0.01: 05/14/2018 - Initiated: Compiled without error for the first time.
 void main_ns::address_ns::address_cls::address_fn(){
 
 // Open address files 
-std::cout << " opening the address file ..." << endl;
-ifstream Addressfile;
-Addressfile.open ("Address.txt", ios::in );
+std::cout << " opening the address file ..." << std::endl;
+std::ifstream Addressfile;
+Addressfile.open ("Address.txt", std::ios::in );
 
 // Reading simulation information
-std::cout << " Reading file information ..." << endl;
+std::cout << " Reading file information ..." << std::endl;
 getline (Addressfile,TempS);
 Addressfile >> Name ; // Input file name
 
@@ -46,10 +40,10 @@ getline (Addressfile,TempS);
 getline (Addressfile,TempS);
 Addressfile >> Directory ; // Directory of the input file
 
-std::cout << endl;
-std::cout << " Analysis information:" << endl;
-std::cout << " Name:  " << Name << endl;
-std::cout << " Directory:  " << Directory << endl;
+std::cout << std::endl;
+std::cout << " Analysis information:" << std::endl;
+std::cout << " Name:  " << Name << std::endl;
+std::cout << " Directory:  " << Directory << std::endl;
 
 // Windows 
 /*
@@ -73,8 +67,8 @@ HistoryFile_Dir      = Directory + "/output/"  + Name + ".His";
 TransferFunction_Dir = Directory + "/output/"  + Name + ".TRF";
 
 // Final Directories
-std::cout<< "  Input dir:   " << Input_Dir << endl;
-std::cout<< "  Output dir:  " << Info_Dir  << endl;
+std::cout<< "  Input dir:   " << Input_Dir << std::endl;
+std::cout<< "  Output dir:  " << Info_Dir  << std::endl;
 
 Addressfile.close();
 
