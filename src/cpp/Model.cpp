@@ -3,7 +3,7 @@
 #include "../include/Model.h"
 
 // Constructor
-main_ns::model_ns::model_cls::model_cls(const main_ns::address_ns::address_cls *ModelInput):
+main_ns::model_ns::model_cls::model_cls(const main_ns::address_ns::address_cls* ModelInput):
 input (ModelInput){
 
 std::cout << " Reading model ..." << std::endl;
@@ -80,6 +80,27 @@ getline(InputFile,TempS);
 getline(InputFile,TempS);
 InputFile >> Wave_Type >> Wave_Func >> alpha1 >> alpha2 >> amplitude >> omega >> NEl_DRM;
 
+std::cout << " Here are the input: " << std::endl;
+std::cout<< std::endl;
+std::cout << " Number of materials: " << NMat << std::endl
+          << " Number of properties of material: " << NPM << std::endl
+          << " Requried number of nodes per wavelenght: " << NNodePWaveL << std::endl
+          << " Load Type is :"  << LoadType << std::endl
+          << " Number of nodes for recording the history of displacement: " << Dis_History << std::endl
+          << " The solver type is: " << Solver << std::endl
+          << " Number of integration points: "  << NInt << std::endl
+          << " The dimension of the model: " << NDim << std::endl
+          << " The degrees of freedom of each node: " << NDOF << std::endl
+          << " Number of nodes per element: " << NNode << std::endl
+          << " Newmark variables: " << Beta << Gama << std::endl
+          << " Time step: " << DT << std::endl
+          << " Total simulation time: " << Total_Time << std::endl
+          << " Total Number of stets: " << NStep << std::endl
+          << std::endl;
+
+
+
+
 }
 
 /*
@@ -124,10 +145,7 @@ std::string TempS;   // Temporary variable for reading strings from input files
 // Allocating required 1D arrays - vectors
 std::cout << " Allocating arrays ..." << std::endl;
 Length      = new double[NMat];  // Material Type of Elements
-NoBndry_DRM = new int[NNBndry];  // vector that holds the node numbers on the DRM boundary- There is only one node on the DRM boundary
-NoLayer_DRM = new int[NNLayer];  // vector that holds the node numbers on the DRM layer. Ther are only two nodes in the layer in a 1D wave motion.
 
-Nodal_History = new int[Dis_History];
 Loc_History = new double[Dis_History];
 
 PMat = new double *[NMat];  // Properties of Materials
@@ -135,7 +153,8 @@ PMat = new double *[NMat];  // Properties of Materials
     PMat[i] = new double[NPM];
   }
 
-Element_Layer = new int[NMat];
+Element_Layer = new int[NMat]; // Total number of layers in the model should be equal to the 
+                               // number of materials.
 Layer_Depth   = new int[NMat];
 
 

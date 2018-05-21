@@ -11,20 +11,15 @@
   const double pi = 3.141592653589793 ;
 
   // - Integer arrays -------------------------------------------------------------------------------------------------------------------------------
-  int * MTel;           // material type of each Element
-
   int * JD;             // Skyline matrix
   int * NTK;            // Skyline matrix
 
   int * ND_b;           // Nodal ID for DRM
   int * ND_e;           // Nodal ID for DRM
 
-  int ** INod;          // node connectivity
-  int ** ID;            // identity
+  
 
   // - Real arrays ----------------------------------------------------------------------------------------------------------------------------------
-
-
 
   double * F;           // global force vector
 
@@ -33,7 +28,7 @@
   double * M_S;         // global mass matrix -skyline
 
   
-  double ** XYZ;        // node coordinates
+
   double ** K;          // global stiffness matrix
   double ** C;          // global damping matrix
   double ** M;          // global mass matrix

@@ -36,7 +36,7 @@ class address_cls {
 
     // functions
   	address_cls();
-    void address_fn();
+    void address_fn(); // Reads the file name and directories
 	
 };
 }

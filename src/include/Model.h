@@ -22,9 +22,11 @@ namespace model_ns
     private:
       std::string TempS;         // temporary variable for reading strings from input files
       std::ifstream InputFile;
-
+      
+      const main_ns::address_ns::address_cls* input;
 
  		public:
+
       // variables
       int NDim;             // number of Dimension
       int NInt;             // number of integration points in Gauss integration scheme
@@ -57,7 +59,6 @@ namespace model_ns
 
       int *NoBndry_DRM;    // a vector that holds the node numbers on the DRM boundary
       int *NoLayer_DRM;    // a vector that holds the node numbers on the DRM layer
-      int *Nodal_History;  // a vector that holds the node no. to record the history of displc 
       int *Element_Layer;  // Number of elements in each layer
       int *Layer_Depth;    // Depth of each layer
 
@@ -65,8 +66,6 @@ namespace model_ns
       double *Loc_History; // holds required locations to store the time history of displacement
 
       double **PMat;       // properties of materials
-
-      const main_ns::address_ns::address_cls *input;
 
       // functions
     	model_cls(const main_ns::address_ns::address_cls*);

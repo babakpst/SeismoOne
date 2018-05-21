@@ -20,9 +20,9 @@ version 1.4        Sept 10, 2016     Unstructured mesh
 version 2.0        Sept 22, 2016     Transfer functions (frequency domain)
 version 2.0        March 30, 2018    Check
 version 2.1        April 08, 2018    Some minor modifications
-version 2.2        April 08, 2018    Transforming the code to an OOP
+version 2.2        May 30, 2018      Transforming the code to an OOP
 
-Last Update:       May 14, 2018
+Last Update:       May 20, 2018
 
 Comments:
 Node number starts from 0
@@ -37,6 +37,7 @@ Equation number starts from 0
 
 #include "../include/Address.h"
 #include "../include/Model.h"
+#include "../include/Discretization.h"
 
 //#include "../include/Variables.h"
 //#include "../include/Discretization.h"
@@ -58,51 +59,25 @@ input.address_fn();
 // = model data ===================================================================================
 main_ns::model_ns::model_cls model(&input);
 
-// Reading basic data
-model.InputBasic();
-model.InputArrays();
+model.InputBasic(); // Reading basic data
+model.InputArrays(); // Reading arrays
+
+// = discretization ===============================================================================
+main_ns::discretization_ns::discretization_cls discretized_model(&model);
+
+// discretization
+discretized_model.Discretization();
+
 
 /*
 
-
-
-
-// Allocating required 1D arrays - vectors
-MTel = new int [ NEl ];  // Material Type of Elements
-
-// Allocating required 2D arrays - matrices
-INod = new int*[NNode];  // node connectivity
-  for(int i=0;i<NNode;i++){
-    INod[i]=new int[NEl];
-  }
-
-ID   = new int *[ NJ ];  // Identifications
-  for(int i=0;i<NJ;i++){
-    ID[i]=new int[NDOF];
-  }
-
-XYZ  = new double *[ NJ ];  // Coordinates
-  for(int i=0;i<NJ;i++){
-    XYZ[i]=new double[NDim];
-  }
-
-
-
-
-
-
-
+// Information file
+ofstream info;s
+info.open (Info_Dir.c_str(), ios::out );
 
 // Output file for Matlab for visualization
 ofstream OutputMatlab;
 OutputMatlab.open (OutputMatlab_Dir.c_str(), ios::out );
-
-// Information file
-ofstream info;
-info.open (Info_Dir.c_str(), ios::out );
-
-// discretization
-Discretization( NEl_DRM, NDOF, Dis_History, NDim, NMat, NJ, OShFunc, NEl,  NEqM,           L,                  Length,   MTel, INod, ID, XYZ, Element_Layer, Layer_Depth, NoBndry_DRM, NoLayer_DRM, Nodal_History, Loc_History     );
 
 // Write information
 info << "Number of elements :" << NEl << endl; 

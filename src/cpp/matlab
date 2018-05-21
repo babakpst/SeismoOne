@@ -1,5 +1,5 @@
 
-		    void InputMatlab(int & NJ, int & Dis_History, int& NMat, int& NEl, double& DT, int& NStep, double& L, ofstream& OutputMatlab, int& NEqM, int& NPM, double*& Length, double**& PMat, double*& Loc_History, double**& XYZ);
+void InputMatlab(int & NJ, int & Dis_History, int& NMat, int& NEl, double& DT, int& NStep, double& L, ofstream& OutputMatlab, int& NEqM, int& NPM, double*& Length, double**& PMat, double*& Loc_History, double**& XYZ);
 
 //***************************************************************************************************************************************************
 // This function creates input file for Matlab

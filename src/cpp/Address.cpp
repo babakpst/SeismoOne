@@ -11,7 +11,6 @@ std::cout << std::endl;
 
 /*
 ##################################################################################################
-
 Purpose: This function reads the data file name and directories
 
 Developed by: Babak Poursartip
