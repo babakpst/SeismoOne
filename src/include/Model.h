@@ -57,8 +57,6 @@ namespace model_ns
       double amplitude ;    // Amplitude of the incident wave
       double omega ;        // central cyclic frequency in the Ricker pulse wave
 
-      int *NoBndry_DRM;    // a vector that holds the node numbers on the DRM boundary
-      int *NoLayer_DRM;    // a vector that holds the node numbers on the DRM layer
       int *Element_Layer;  // Number of elements in each layer
       int *Layer_Depth;    // Depth of each layer
 
@@ -68,7 +66,7 @@ namespace model_ns
       double **PMat;       // properties of materials
 
       // functions
-    	model_cls(const main_ns::address_ns::address_cls*);
+    	explicit model_cls(const main_ns::address_ns::address_cls*);
 
       void InputBasic();
 

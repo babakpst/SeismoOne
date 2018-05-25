@@ -38,6 +38,7 @@ Equation number starts from 0
 #include "../include/Address.h"
 #include "../include/Model.h"
 #include "../include/Discretization.h"
+#include "../include/Visualization.h"
 
 //#include "../include/Variables.h"
 //#include "../include/Discretization.h"
@@ -55,7 +56,6 @@ main_ns::address_ns::address_cls input;
 
 input.address_fn();
 
-
 // = model data ===================================================================================
 main_ns::model_ns::model_cls model(&input);
 
@@ -68,31 +68,21 @@ main_ns::discretization_ns::discretization_cls discretized_model(&model);
 // discretization
 discretized_model.Discretization();
 
+// Creating the input file for visualization code in Matlab
+main_ns::visualization_ns::visualization_cls Visual(&input, &model, &discretized_model);
+Visual.MatlabOutput_fn();
+
 
 /*
 
 // Information file
-ofstream info;s
+ofstream info;
 info.open (Info_Dir.c_str(), ios::out );
-
-// Output file for Matlab for visualization
-ofstream OutputMatlab;
-OutputMatlab.open (OutputMatlab_Dir.c_str(), ios::out );
 
 // Write information
 info << "Number of elements :" << NEl << endl; 
 info << "Number of nodes    :" << NJ << endl; 
 
-
-// Creating the input file for visualization code in Matlab
-InputMatlab ( NJ, Dis_History, NMat, NEl, DT, NStep, L, OutputMatlab, NEqM, NPM, Length, PMat, Loc_History, XYZ ) ;
-
-
-
-// Close files 
-// Address file
-InputFile.close();
-OutputMatlab.close();
 
 // Allocating required arrays
   switch (Solver) {

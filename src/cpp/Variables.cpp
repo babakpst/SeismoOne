@@ -4,7 +4,7 @@
 // = Global Variables ===============================================================================================================================
 
   // - Integer variables ----------------------------------------------------------------------------------------------------------------------------
-  int NEqM;             // number of Equations (Modified i.e. after applying essential boundary conditions)
+  
   int LoadFunc;         // Load Function  0:DRM
 
 

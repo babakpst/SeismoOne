@@ -44,6 +44,8 @@ std::cout << " Analysis information:" << std::endl;
 std::cout << " Name:  " << Name << std::endl;
 std::cout << " Directory:  " << Directory << std::endl;
 
+std::cout<< " Creating directories ..." << std::endl;
+
 // Windows 
 /*
 Input_Dir            = Directory + "\\Input\\"   + Name + ".txt";

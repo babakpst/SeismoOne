@@ -35,7 +35,7 @@ class address_cls {
     std::string TransferFunction_Dir; // directory to write the frequency domain results
 
     // functions
-  	address_cls();
+  	explicit address_cls();
     void address_fn(); // Reads the file name and directories
 	
 };

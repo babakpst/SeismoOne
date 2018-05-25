@@ -38,7 +38,7 @@ class discretization_cls{
 
     double ** XYZ;        // node coordinates
 
-    discretization_cls(const main_ns::model_ns::model_cls*);
+    explicit discretization_cls(const main_ns::model_ns::model_cls*);
     void Discretization();
 
 }; // class discretization_cls

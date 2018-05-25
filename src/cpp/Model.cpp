@@ -98,9 +98,7 @@ std::cout << " Number of materials: " << NMat << std::endl
           << " Total Number of stets: " << NStep << std::endl
           << std::endl;
 
-
-
-
+InputFile.close();
 }
 
 /*

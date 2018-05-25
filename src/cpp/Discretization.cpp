@@ -37,7 +37,7 @@ NoLayer_DRM = new int[model->NNLayer];  // vector that holds the node numbers on
 
 
 /*
-##################################################################################################
+###################################################################################################
 Purpose: This function discretized the domain, creates elements, assigns material properties, etc.
 
 Developed by: Babak Poursartip
@@ -48,7 +48,7 @@ The University of Texas at Austin
 V0.00: 05/20/2018 - Subroutine initiated.
 V0.01: 05/21/2018 - Initiated: Compiled without error for the first time.
 
-##################################################################################################
+###################################################################################################
 */
 void main_ns::discretization_ns::discretization_cls::Discretization(){
 
