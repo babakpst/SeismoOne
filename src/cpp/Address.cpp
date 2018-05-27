@@ -28,7 +28,15 @@ void main_ns::address_ns::address_cls::address_fn(){
 // Open address files 
 std::cout << " opening the address file ..." << std::endl;
 std::ifstream Addressfile;
+Addressfile.exceptions (std::ifstream::failbit | std::ifstream::badbit);
+try{
 Addressfile.open ("Address.txt", std::ios::in );
+}
+catch(std::ifstream::failure &inputerr){   // here is the catch for opening the input file.
+std::cout<<" Error while opening the address file. "<< std::endl;
+std::cout<<" Please double check the address file in the cpp folder. "<< std::endl;
+std::cout<<" The error message is: "<< inputerr.what() << std::endl;
+}
 
 // Reading simulation information
 std::cout << " Reading file information ..." << std::endl;

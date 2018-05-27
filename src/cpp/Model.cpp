@@ -14,9 +14,17 @@ NNLayer = 2;      // Number of nodes on the bounday layer of the DRM
 
 
 // Input File
-std::cout << " Open the input file ..." << std::endl;
+std::cout << " Opening the input file ..." << std::endl;
 std::cout << std::endl;
+InputFile.exceptions (std::ifstream::failbit | std::ifstream::badbit);
+try{
 InputFile.open (input->Input_Dir.c_str(), std::ios::in );
+}
+catch(std::ifstream::failure &inputerr){   // here is the catch for opening the input file.
+std::cout<<" Error while opening the input file. "<< std::endl;
+std::cout<<" Please double check the input file in the input folder. "<< std::endl;
+std::cout<<" The error message is: "<< inputerr.what() << std::endl;
+}
 
 }
 
