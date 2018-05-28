@@ -53,35 +53,23 @@ int main()
 
 // = input class ==================================================================================
 main_ns::address_ns::address_cls input;
-
 input.address_fn();
 
 // = model data ===================================================================================
 main_ns::model_ns::model_cls model(&input);
-
 model.InputBasic(); // Reading basic data
 model.InputArrays(); // Reading arrays
 
 // = discretization ===============================================================================
 main_ns::discretization_ns::discretization_cls discretized_model(&model);
-
-// discretization
 discretized_model.Discretization();
 
-// Creating the input file for visualization code in Matlab
+// = discretization ===============================================================================
 main_ns::visualization_ns::visualization_cls Visual(&input, &model, &discretized_model);
 Visual.MatlabOutput_fn();
 
 
-/*
 
-// Information file
-ofstream info;
-info.open (Info_Dir.c_str(), ios::out );
-
-// Write information
-info << "Number of elements :" << NEl << endl; 
-info << "Number of nodes    :" << NJ << endl; 
 
 
 // Allocating required arrays
@@ -112,7 +100,7 @@ info << "Number of nodes    :" << NJ << endl;
       C_S  = new double [ JD[NEqM-1] ];  // Damping matrix
       M_S  = new double [ JD[NEqM-1] ];  // Mass matrix
     break;
-    case 2: // 
+    case 2: //   Transfer functions in the frequency domain
       K  = new double *[ NEqM ];  // Stiffness Matrix
         for(int i=0;i<NEqM;i++){
           K[i]=new double[NEqM];
@@ -152,6 +140,7 @@ ND_e = new int  [ NNLayer * NDim ];
 
 F  = new double [NEqM] ;
 
+
   // Filling the index for layered nodes
   for (int i=0;i<NNLayer;i++) {
     for ( int j=0;j<NDim;j++) {
@@ -165,6 +154,8 @@ F  = new double [NEqM] ;
       ND_b [ j * NNBndry + i ] = ID [ NoBndry_DRM[i]][j];
     }
   }
+
+
 
 // Allocating required arrays
   switch (Solver) {
@@ -306,6 +297,17 @@ F  = new double [NEqM] ;
       cout << "Solver type is not available. Solver should be either 0 for full matrices or 1 for skyline method"<< endl;
   }
 
+
+// Information file
+ofstream info;
+info.open (Info_Dir.c_str(), ios::out );
+
+// Write information
+info << "Number of elements :" << NEl << endl; 
+info << "Number of nodes    :" << NJ << endl; 
+
+
+
 // = DeAllocating Arrays ============================================================================================================================
 // DeAllocating 1D arrays
 delete MTel;
@@ -331,7 +333,7 @@ delete []XYZ;
   cout << "Press 'Enter' to end \n";
 //  getline (cin , TempS) ;
 
-*/
+
 
 return 0;
 }

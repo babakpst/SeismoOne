@@ -5,16 +5,16 @@
 main_ns::visualization_ns::visualization_cls::visualization_cls(
                                const main_ns::address_ns::address_cls* a,
                                const main_ns::model_ns::model_cls* b,
-                               const main_ns::discretization_ns::discretization_cls* c)
-                               //address (a),
-                               //model(b),
-                               //discretized_model(c)
+                               const main_ns::discretization_ns::discretization_cls* c):
+                               address (a),
+                               model(b),
+                               discretized_model(c)
                                {
 std::cout << " Writing the input file for Matlab visualizer script ..." << std::endl;
 
-address=a;
-model=b;
-discretized_model=c;
+//address=a;
+//model=b;
+//discretized_model=c;
 
 // Output file for Matlab for visualization
 std::cout << " Opening the results file for Matlab ..."<< std::endl;
