@@ -1,6 +1,6 @@
 
 
-#include "../include/Discretization.h"
+#include "../include/Discretization_cls.h"
 
 // constructor
 main_ns::discretization_ns::discretization_cls::

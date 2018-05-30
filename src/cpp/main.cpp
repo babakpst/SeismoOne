@@ -35,10 +35,11 @@ Equation number starts from 0
 ===================================================================================================
 */
 
-#include "../include/Address.h"
-#include "../include/Model.h"
-#include "../include/Discretization.h"
-#include "../include/Visualization.h"
+#include "../include/Address_cls.h"
+#include "../include/Model_cls.h"
+#include "../include/Discretization_cls.h"
+#include "../include/Visualization_cls.h"
+#include "../include/solver_cls.h"
 
 //#include "../include/Variables.h"
 //#include "../include/Discretization.h"
