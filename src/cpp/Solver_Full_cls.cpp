@@ -1,6 +1,6 @@
 
 
-#include "../include/Solver_Full.h"
+#include "../include/Solver_Full_cls.h"
 using namespace std;
 
 /*

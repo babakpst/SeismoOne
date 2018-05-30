@@ -19,6 +19,21 @@ namespace solver_ns
 
 class solver_cls{
 
+  double ** K;          // global stiffness matrix
+  double ** C;          // global damping matrix
+  double ** M;          // global mass matrix
+
+  double ** K_eb;          // global stiffness matrix
+  double ** C_eb;          // global damping matrix
+  double ** M_eb;          // global mass matrix
+
+  double * F;           // global force vector
+
+  int * ND_b;           // Nodal ID for DRM
+  int * ND_e;           // Nodal ID for DRM
+
+  int LoadFunc;         // Load Function  0:DRM
+
   public:
   solver_cls();
   virtual void matrices_fn (void) =0;

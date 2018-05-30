@@ -69,7 +69,7 @@ discretized_model.Discretization();
 main_ns::visualization_ns::visualization_cls Visual(&input, &model, &discretized_model);
 Visual.MatlabOutput_fn();
 
-
+// = solver =======================================================================================
 
 
 
