@@ -40,6 +40,7 @@ Equation number starts from 0
 #include "../include/Discretization_cls.h"
 #include "../include/Visualization_cls.h"
 #include "../include/solver_cls.h"
+#include "../include/Solver_Full_cls.h"
 
 //#include "../include/Variables.h"
 //#include "../include/Discretization.h"
@@ -70,26 +71,16 @@ main_ns::visualization_ns::visualization_cls Visual(&input, &model, &discretized
 Visual.MatlabOutput_fn();
 
 // = solver =======================================================================================
+main_ns::solver_ns::solver_cls* Solver;
+
+Solver = new solver_full_cls(&discretized_model, &model)
 
 
-
+/*
 // Allocating required arrays
   switch (Solver) {
     case 0:   // Full matrices
-      K  = new double *[ NEqM ];  // Stiffness Matrix
-        for(int i=0;i<NEqM;i++){
-          K[i]=new double[NEqM];
-        }
-
-      C  = new double *[ NEqM ];  // Damping matrix
-        for(int i=0;i<NEqM;i++){
-          C[i]=new double[NEqM];
-        }
-
-      M  = new double *[ NEqM ];  // Mass matrix
-        for(int i=0;i<NEqM;i++){
-          M[i]=new double[NEqM];
-        }
+      Solver = new solver_full_cls(&discretized_model, &model)
     break;
     case 1:   // Skyline method
       JD   = new int [NEqM] ;
@@ -121,44 +112,8 @@ Visual.MatlabOutput_fn();
       cout << "Solver type is not available. Solver should be either 0 for full matrices or 1 for skyline method"<< endl;
   }
 
-K_eb  = new double *[ NDim * NNLayer ];  // 
-  for(int i=0;i<(NDim * NNLayer);i++){
-    K_eb[i]=new double[ NDim * NNBndry ];
-  }
 
-C_eb  = new double *[ NDim * NNLayer ];  // 
-  for(int i=0;i<(NDim * NNLayer);i++){
-    C_eb[i]=new double[ NDim * NNBndry ];
-  }
-
-M_eb  = new double *[ NDim * NNLayer ];  // 
-  for(int i=0; i<(NDim * NNLayer); i++){
-    M_eb[i]= new double[ NDim * NNBndry ];
-  }
-
-ND_b = new int  [ NNBndry * NDim ];
-ND_e = new int  [ NNLayer * NDim ];
-
-F  = new double [NEqM] ;
-
-
-  // Filling the index for layered nodes
-  for (int i=0;i<NNLayer;i++) {
-    for ( int j=0;j<NDim;j++) {
-      ND_e [ j * NNLayer + i ] = ID [ NoLayer_DRM [ i ] ][j];
-    }
-  }
-
-  // Filling the index for boundary nodes
-  for ( int i=0;i<NNBndry;i++) {
-    for (int j=0;j<NDim;j++) {
-      ND_b [ j * NNBndry + i ] = ID [ NoBndry_DRM[i]][j];
-    }
-  }
-
-
-
-// Allocating required arrays
+// Solving
   switch (Solver) {
     case 0:   // Time domain anaylsis using full matrices
       {
@@ -334,7 +289,7 @@ delete []XYZ;
   cout << "Press 'Enter' to end \n";
 //  getline (cin , TempS) ;
 
-
+*/
 
 return 0;
 }

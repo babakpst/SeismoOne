@@ -7,6 +7,8 @@ Purpose: This class defines all virutal functions related to all solvers.
 #include <string>
 #include <sstream>
 
+#include "../include/Discretization_cls.h"
+
 #ifndef SOLVER_CLS_H
 #define SOLVER_CLS_H
 
@@ -34,8 +36,12 @@ class solver_cls{
 
   int LoadFunc;         // Load Function  0:DRM
 
+  main_ns::discretization_ns::discretization_cls* DiscretizedModel;
+  main_ns::model_ns::model_cls* Model;
+
   public:
-  solver_cls();
+  solver_cls(const main_ns::discretization_ns::discretization_cls*,
+             const main_ns::model_ns::model_cls*);
   virtual void matrices_fn (void) =0;
   virtual void assemble_fn (void) =0;
   virtual void shapefunctions_fn (void) =0;

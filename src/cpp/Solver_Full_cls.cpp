@@ -1,12 +1,22 @@
 
 
 #include "../include/Solver_Full_cls.h"
-using namespace std;
+
+main_ns::solver_full_ns::solver_full_cls::solver_full_cls
+                            (const main_ns::discretization_ns::discretization_cls* aDiscretization,
+                             const main_ns::model_ns::model_cls* aModel):
+                                DiscretizedModel(aDiscretization),
+                                Model(aModel){}
+
+
+
+
+//=============================================================
 
 /*
-***************************************************************************************************************************************************
- Solver: Gauss-Elimination
-***************************************************************************************************************************************************
+//***************************************************************************************************************************************************
+// Solver: Gauss-Elimination
+//***************************************************************************************************************************************************
 void Gaussian ( int& NEqM, double *& UN, double **& K)
 {
 
@@ -42,7 +52,7 @@ cout << "Backward" << endl;
 }
 */
 
-
+/*
 //***************************************************************************************************************************************************
 // Solver: LDLT
 //***************************************************************************************************************************************************
@@ -123,6 +133,7 @@ L   = new double [ NEqM ];  // Identifications
     UN[i] = L[i] ;
   }
 }
+
 
 //***************************************************************************************************************************************************
 // Newmark's algorithm for marching in time
@@ -209,17 +220,17 @@ Initial_Time = -L / c;
         UN[i]   = 0.0 ; 
       }
 
-    /*
-    // Recording the full results
-    FullSol << "Time:  " << Time << "\n";
-    HistorySolution ( NJ, Time, Alpha, P, E, Rho, A,   U_EX, XYZ) ;
-      // full results
-      for (ij=0;ij<NJ;ij++) {
-        if ( ID [ij][0] < 0 ) u = 0.0;
-        else u = U[ij];
-        FullSol << setw(15) << XYZ[ij][0] << setw(15) << u << setw(15) << U_EX[ij] << "\n";
-      }
-    */
+    //
+    //// Recording the full results
+    //FullSol << "Time:  " << Time << "\n";
+    //HistorySolution ( NJ, Time, Alpha, P, E, Rho, A,   U_EX, XYZ) ;
+    //  // full results
+    //  for (ij=0;ij<NJ;ij++) {
+    //    if ( ID [ij][0] < 0 ) u = 0.0;
+    //    else u = U[ij];
+    //    FullSol << setw(15) << XYZ[ij][0] << setw(15) << u << setw(15) << U_EX[ij] << "\n";
+    //  }
+    //
 
       // Effective force - stored in UN
       for (i=0;i<NEqM; i++) { // find the coefficient of the M matrix
@@ -291,9 +302,10 @@ Initial_Time = -L / c;
         FullSol << UN[i]<< setw(20);
       }
     FullSol << endl;
+*/
+//==============================
 
   }
 
 }
-
 
