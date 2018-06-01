@@ -3,6 +3,7 @@
 #include <fstream>
 
 #include "../include/solver_cls.h"
+#include "../include/Discretization_cls.h"
 
 #ifndef SOLVER_FULL_H
 #define SOLVER_FULL_H
@@ -16,7 +17,7 @@ class solver_full_cls: public main_ns::solver_ns::solver_cls{
 
 public:
 
-solver_full_cls(main_ns::discretization_ns::discretization_cls*,main_ns::model_ns::model_cls*);
+	explicit solver_full_cls(main_ns::discretization_ns::discretization_cls*,main_ns::model_ns::model_cls*);
 
 
 /*

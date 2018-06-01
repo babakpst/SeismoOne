@@ -3,8 +3,8 @@
 #include "../include/Solver_Full_cls.h"
 
 main_ns::solver_full_ns::solver_full_cls::solver_full_cls
-                            (const main_ns::discretization_ns::discretization_cls* aDiscretization,
-                             const main_ns::model_ns::model_cls* aModel):
+                            (main_ns::discretization_ns::discretization_cls* aDiscretization,
+                             main_ns::model_ns::model_cls* aModel):
                                 DiscretizedModel(aDiscretization),
                                 Model(aModel){}
 
@@ -302,10 +302,10 @@ Initial_Time = -L / c;
         FullSol << UN[i]<< setw(20);
       }
     FullSol << endl;
-*/
-//==============================
 
   }
 
 }
+*/
+//==============================
 

@@ -2,8 +2,8 @@
 #include "../include/solver_cls.h"
 
 main_ns::solver_ns::solver_cls::solver_cls
-                                (const main_ns::discretization_ns::discretization_cls* aDiscretization,
-                                const main_ns::model_ns::model_cls* aModel):
+                                (main_ns::discretization_ns::discretization_cls* aDiscretization,
+                                main_ns::model_ns::model_cls* aModel):
                                 DiscretizedModel(aDiscretization),
                                 Model(aModel)
                                 {
@@ -49,15 +49,15 @@ F  = new double [DiscretizedModel->NEqM] ;
 
 // Filling the index for layered nodes
   for (int i=0;i<Model->NNLayer;i++) {
-    for ( int j=0;j<DiscretizedModel->NDim;j++) {
-      ND_e [ j * Model->NNLayer + i ] = ID [ DiscretizedModel->NoLayer_DRM [ i ] ][j];
+    for ( int j=0;j<Model->NDim;j++) {
+      ND_e [ j * Model->NNLayer + i ] = DiscretizedModel->ID [ DiscretizedModel->NoLayer_DRM [ i ] ][j];
     }
   }
 
   // Filling the index for boundary nodes
   for ( int i=0;i<Model->NNBndry;i++) {
-    for (int j=0;j<DiscretizedModel->NDim;j++) {
-      ND_b [ j * Model->NNBndry + i ] = ID [ DiscretizedModel->NoBndry_DRM[i]][j];
+    for (int j=0;j<Model->NDim;j++) {
+      ND_b [ j * Model->NNBndry + i ] = DiscretizedModel->ID [ DiscretizedModel->NoBndry_DRM[i]][j];
     }
   }
 

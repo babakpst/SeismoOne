@@ -73,7 +73,7 @@ Visual.MatlabOutput_fn();
 // = solver =======================================================================================
 main_ns::solver_ns::solver_cls* Solver;
 
-Solver = new solver_full_cls(&discretized_model, &model)
+Solver = new main_ns::solver_full_ns::solver_full_cls(&discretized_model, &model);
 
 
 /*

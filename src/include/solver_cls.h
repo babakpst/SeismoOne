@@ -40,8 +40,8 @@ class solver_cls{
   main_ns::model_ns::model_cls* Model;
 
   public:
-  solver_cls(const main_ns::discretization_ns::discretization_cls*,
-             const main_ns::model_ns::model_cls*);
+	  explicit solver_cls(main_ns::discretization_ns::discretization_cls*,
+             main_ns::model_ns::model_cls*);
   virtual void matrices_fn (void) =0;
   virtual void assemble_fn (void) =0;
   virtual void shapefunctions_fn (void) =0;
