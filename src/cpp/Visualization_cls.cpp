@@ -10,14 +10,14 @@ main_ns::visualization_ns::visualization_cls::visualization_cls(
                                model(b),
                                discretized_model(c)
                                {
-std::cout << " Writing the input file for Matlab visualizer script ..." << std::endl;
+std::cout << " -writing the input file for Matlab visualizer script ..." << std::endl;
 
 //address=a;
 //model=b;
 //discretized_model=c;
 
 // Output file for Matlab for visualization
-std::cout << " Opening the results file for Matlab ..."<< std::endl;
+std::cout << " -opening the results file for Matlab ..."<< std::endl;
 OutputMatlab.open (address->OutputMatlab_Dir.c_str(), std::ios::out);
 
 }
@@ -72,7 +72,7 @@ OutputMatlab << std::endl;
 
 OutputMatlab << std::endl;
 
-std::cout << " Matlab input file created successfully." << std::endl;
+std::cout << " Matlab input file created successfully." << std::endl << std::endl;
 OutputMatlab.close();
 
 }

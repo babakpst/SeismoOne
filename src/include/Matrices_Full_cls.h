@@ -2,7 +2,7 @@
 #include <iostream>
 #include <fstream>
 
-#include "../include/solver_cls.h"
+#include "../include/Matrices_cls.h"
 #include "../include/Discretization_cls.h"
 
 #ifndef SOLVER_FULL_H
@@ -10,15 +10,17 @@
 
 namespace main_ns{
 
-namespace solver_full_ns{
+namespace Matrices_Full_ns{
   
-class solver_full_cls: public main_ns::solver_ns::solver_cls{
+class Matrices_Full_cls: public main_ns::Matrices_ns::Matrices_cls{
 
-	//main_ns::discretization_ns::discretization_cls* DiscretizedModel;
-	//main_ns::model_ns::model_cls* Model;
+
 public:
 
-	explicit solver_full_cls(main_ns::discretization_ns::discretization_cls*, main_ns::model_ns::model_cls*);
+	explicit Matrices_Full_cls(main_ns::discretization_ns::discretization_cls*, main_ns::model_ns::model_cls*);
+	void allocating_global_matrices_fn();
+	//matrices_fn();
+
 
 /*
 //void Reduce_Full (int& NEqM, double **& K, ofstream& Check);

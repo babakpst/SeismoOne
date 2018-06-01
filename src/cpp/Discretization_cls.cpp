@@ -7,6 +7,7 @@ main_ns::discretization_ns::discretization_cls::
 discretization_cls(const main_ns::model_ns::model_cls* InputModel):
 model (InputModel){
 
+std::cout << " -allocating arrays for discretization ..." << std::endl;
 // Allocating required 1D arrays - vectors
 MTel = new int [model->NEl];  // Material Type of Elements
 
@@ -72,10 +73,10 @@ double tol;
 std::string TempS;   // Temporary variable for reading strings from input files
 
 // ==================== Code ======================================================================
-std::cout << "Discretization ..." << std::endl;
+std::cout << " -discretization ..." << std::endl;
 
 // create the coordinates of nodes
-std::cout << "Coordinates ..." << std::endl;
+std::cout << " -coordinates ..." << std::endl;
 NJ_Count = 0;
 XYZ[0][0] = - (model->L);
   for (i = 0; i < model->NMat; i++) {
@@ -105,7 +106,7 @@ XYZ[0][0] = - (model->L);
   }
 
 // connectivity - Note: Node numbers start from zero
-std::cout << "Connectivities ..." << std::endl;
+std::cout << " -connectivities ..." << std::endl;
   for (iel=0;iel<model->NEl;iel++) 
     {
       if ( model->OShFunc == 1 )
@@ -122,7 +123,7 @@ std::cout << "Connectivities ..." << std::endl;
   }
 
 // constraints
-std::cout << "Equation numbers ..." << std::endl;
+std::cout << " -equation numbers ..." << std::endl;
   for (i=0;i<model->NJ;i++) {
     for (j=0;j<model->NDim;j++) {
       ID[i][j] = 0;
@@ -141,7 +142,7 @@ NEqM++;
 
 
 // material property of element
-std::cout << "Material properties of elements..." << std::endl;
+std::cout << " -material properties of elements..." << std::endl;
 Mat_index = 0;
   for (iel=0;iel<model->NEl;iel++) {
     Coordinate = XYZ[ INod[2][iel] ][0];
@@ -181,6 +182,6 @@ tol = 0.0001;
 
   }
 
-std::cout<< " End discretization "<< std::endl;
+std::cout<< " Done with discretization, successfully. "<< std::endl << std::endl;
 
 }

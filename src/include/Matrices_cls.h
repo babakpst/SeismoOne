@@ -16,10 +16,17 @@ Purpose: This class defines all virutal functions related to all solvers.
 namespace main_ns
 {
 
-namespace solver_ns
+namespace Matrices_ns
 {
 
-class solver_cls{
+class Matrices_cls{
+  protected:
+  int * JD;             // Skyline matrix
+  int * NTK;            // Skyline matrix
+
+  double * K_S;         // global stiffness matrix -skyline
+  double * C_S;         // global damping matrix -skyline
+  double * M_S;         // global mass matrix -skyline
 
   double ** K;          // global stiffness matrix
   double ** C;          // global damping matrix
@@ -41,8 +48,10 @@ class solver_cls{
   main_ns::model_ns::model_cls* Model;
 
 
-	explicit solver_cls(main_ns::discretization_ns::discretization_cls*,
+	explicit Matrices_cls(main_ns::discretization_ns::discretization_cls*,
              main_ns::model_ns::model_cls*);
+  
+  virtual void allocating_global_matrices_fn (void) =0;
   //virtual void matrices_fn (void) =0;
   //virtual void assemble_fn (void) =0;
   //virtual void shapefunctions_fn (void) =0;

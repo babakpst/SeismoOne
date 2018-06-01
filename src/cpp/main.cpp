@@ -39,8 +39,8 @@ Equation number starts from 0
 #include "../include/Model_cls.h"
 #include "../include/Discretization_cls.h"
 #include "../include/Visualization_cls.h"
-#include "../include/solver_cls.h"
-#include "../include/Solver_Full_cls.h"
+#include "../include/Matrices_cls.h"
+#include "../include/Matrices_Full_cls.h"
 
 //#include "../include/Variables.h"
 //#include "../include/Discretization.h"
@@ -71,10 +71,10 @@ main_ns::visualization_ns::visualization_cls Visual(&input, &model, &discretized
 Visual.MatlabOutput_fn();
 
 // = solver =======================================================================================
-main_ns::solver_ns::solver_cls* Solver;
+main_ns::Matrices_ns::Matrices_cls* Matrix;
 
-Solver = new main_ns::solver_full_ns::solver_full_cls(&discretized_model, &model);
-
+Matrix = new main_ns::Matrices_Full_ns::Matrices_Full_cls(&discretized_model, &model);
+Matrix->allocating_global_matrices_fn();
 
 /*
 // Allocating required arrays
@@ -121,10 +121,6 @@ Solver = new main_ns::solver_full_ns::solver_full_cls(&discretized_model, &model
       {
       // - Computing Global Matrices -------------------------------------------------------------------------------------------------------------------
       GlobalMatrices_Full( NInt, NDim, NDOF, NNode, NEl,   MTel, INod, ID, XYZ, M, C, K ) ;
-
-
-
-
 
 
 

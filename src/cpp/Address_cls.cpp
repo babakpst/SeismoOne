@@ -26,7 +26,7 @@ V0.01: 05/14/2018 - Initiated: Compiled without error for the first time.
 void main_ns::address_ns::address_cls::address_fn(){
 
 // Open address files 
-std::cout << " opening the address file ..." << std::endl;
+std::cout << " -opening the address file ..." << std::endl;
 std::ifstream Addressfile;
 Addressfile.exceptions (std::ifstream::failbit | std::ifstream::badbit);
 try{
@@ -39,7 +39,7 @@ std::cout<<" The error message is: "<< inputerr.what() << std::endl;
 }
 
 // Reading simulation information
-std::cout << " Reading file information ..." << std::endl;
+std::cout << " -reading the information file ..." << std::endl;
 getline (Addressfile,TempS);
 Addressfile >> Name ; // Input file name
 
@@ -52,7 +52,7 @@ std::cout << " Analysis information:" << std::endl;
 std::cout << " Name:  " << Name << std::endl;
 std::cout << " Directory:  " << Directory << std::endl;
 
-std::cout<< " Creating directories ..." << std::endl;
+std::cout<< " -creating directories ..." << std::endl;
 
 // Windows 
 /*
@@ -80,6 +80,7 @@ std::cout<< "  Input dir:   " << Input_Dir << std::endl;
 std::cout<< "  Output dir:  " << Info_Dir  << std::endl;
 
 Addressfile.close();
+std::cout << " -done with the address file, successfully." << std::endl << std::endl;
 
 }
 

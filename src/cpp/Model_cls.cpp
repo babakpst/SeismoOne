@@ -6,8 +6,7 @@
 main_ns::model_ns::model_cls::model_cls(const main_ns::address_ns::address_cls* ModelInput):
 input (ModelInput){
 
-std::cout << " Reading model ..." << std::endl;
-std::cout << std::endl;
+std::cout << " Reading the model ..." << std::endl;
 
 NNBndry = 1;      // Number of nodes on the bounday of the DRM
 NNLayer = 2;      // Number of nodes on the bounday layer of the DRM
@@ -15,7 +14,6 @@ NNLayer = 2;      // Number of nodes on the bounday layer of the DRM
 
 // Input File
 std::cout << " Opening the input file ..." << std::endl;
-std::cout << std::endl;
 InputFile.exceptions (std::ifstream::failbit | std::ifstream::badbit);
 try{
 InputFile.open (input->Input_Dir.c_str(), std::ios::in );
@@ -55,7 +53,7 @@ std::string TempS;      // Temporary variable for reading strings from input fil
 
 // = Code =========================================================================================
 
-std::cout << "Input Basic ..." << std::endl;
+std::cout << " Basic data..." << std::endl;
 
 getline(InputFile,TempS);
 getline(InputFile,TempS);
@@ -73,7 +71,6 @@ getline(InputFile,TempS);
 getline(InputFile,TempS);
 getline(InputFile,TempS);
 
-
 InputFile >> Beta >> Gama >> DT >> Total_Time;
 NStep = (int)(Total_Time / DT);
 
@@ -88,8 +85,9 @@ getline(InputFile,TempS);
 getline(InputFile,TempS);
 InputFile >> Wave_Type >> Wave_Func >> alpha1 >> alpha2 >> amplitude >> omega >> NEl_DRM;
 
-std::cout << " Here are the input: " << std::endl;
 std::cout<< std::endl;
+std::cout << " Here is the model: " << std::endl;
+
 std::cout << " Number of materials: " << NMat << std::endl
           << " Number of properties of material: " << NPM << std::endl
           << " Requried number of nodes per wavelenght: " << NNodePWaveL << std::endl
@@ -106,7 +104,8 @@ std::cout << " Number of materials: " << NMat << std::endl
           << " Total Number of stets: " << NStep << std::endl
           << std::endl;
 
-InputFile.close();
+std::cout << " Done with the model reading, successfully." << std::endl << std::endl;
+
 }
 
 /*
@@ -149,7 +148,7 @@ std::string TempS;   // Temporary variable for reading strings from input files
 
 
 // Allocating required 1D arrays - vectors
-std::cout << " Allocating arrays ..." << std::endl;
+std::cout << " -allocating model arrays ..." << std::endl;
 Length      = new double[NMat];  // Material Type of Elements
 
 Loc_History = new double[Dis_History];
@@ -164,19 +163,20 @@ Element_Layer = new int[NMat]; // Total number of layers in the model should be 
 Layer_Depth   = new int[NMat];
 
 
-std::cout << "Reading input files (arrays) ..." << std::endl;
+std::cout << " -reading input files (arrays) ..." << std::endl;
 
 getline(InputFile, TempS);
 getline(InputFile, TempS);
 
-std::cout << "Material properties ..." << std::endl;
+
+std::cout << " Material properties ..." << std::endl;
   for (i = 0; i<NMat; i++) {
     InputFile >> imat >> m1 >> m2;
     PMat[imat - 1][0] = m1;
     PMat[imat - 1][1] = m2;
   }
 
-std::cout << "Layeres ..." << std::endl;
+std::cout << " Layeres ..." << std::endl;
 getline(InputFile, TempS);
 getline(InputFile, TempS);
 Layer_check = 0.0;
@@ -188,13 +188,13 @@ Layer_check = 0.0;
   }
 
   if (Layer_check != L) {  // To see if the length of layers match up with the total length
-    std::cout << "Warning: Total sum of layers is not equal to the total length:  " 
+    std::cout << " Warning: Total sum of layers is not equal to the total length:  " 
               << L << " /= " << Layer_check << std::endl;
     return;
   }
 
 // Reading the location of nodes for recording the history of displacement
-std::cout << "Time history locations ..." << std::endl;
+std::cout << " Time history locations ..." << std::endl;
 getline(InputFile, TempS);
 getline(InputFile, TempS);
   for (i = 0; i<Dis_History; i++) {
@@ -216,10 +216,12 @@ NEl = 0;
 
 NJ = OShFunc * NEl + 1;
 
+InputFile.close();
+
 std::cout << " Total number of elements= " << NEl << std::endl;
 std::cout << " Total number of joints  = " << NJ << std::endl;
 
-std::cout << " End InputArrays " << std::endl;
+std::cout << " Done with reading arrays, successfully. " << std::endl << std::endl;
 
 }
 
