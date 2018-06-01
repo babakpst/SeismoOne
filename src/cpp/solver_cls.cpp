@@ -24,7 +24,14 @@ M  = new double *[DiscretizedModel->NEqM];  // Mass matrix
     M[i]=new double[DiscretizedModel->NEqM];
   }
 
-
+for (int i=0; i<DiscretizedModel->NEqM; i++) {
+    for (int j=0; j<DiscretizedModel->NEqM; j++) {
+      M[i][j] = 0.0;
+      C[i][j] = 0.0;
+      K[i][j] = 0.0;
+    }
+  F[i]=0.0;
+}
 
 
 K_eb  = new double *[Model->NDim * Model->NNLayer];  // 
@@ -59,6 +66,7 @@ F  = new double [DiscretizedModel->NEqM] ;
     for (int j=0;j<Model->NDim;j++) {
       ND_b [ j * Model->NNBndry + i ] = DiscretizedModel->ID [ DiscretizedModel->NoBndry_DRM[i]][j];
     }
+
   }
 
 }

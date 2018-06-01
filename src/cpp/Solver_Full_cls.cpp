@@ -4,9 +4,7 @@
 
 main_ns::solver_full_ns::solver_full_cls::solver_full_cls
                             (main_ns::discretization_ns::discretization_cls* aDiscretization,
-                             main_ns::model_ns::model_cls* aModel):
-                                DiscretizedModel(aDiscretization),
-                                Model(aModel){}
+                             main_ns::model_ns::model_cls* aModel):main_ns::solver_ns::solver_cls(aDiscretization,aModel){}
 
 
 

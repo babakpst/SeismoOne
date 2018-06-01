@@ -111,12 +111,30 @@ Solver = new main_ns::solver_full_ns::solver_full_cls(&discretized_model, &model
     default:
       cout << "Solver type is not available. Solver should be either 0 for full matrices or 1 for skyline method"<< endl;
   }
+*/
 
 
+/*
 // Solving
   switch (Solver) {
     case 0:   // Time domain anaylsis using full matrices
       {
+      // - Computing Global Matrices -------------------------------------------------------------------------------------------------------------------
+      GlobalMatrices_Full( NInt, NDim, NDOF, NNode, NEl,   MTel, INod, ID, XYZ, M, C, K ) ;
+
+
+
+
+
+
+
+
+
+
+
+      // Get part of the global matrices for DRM loading
+      DRM_Matrices_Full(  NNBndry, NNLayer, K, C, M, K_eb, C_eb, M_eb, ND_e, ND_b ) ;
+
 
       // Open output files for the time domain simulations 
       ofstream FullSol;
@@ -125,20 +143,7 @@ Solver = new main_ns::solver_full_ns::solver_full_cls(&discretized_model, &model
       ofstream History;
       History.open (HistoryFile_Dir.c_str(), ios::out );
 
-        for (int i=0; i<NEqM; i++) {
-            for (int j=0; j<NEqM; j++) {
-              M[i][j] = 0.0;
-              C[i][j] = 0.0;
-              K[i][j] = 0.0;
-            }
-          F[i]=0.0;
-        }
 
-      // - Computing Global Matrices -------------------------------------------------------------------------------------------------------------------
-      GlobalMatrices_Full( NInt, NDim, NDOF, NNode, NEl,   MTel, INod, ID, XYZ, M, C, K ) ;
-
-      // Get part of the global matrices for DRM loading
-      DRM_Matrices_Full(  NNBndry, NNLayer, K, C, M, K_eb, C_eb, M_eb, ND_e, ND_b ) ;
 
       // - Newmark algorithm for marchin in time -------------------------------------------------------------------------------------------------------
       Newmark_Full ( L, Wave_Type, Wave_Func, NStep, NEqM, LoadType, Gama, Beta, DT, Alpha, M, C, K, F, PMat, XYZ, FullSol, History, ND_e, ND_b, Nodal_History ) ;

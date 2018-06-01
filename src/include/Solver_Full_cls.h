@@ -14,11 +14,11 @@ namespace solver_full_ns{
   
 class solver_full_cls: public main_ns::solver_ns::solver_cls{
 
-
+	//main_ns::discretization_ns::discretization_cls* DiscretizedModel;
+	//main_ns::model_ns::model_cls* Model;
 public:
 
-	explicit solver_full_cls(main_ns::discretization_ns::discretization_cls*,main_ns::model_ns::model_cls*);
-
+	explicit solver_full_cls(main_ns::discretization_ns::discretization_cls*, main_ns::model_ns::model_cls*);
 
 /*
 //void Reduce_Full (int& NEqM, double **& K, ofstream& Check);

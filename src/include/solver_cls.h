@@ -36,18 +36,19 @@ class solver_cls{
 
   int LoadFunc;         // Load Function  0:DRM
 
+  public:
   main_ns::discretization_ns::discretization_cls* DiscretizedModel;
   main_ns::model_ns::model_cls* Model;
 
-  public:
-	  explicit solver_cls(main_ns::discretization_ns::discretization_cls*,
+
+	explicit solver_cls(main_ns::discretization_ns::discretization_cls*,
              main_ns::model_ns::model_cls*);
-  virtual void matrices_fn (void) =0;
-  virtual void assemble_fn (void) =0;
-  virtual void shapefunctions_fn (void) =0;
-  virtual void load_fn (void) =0;
-  virtual void solver_fn (void) =0;
-  virtual void results_fn (void) =0;
+  //virtual void matrices_fn (void) =0;
+  //virtual void assemble_fn (void) =0;
+  //virtual void shapefunctions_fn (void) =0;
+  //virtual void load_fn (void) =0;
+  //virtual void solver_fn (void) =0;
+  //virtual void results_fn (void) =0;
 
 
 

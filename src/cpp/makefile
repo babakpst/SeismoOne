@@ -14,7 +14,7 @@ LIBS = -L/usr/local/lib
 ## Include path
 INC = -I./
 ## General compile option
-CFLAGS = -Wall -Wextra -pedantic -std=c++98
+CFLAGS = -Wall -Wextra -pedantic -std=c++11
 ## Release option
 RFLAGS = -O3
 ## DO NOT CHANGE ################################################
@@ -33,6 +33,7 @@ $(OBJS): $(SRCS)
 	$(CC) $(CFLAGS) $(RFLAGS) $(INC) -c $(SRCS)
 cln:
 	rm $(TARGET)
+	rm *.o
 test:
 	@echo "Sources are: " $(SRCS)
 	@echo "Objects are: " $(OBJS)
