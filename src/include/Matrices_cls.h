@@ -20,40 +20,62 @@ namespace Matrices_ns
 {
 
 class Matrices_cls{
+  private
+    int MType;              // Material type
+    int NEqEl;              // Number of equations of each element
+    int ElementPercent;     // To show the progress in assembly
+
+    double E;               // elastic modulus
+    double Rho;             // density
+    double AssemblyPercentage; //
+
+    int    * ND;            // element constraints
+                            // - real arrays ------------------------------------------------------------------------------------------------------------------------------------
+    double * Fe;            // element force vector
+
+    double ** XT;           // Array to store coordinates of the element
+    double ** Ke;           // stiffness matrix of each element
+    double ** Ce;           // damping matrix of each element
+    double ** Me;           // mass matrix of each element
+
+
   protected:
-  int * JD;             // Skyline matrix
-  int * NTK;            // Skyline matrix
+    int * JD;             // Skyline matrix
+    int * NTK;            // Skyline matrix
 
-  double * K_S;         // global stiffness matrix -skyline
-  double * C_S;         // global damping matrix -skyline
-  double * M_S;         // global mass matrix -skyline
+    double * K_S;         // global stiffness matrix -skyline
+    double * C_S;         // global damping matrix -skyline
+    double * M_S;         // global mass matrix -skyline
 
-  double ** K;          // global stiffness matrix
-  double ** C;          // global damping matrix
-  double ** M;          // global mass matrix
+    double ** K;          // global stiffness matrix
+    double ** C;          // global damping matrix
+    double ** M;          // global mass matrix
 
-  double ** K_eb;          // global stiffness matrix
-  double ** C_eb;          // global damping matrix
-  double ** M_eb;          // global mass matrix
+    double ** K_eb;          // global stiffness matrix
+    double ** C_eb;          // global damping matrix
+    double ** M_eb;          // global mass matrix
 
-  double * F;           // global force vector
+    double * F;           // global force vector
 
-  int * ND_b;           // Nodal ID for DRM
-  int * ND_e;           // Nodal ID for DRM
+    int * ND_b;           // Nodal ID for DRM
+    int * ND_e;           // Nodal ID for DRM
 
-  int LoadFunc;         // Load Function  0:DRM
+    int LoadFunc;         // Load Function  0:DRM
 
   public:
-  main_ns::discretization_ns::discretization_cls* DiscretizedModel;
-  main_ns::model_ns::model_cls* Model;
+    main_ns::discretization_ns::discretization_cls* DiscretizedModel;
+    main_ns::model_ns::model_cls* Model;
 
 
 	explicit Matrices_cls(main_ns::discretization_ns::discretization_cls*,
              main_ns::model_ns::model_cls*);
   
   virtual void allocating_global_matrices_fn (void) =0;
+  virtual void allocating_local_matrices_fn(void) = 0;
+  template<int NEqEl>	
+  virtual void assembling_local_matrices_into_global_matrices_fn(void) = 0;
   //virtual void matrices_fn (void) =0;
-  //virtual void assemble_fn (void) =0;
+  
   //virtual void shapefunctions_fn (void) =0;
   //virtual void load_fn (void) =0;
   //virtual void solver_fn (void) =0;

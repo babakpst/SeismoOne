@@ -1,4 +1,4 @@
-
+	
 #include "../include/GlobalMatrices_Full.h"
 
 
@@ -10,30 +10,6 @@ void GlobalMatrices_Full( int & NInt, int& NDim, int& NDOF, int& NNode, int& NEl
 
 // = Local Variables ================================================================================================================================
 
-// - Integer variables ------------------------------------------------------------------------------------------------------------------------------
-int MType;              // Material type
-int NEqEl;              // Number of equations of each element
-int ElementPercent;     // To show the progress in assembly
-
-// - Real variables ---------------------------------------------------------------------------------------------------------------------------------
-double E;               // elastic modulus
-double Rho;             // density
-double AssemblyPercentage; //
-
-// - Strings ----------------------------------------------------------------------------------------------------------------------------------------
-
-// - bool -------------------------------------------------------------------------------------------------------------------------------------------
-
-// - integer arrays ---------------------------------------------------------------------------------------------------------------------------------
-int    * ND;            // element constraints
-
-// - real arrays ------------------------------------------------------------------------------------------------------------------------------------
-double * Fe;            // element force vector
-
-double ** XT;           // Array to store coordinates of the element
-double ** Ke;           // element stiffness matrix
-double ** Ce;           // element damping matrix
-double ** Me;           // element mass matrix
 
 // - data structure ---------------------------------------------------------------------------------------------------------------------------------
 Gauss   Gauss_PNT ; // Defining Gauss points
@@ -72,6 +48,7 @@ ND = new int [NEqEl];
 
   // computing element matrices and assembling them
   for (int iel=0;iel<NEl;iel++) {
+    // This if condition prints the work done on screen
     if (( iel % ElementPercent ) == 0) {
       AssemblyPercentage = ((double) iel/NEl)*(double)100;
       std::cout << "Assembly progress:  %" << AssemblyPercentage << endl;

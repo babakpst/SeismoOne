@@ -19,7 +19,8 @@ public:
 
 	explicit Matrices_Full_cls(main_ns::discretization_ns::discretization_cls*, main_ns::model_ns::model_cls*);
 	void allocating_global_matrices_fn();
-	//matrices_fn();
+  void allocating_local_matrices_fn();
+//matrices_fn();
 
 
 /*

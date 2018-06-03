@@ -22,12 +22,18 @@ version 2.0        March 30, 2018    Check
 version 2.1        April 08, 2018    Some minor modifications
 version 2.2        May 30, 2018      Transforming the code to an OOP
 
-Last Update:       May 20, 2018
+Last Update:       June 2, 2018
 
 Comments:
-Node number starts from 0
-Element number starts from 0
-Equation number starts from 0
+- This code solves the one-dimensional equation, in several domains. The boundary condition at the
+  top of the domain is a free surface, and at the bottom is the Lysmer damping absorbing boundary.
+- The seismic load prescribed in the domain through DRM (Domain Reduction Method).
+- The solver is LD method.
+- The simulation can be in the time or frequency domain.
+- We use a full or skyline method to save global matrices.
+- Node numbers start from 0.
+- Element numbers start from 0.
+- Equation number starts from 0.
   ID(1 2
      3 4 )
   ND [---x--- ---y---]
