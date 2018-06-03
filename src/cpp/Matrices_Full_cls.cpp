@@ -13,9 +13,6 @@ main_ns::Matrices_Full_ns::Matrices_Full_cls::Matrices_Full_cls
                              }
 
 
-
-
-
 // 
 /*
 ###################################################################################################
@@ -136,6 +133,26 @@ ND = new int [NEqEl];
 }
 
 
+
+
+/*
+###################################################################################################
+Purpose: This function computes the local matrices for each element and assembles the local 
+matrices into the golabal matrices.
+
+Developed by: Babak Poursartip
+ 
+The Institute for Computational Engineering and Sciences (ICES)
+The University of Texas at Austin	
+================================= V E R S I O N ===================================================
+V0.00: 05/14/2018 - Subroutine initiated.
+V0.01: 05/15/2018 - Initiated: Compiled without error for the first time.
+
+###################################################################################################
+*/
+
+void compute_elemental_matrices_fn();
+
 /*
 ###################################################################################################
 Purpose: This function computes the local matrices for each element and assembles the local 
@@ -155,40 +172,35 @@ V0.01: 05/15/2018 - Initiated: Compiled without error for the first time.
 void main_ns::Matrices_Full_ns::Matrices_Full_cls::
      assembling_local_matrices_into_global_matrices_fn(){
 
+main_ns::ShapeFunctions_ns::ShapeFunctions_cls ShapeFunctions;
+ShapeFunctions.Retrieving_Gauss_Points_fn(); // Extracting quadratures
 
-
-
-}
-
-
-
-//============================================================
-
-void GlobalMatrices_Full( ) 
-{
-
-
-// - data structure ---------------------------------------------------------------------------------------------------------------------------------
-Gauss   Gauss_PNT ; // Defining Gauss points
-
-// ==================== Code ========================================================================================================================
-
-GAUSS_Quad_POINTS( NInt, Gauss_PNT ) ;
-ElementPercent = (int)(NEl / 10.0);
+// In order to print the progress in computing local matrices, in 10 steps,  we define this var.
+int ElementPercent = (int)( Model->NEl/10.0);
 
   // computing element matrices and assembling them
-  for (int iel=0;iel<NEl;iel++) {
+  for (unsigned int iel=0; iel<Model->NEl; iel++) {
     // This if condition prints the work done on screen
     if (( iel % ElementPercent ) == 0) {
       AssemblyPercentage = ((double) iel/NEl)*(double)100;
-      std::cout << "Assembly progress:  %" << AssemblyPercentage << endl;
+      std::cout << "Assembly progress:  %" << AssemblyPercentage << sted::endl;
     }
 
-    MType = MTel [iel]; // material property of this element
+    // Material Property of this element
+    MType = MTel [iel];    // Material property type
+    E   = PMat[MType][0];  // Elastic modulus of this material
+    Rho = PMat[MType][1];  // Density of this material 
 
-    // Initialize element matrices
-      for (int i=0; i<NEqEl; i++) {
-          for (int j=0; j<NEqEl; j++) {
+      // coordinates of this element
+      for (unsigned int i=0; i<Model->NDim; i++) {
+        for (unsigned int j=0; j<Model->NNode; j++) {
+          XT [i][j] =  XYZ [ INod[j][iel] ][i]; 
+        }
+      }
+
+    // Initializing element matrices (stiffness, damping, and mass), and the load vector
+      for (unsigned int i=0; i<Model->NEqEl; i++) {
+          for (unsigned int j=0; j<Model->NEqEl; j++) {
             Ke[i][j] = 0.0;
             Ce[i][j] = 0.0;
             Me[i][j] = 0.0;
@@ -196,16 +208,7 @@ ElementPercent = (int)(NEl / 10.0);
         Fe[i] = 0.0;
       }
 
-    // Material Property of this element
-    E   = PMat[MType][0];
-    Rho = PMat[MType][1];
 
-      // coordinates of the element
-      for (int i=0; i<NDim; i++) {
-        for (int j=0; j<NNode; j++) {
-          XT [i][j] =  XYZ [ INod[j][iel] ][i]; 
-        }
-      }
 
     // computing elemental matrices
     if (OShFunc == 1)

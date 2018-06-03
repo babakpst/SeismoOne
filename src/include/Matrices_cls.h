@@ -73,6 +73,7 @@ class Matrices_cls{
              main_ns::model_ns::model_cls*);
   
   virtual void allocating_global_matrices_fn (void) =0;
+  virtual void compute_elemental_matrices_fn (void) =0;
   virtual void assembling_local_matrices_into_global_matrices_fn(void) = 0;
   //virtual void matrices_fn (void) =0;
   

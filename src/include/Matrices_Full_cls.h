@@ -4,6 +4,7 @@
 
 #include "../include/Matrices_cls.h"
 #include "../include/Discretization_cls.h"
+#include "../include/ShapeFunctions_cls.h"
 
 #ifndef SOLVER_FULL_H
 #define SOLVER_FULL_H
@@ -19,6 +20,7 @@ public:
 
 	explicit Matrices_Full_cls(main_ns::discretization_ns::discretization_cls*, main_ns::model_ns::model_cls*);
 	void allocating_global_matrices_fn();
+  void compute_elemental_matrices_fn();
   void assembling_local_matrices_into_global_matrices_fn();
 
 
