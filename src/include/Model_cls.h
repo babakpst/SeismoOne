@@ -37,7 +37,7 @@ namespace model_ns
       int NStep;            // number of time steps
       int NEl;              // number of Elements
       int NJ;               // number of Joints(Nodes)
-      int OShFunc;          // order of Shape Functions
+      int OrderOfShapeFunc; // order of Shape Functions
       int LoadType;         // Load Type 0:prssure- 1: DRM
       int Wave_Type;        // Wave type (0: SV- 1: P) 
       int Wave_Func;        // Wave_Func (0: sine-1: Ricker)

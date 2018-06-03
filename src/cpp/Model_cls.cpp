@@ -78,7 +78,7 @@ getline(InputFile,TempS);
 getline(InputFile,TempS);
 getline(InputFile,TempS);
 
-InputFile >> L >> Alpha >> P >> A >> OShFunc;
+InputFile >> L >> Alpha >> P >> A >> OrderOfShapeFunc;
 
 getline(InputFile,TempS);
 getline(InputFile,TempS);
@@ -214,7 +214,7 @@ NEl = 0;
     NEl += Element_Layer[i];
   }
 
-NJ = OShFunc * NEl + 1;
+NJ = OrderOfShapeFunc * NEl + 1;
 
 InputFile.close();
 

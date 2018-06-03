@@ -1,0 +1,30 @@
+
+#include "../include/ShapeFunctions_cls.h"
+
+
+#ifndef SHAPEFUNCTIONS_FIRSTORDER_CLS_H
+#define SHAPEFUNCTIONS_FIRSTORDER_CLS_H
+
+namespace main_ns
+{
+  
+namespace ShapeFunctions_ns
+{
+
+class ShapeFunctions_FirstOrder_cls: public main_ns::ShapeFunctions_ns::ShapeFunctions_cls{
+
+public: 
+
+ShapeFunctions_FirstOrder_cls();
+
+void ShapeFunctions ); // ShapeFunc_1D_2N
+void DifferentialOfShapeFunctions (); // Dif_ShapeFunc_1D_2N
+
+~ShapeFunctions_FirstOrder_cls();
+  
+}  
+}
+
+}
+
+#endif

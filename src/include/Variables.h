@@ -16,7 +16,7 @@ extern  int NStep;            // number of time steps
 extern  int NEl;              // number of Elements
 extern  int NJ;               // number of Joints(Nodes)
 extern  int NEqM;             // number of Equations (Modified i.e. after applying essential boundary conditions)
-extern  int OShFunc;          // order of Shape Functions
+extern  int OrderOfShapeFunc;          // order of Shape Functions
 extern  int LoadType;         // Load Type 0:prssure- 1: DRM
 extern  int NNBndry ;         // Number of nodes on the bounday of the DRM
 extern  int NNLayer ;         // Number of nodes on the bounday layer of the DRM

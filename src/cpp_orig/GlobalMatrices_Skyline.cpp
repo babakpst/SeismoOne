@@ -112,9 +112,9 @@ ND  = new int [NEqEl];
       }
 
     // computing elemental matrices
-    if (OShFunc == 1)
+    if (OrderOfShapeFunc == 1)
       MassDampStiffS_1D_first_Skyline ( iel, NEl, NInt, NNode, NEqEl, Rho, E, XT, Me, Ce, Ke, Gauss_PNT);
-    else if (OShFunc == 2)
+    else if (OrderOfShapeFunc == 2)
       MassDampStiffS_1D_second_Skyline ( iel, NInt, NNode, NEqEl, Rho, E, XT, Me, Ce, Ke, Gauss_PNT);
 
     // force vector of the element

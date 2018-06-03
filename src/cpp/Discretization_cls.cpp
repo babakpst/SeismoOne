@@ -81,7 +81,7 @@ NJ_Count = 0;
 XYZ[0][0] = - (model->L);
   for (i = 0; i < model->NMat; i++) {
     NEl_Layer = model->Element_Layer[i];
-    NJ_Layer  = model->OShFunc * NEl_Layer + 1;
+    NJ_Layer  = model->OrderOfShapeFunc * NEl_Layer + 1;
     h = 0.50 * model->Layer_Depth[i] / NEl_Layer;
     h = (floor(h*10000))/10000;
       if (i == 0)
@@ -109,12 +109,12 @@ XYZ[0][0] = - (model->L);
 std::cout << " -connectivities ..." << std::endl;
   for (iel=0;iel<model->NEl;iel++) 
     {
-      if ( model->OShFunc == 1 )
+      if ( model->OrderOfShapeFunc == 1 )
       {
         INod[0][iel] = iel;
         INod[1][iel] = iel+1;
       }
-      else if ( model->OShFunc == 2 )
+      else if ( model->OrderOfShapeFunc == 2 )
       {
         INod[0][iel] = iel*2 + 0;
         INod[1][iel] = iel*2 + 1;

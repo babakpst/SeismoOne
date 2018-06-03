@@ -21,17 +21,10 @@ namespace Matrices_ns
 
 class Matrices_cls{
   private:
-    int MType;              // Material type
-
-    int ElementPercent;     // To show the progress in assembly
-
-    double E;               // elastic modulus
-    double Rho;             // density
-    double AssemblyPercentage; //
-
    
     virtual void allocating_local_matrices_fn(void) = 0;
-
+    virtual void allocating_global_matrices_fn (void) =0;
+    virtual void compute_elemental_matrices_fn (void) =0;
   protected:
     int NEqEl;              // Number of equations of each element
 
@@ -72,8 +65,6 @@ class Matrices_cls{
 	explicit Matrices_cls(main_ns::discretization_ns::discretization_cls*,
              main_ns::model_ns::model_cls*);
   
-  virtual void allocating_global_matrices_fn (void) =0;
-  virtual void compute_elemental_matrices_fn (void) =0;
   virtual void assembling_local_matrices_into_global_matrices_fn(void) = 0;
   //virtual void matrices_fn (void) =0;
   

@@ -105,7 +105,7 @@ info.open (Info_Dir.c_str(), ios::out );
 
 // Reading basic data
 // = Reading data ===================================================================================================================================
-InputBasic (NEl_DRM, Solver, Dis_History, alpha1, alpha2, amplitude, omega, Wave_Type, Wave_Func, NInt, NDim, NNode, NDOF, NMat, NPM, NNodePWaveL, LoadType, Beta, Gama, DT, NStep, L, Alpha, P, A, OShFunc, InputFile);
+InputBasic (NEl_DRM, Solver, Dis_History, alpha1, alpha2, amplitude, omega, Wave_Type, Wave_Func, NInt, NDim, NNode, NDOF, NMat, NPM, NNodePWaveL, LoadType, Beta, Gama, DT, NStep, L, Alpha, P, A, OrderOfShapeFunc, InputFile);
 
 // Allocating required 1D arrays - vectors
 Length      = new double[NMat];  // Material Type of Elements
@@ -123,7 +123,7 @@ PMat = new double *[NMat];  // Properties of Materials
 Element_Layer = new int[NMat];
 Layer_Depth   = new int[NMat];
 
-InputArrays( omega, NNodePWaveL, Dis_History, NMat, Length, L, Loc_History, Element_Layer, Layer_Depth, NEl, OShFunc, NJ, PMat, InputFile);
+InputArrays( omega, NNodePWaveL, Dis_History, NMat, Length, L, Loc_History, Element_Layer, Layer_Depth, NEl, OrderOfShapeFunc, NJ, PMat, InputFile);
 
 
 // Allocating required 1D arrays - vectors
@@ -146,7 +146,7 @@ XYZ  = new double *[ NJ ];  // Coordinates
   }
 
 // discretization
-Discretization( NEl_DRM, NDOF, Dis_History, NDim, NMat, NJ, OShFunc, NEl,  NEqM,           L,                  Length,   MTel, INod, ID, XYZ, Element_Layer, Layer_Depth, NoBndry_DRM, NoLayer_DRM, Nodal_History, Loc_History     );
+Discretization( NEl_DRM, NDOF, Dis_History, NDim, NMat, NJ, OrderOfShapeFunc, NEl,  NEqM,           L,                  Length,   MTel, INod, ID, XYZ, Element_Layer, Layer_Depth, NoBndry_DRM, NoLayer_DRM, Nodal_History, Loc_History     );
 
 // Write information
 info << "Number of elements :" << NEl << endl; 
