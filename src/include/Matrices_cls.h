@@ -8,10 +8,10 @@ Purpose: This class defines all virutal functions related to all solvers.
 #include <sstream>
 
 #include "../include/Discretization_cls.h"
+#include "../include/ShapeFunctions_cls.h"
 
 #ifndef SOLVER_CLS_H
 #define SOLVER_CLS_H
-
 
 namespace main_ns
 {
@@ -20,26 +20,21 @@ namespace Matrices_ns
 {
 
 class Matrices_cls{
-  private
+  private:
     int MType;              // Material type
-    int NEqEl;              // Number of equations of each element
+
     int ElementPercent;     // To show the progress in assembly
 
     double E;               // elastic modulus
     double Rho;             // density
     double AssemblyPercentage; //
 
-    int    * ND;            // element constraints
-                            // - real arrays ------------------------------------------------------------------------------------------------------------------------------------
-    double * Fe;            // element force vector
-
-    double ** XT;           // Array to store coordinates of the element
-    double ** Ke;           // stiffness matrix of each element
-    double ** Ce;           // damping matrix of each element
-    double ** Me;           // mass matrix of each element
-
+   
+    virtual void allocating_local_matrices_fn(void) = 0;
 
   protected:
+    int NEqEl;              // Number of equations of each element
+
     int * JD;             // Skyline matrix
     int * NTK;            // Skyline matrix
 
@@ -62,6 +57,13 @@ class Matrices_cls{
 
     int LoadFunc;         // Load Function  0:DRM
 
+    double ** XT;           // Array to store coordinates of the element
+    double ** Ke;           // stiffness matrix of each element
+    double ** Ce;           // damping matrix of each element
+    double ** Me;           // mass matrix of each element
+    double * Fe;            // element force vector
+    int    * ND;            // element constraints
+
   public:
     main_ns::discretization_ns::discretization_cls* DiscretizedModel;
     main_ns::model_ns::model_cls* Model;
@@ -71,8 +73,6 @@ class Matrices_cls{
              main_ns::model_ns::model_cls*);
   
   virtual void allocating_global_matrices_fn (void) =0;
-  virtual void allocating_local_matrices_fn(void) = 0;
-  template<int NEqEl>	
   virtual void assembling_local_matrices_into_global_matrices_fn(void) = 0;
   //virtual void matrices_fn (void) =0;
   

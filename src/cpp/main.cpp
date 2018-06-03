@@ -76,17 +76,18 @@ discretized_model.Discretization();
 main_ns::visualization_ns::visualization_cls Visual(&input, &model, &discretized_model);
 Visual.MatlabOutput_fn();
 
-// = solver =======================================================================================
+// = matrices =======================================================================================
 main_ns::Matrices_ns::Matrices_cls* Matrix;
 
 Matrix = new main_ns::Matrices_Full_ns::Matrices_Full_cls(&discretized_model, &model);
-Matrix->allocating_global_matrices_fn();
+//Matrix->allocating_global_matrices_fn();
+//Matrix->allocating_local_matrices_fn();
 
 /*
 // Allocating required arrays
   switch (Solver) {
     case 0:   // Full matrices
-      Solver = new solver_full_cls(&discretized_model, &model)
+       Matrix->allocating_global_matrices_fn();
     break;
     case 1:   // Skyline method
       JD   = new int [NEqM] ;
@@ -99,20 +100,7 @@ Matrix->allocating_global_matrices_fn();
       M_S  = new double [ JD[NEqM-1] ];  // Mass matrix
     break;
     case 2: //   Transfer functions in the frequency domain
-      K  = new double *[ NEqM ];  // Stiffness Matrix
-        for(int i=0;i<NEqM;i++){
-          K[i]=new double[NEqM];
-        }
-
-      C  = new double *[ NEqM ];  // Damping matrix
-        for(int i=0;i<NEqM;i++){
-          C[i]=new double[NEqM];
-        }
-
-      M  = new double *[ NEqM ];  // Mass matrix
-        for(int i=0;i<NEqM;i++){
-          M[i]=new double[NEqM];
-        }      
+      Matrix->allocating_global_matrices_fn();
     break;
     default:
       cout << "Solver type is not available. Solver should be either 0 for full matrices or 1 for skyline method"<< endl;
