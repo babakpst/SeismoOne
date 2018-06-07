@@ -51,7 +51,7 @@ namespace model_ns
       double DT ;           // time step
       double Gama, Beta ;   // Newmark parameters
       double Alpha, P ;     // loading parameters
-      double A ;            // area of the cross section of the beam
+      double A;             // area of the cross section of the beam
       double L;             // length of the beam
       double alpha1, alpha2;// 
       double amplitude ;    // Amplitude of the incident wave

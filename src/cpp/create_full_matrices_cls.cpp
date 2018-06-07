@@ -1,19 +1,14 @@
-
-
-#include "../include/Matrices_Full_cls.h"
-
+#include "../include/create_full_matrices_cls.h"
 
 // Constructor
 main_ns::Matrices_Full_ns::Matrices_Full_cls::Matrices_Full_cls
-                            (main_ns::discretization_ns::discretization_cls* aDiscretization,
-                             main_ns::model_ns::model_cls* aModel):
-                             main_ns::Matrices_ns::Matrices_cls(aDiscretization,aModel){
-                                  allocating_global_matrices_fn(); // allocating global matrices
-                                  allocating_local_matrices_fn(); // allocating local matrices matrices
-                             }
+(main_ns::discretization_ns::discretization_cls* aDiscretization,
+main_ns::model_ns::model_cls* aModel):
+main_ns::Matrices_ns::Matrices_cls(aDiscretization,aModel){
+main_ns::Matrices_Full_ns::Matrices_Full_cls::allocating_global_matrices_fn();
+main_ns::Matrices_Full_ns::Matrices_Full_cls::allocating_local_matrices_fn(); 
+}
 
-
-// 
 /*
 ###################################################################################################
 Purpose: This function Allocating global matrices. In this module we consider full matrices.
@@ -97,9 +92,8 @@ ND_e = new int  [ Model->NNLayer * Model->NDim ];
   }
 
 std::cout<< " Done with allocation, successfully." << std::endl;
-
-
 }
+
 
 // allocating local matrices for each element
 void main_ns::Matrices_Full_ns::Matrices_Full_cls::allocating_local_matrices_fn(){
@@ -133,6 +127,144 @@ ND = new int [NEqEl];
 }
 
 
+/*
+###################################################################################################
+Purpose: This function computes the local matrices for each element and assembles the local 
+matrices into the golabal matrices.
+
+Developed by: Babak Poursartip
+ 
+The Institute for Computational Engineering and Sciences (ICES)
+The University of Texas at Austin	
+================================= V E R S I O N ===================================================
+V0.00: 05/14/2018 - Subroutine initiated.
+V0.01: 05/15/2018 - Initiated: Compiled without error for the first time.
+
+###################################################################################################
+*/
+
+void main_ns::Matrices_Full_ns::Matrices_Full_cls::assembling_local_matrices_into_global_matrices_fn(){
+
+    int ElementPercent;     // To show the progress in assembly
+    double AssemblyPercentage; //
+
+    int MType;              // Material type
+    double E;               // elastic modulus
+    double Rho;             // density
+
+    main_ns::ShapeFunctions_ns::ShapeFunctions_cls* SF;
+
+if (Model->OrderOfShapeFunc == 1){
+   SF = new main_ns::ShapeFunctions_ns::ShapeFunctions_FirstOrder_cls(Model->NInt, Model->NNode );}
+else if (Model->OrderOfShapeFunc == 2){
+   SF = new main_ns::ShapeFunctions_ns::ShapeFunctions_SecondOrder_cls(Model->NInt, Model->NNode );}
+
+SF->Retrieving_Gauss_Points_fn(); // Extracting quadratures
+
+
+// In order to print the progress in computing local matrices, in 10 steps,  we define this var.
+ElementPercent = (int)( Model->NEl/10.0);
+
+  // computing element matrices and assembling them
+  for (int iel=0; iel<Model->NEl; iel++) {
+
+    // writing down the work done on screen
+    if ((iel % ElementPercent ) == 0) {
+      AssemblyPercentage = ((double) iel/Model->NEl)*(double)100;
+      std::cout << "Assembly progress:  %" << AssemblyPercentage << std::endl;
+    }
+    
+    // Material Property of this element
+    MType = DiscretizedModel->MTel [iel];    // Material property type
+    E   = Model->PMat[MType][0];  // Elastic modulus of this material
+    Rho = Model->PMat[MType][1];  // Density of this material 
+
+      // coordinates of this element
+      for (int i=0; i<Model->NDim; i++) {
+        for (int j=0; j<Model->NNode; j++) {
+          XT [i][j] =  DiscretizedModel->XYZ [ DiscretizedModel->INod[j][iel] ][i]; 
+        }
+      }
+
+    // Initializing element matrices (stiffness, damping, and mass), and the load vector
+      for (int i=0; i<NEqEl; i++) {
+          for (int j=0; j<NEqEl; j++) {
+            Ke[i][j] = 0.0;
+            Ce[i][j] = 0.0;
+            Me[i][j] = 0.0;
+          }
+        Fe[i] = 0.0;
+      }
+
+    
+    compute_elemental_matrices_fn(iel, Rho, E);
+
+/* up to here
+    // computing elemental matrices 
+    if (OrderOfShapeFunc == 1)
+      MassDampStiffS_1D_first_Full ( iel, NEl, NInt, NNode, NEqEl, Rho, E, XT, Me, Ce, Ke, Gauss_PNT);
+    else if (OrderOfShapeFunc == 2)
+      MassDampStiffS_1D_second_Full ( iel, NInt, NNode, NEqEl, Rho, E, XT, Me, Ce, Ke, Gauss_PNT);
+
+    */
+
+    // assemble mass, stiffness, damping and force matrices
+      for (int i=0;i<Model->NNode;i++) {
+        for (int j=0;j<Model->NDOF;j++) {
+          ND [ j * Model->NNode + i ] = DiscretizedModel->ID [DiscretizedModel->INod [i][iel]][j];
+        }
+      }
+
+    // force vector of the element
+    // not applicable in this code
+
+//
+//    // Check element matrices
+//    Check << "Damping matrix" << "\n";
+//      for (int i = 0; i<NEqEl; i++){
+//        for (int j = 0; j<NEqEl; j++){
+//          Check << setw(20) << Ce[i][j] ;
+//        }
+//        Check <<  endl;
+//      }
+//    Check <<  endl;
+//    Check <<  endl;
+//    Check <<  endl;
+//
+
+// fix this
+//    AssembleMassDampingStiffForceFull (NEqEl, ND, Ke, Ce, Me, K, C, M);
+  }
+
+
+
+// Deallocating Element Matrices
+for(int i=0;i<NEqEl;i++){
+ delete []Ke[i];
+}
+delete []Ke;
+
+for(int i=0;i<NEqEl;i++){
+ delete []Ce[i];
+}
+delete []Ce;
+
+for(int i=0;i<NEqEl;i++){
+ delete []Me[i];
+}
+delete []Me;
+
+//
+//for(int i=0;i<NDim;i++){
+// delete []XT[i];
+//}
+//delete []XT;
+//
+
+delete Fe;
+delete ND;
+
+}
 
 
 /*
@@ -150,6 +282,8 @@ V0.01: 06/02/2018 - Initiated: Compiled without error for the first time.
 
 ###################################################################################################
 */
+
+
 void main_ns::Matrices_Full_ns::Matrices_Full_cls::compute_elemental_matrices_fn
                                              (const int& iel, const double& Rho, const double& E){
 
@@ -179,16 +313,18 @@ for(int i=0;i<NEqEl;i++){
 }
 
 // Integrating over the element
-  for (unsigned int lx=0; lx<Model->NInt; lx++){
+  for (int lx=0; lx<Model->NInt; lx++){
 
-    ShapeFunctions.X1  = ShapeFunctions.XInt[lx];
-    ShapeFunctions.X1  = ShapeFunctions.XInt[lx];
-    WX                 = ShapeFunctions.WInt[lx];
+    SF.X1  = SF.XInt[lx];
+    SF.X1  = SF.XInt[lx];
+    WX     = SF.WInt[lx];
 
+    
+    
+    
     // Shape functions and differential of shape functions at this local point
-    ShapeFunc_1D_2N (  SF.X1, SF.FN[0], SF.FN[1] ) ;
-    Dif_ShapeFunc_1D_2N ( DSF.DFXI[0], DSF.DFXI[1] ) ;
-
+    SF.ShapeFunctions();
+    SF.DifferentialOfShapeFunctions();
 
     // Jacobian
     DJ   = XT[0][0] * DSF.DFXI[0] + XT[0][1] * DSF.DFXI[1];
@@ -250,151 +386,10 @@ delete []PsiX_PsiX_T;
 }
 
 
-
-/*
-###################################################################################################
-Purpose: This function computes the local matrices for each element and assembles the local 
-matrices into the golabal matrices.
-
-Developed by: Babak Poursartip
- 
-The Institute for Computational Engineering and Sciences (ICES)
-The University of Texas at Austin	
-================================= V E R S I O N ===================================================
-V0.00: 05/14/2018 - Subroutine initiated.
-V0.01: 05/15/2018 - Initiated: Compiled without error for the first time.
-
-###################################################################################################
-*/
-
-void main_ns::Matrices_Full_ns::Matrices_Full_cls::
-     assembling_local_matrices_into_global_matrices_fn(){
-
-    int ElementPercent;     // To show the progress in assembly
-    double AssemblyPercentage; //
-
-    int MType;              // Material type
-    double E;               // elastic modulus
-    double Rho;             // density
-
-
-main_ns::ShapeFunctions_ns::ShapeFunctions_cls<NInt, NNode> ShapeFunctions;
-ShapeFunctions.Retrieving_Gauss_Points_fn(); // Extracting quadratures
-
-// In order to print the progress in computing local matrices, in 10 steps,  we define this var.
-int ElementPercent = (int)( Model->NEl/10.0);
-
-  // computing element matrices and assembling them
-  for (unsigned int iel=0; iel<Model->NEl; iel++) {
-    // This if condition prints the work done on screen
-    if (( iel % ElementPercent ) == 0) {
-      AssemblyPercentage = ((double) iel/NEl)*(double)100;
-      std::cout << "Assembly progress:  %" << AssemblyPercentage << sted::endl;
-    }
-
-    // Material Property of this element
-    MType = MTel [iel];    // Material property type
-    E   = PMat[MType][0];  // Elastic modulus of this material
-    Rho = PMat[MType][1];  // Density of this material 
-
-      // coordinates of this element
-      for (unsigned int i=0; i<Model->NDim; i++) {
-        for (unsigned int j=0; j<Model->NNode; j++) {
-          XT [i][j] =  XYZ [ INod[j][iel] ][i]; 
-        }
-      }
-
-    // Initializing element matrices (stiffness, damping, and mass), and the load vector
-      for (unsigned int i=0; i<Model->NEqEl; i++) {
-          for (unsigned int j=0; j<Model->NEqEl; j++) {
-            Ke[i][j] = 0.0;
-            Ce[i][j] = 0.0;
-            Me[i][j] = 0.0;
-          }
-        Fe[i] = 0.0;
-      }
-
-    compute_elemental_matrices_fn(iel, Rho, E);
-
-    // computing elemental matrices
-    if (OrderOfShapeFunc == 1)
-      MassDampStiffS_1D_first_Full ( iel, NEl, NInt, NNode, NEqEl, Rho, E, XT, Me, Ce, Ke, Gauss_PNT);
-    else if (OrderOfShapeFunc == 2)
-      MassDampStiffS_1D_second_Full ( iel, NInt, NNode, NEqEl, Rho, E, XT, Me, Ce, Ke, Gauss_PNT);
-
-    
-
-    // assemble mass, stiffness, damping and force matrices
-      for (int i=0;i<NNode;i++) {
-        for (int j=0;j<NDOF;j++) {
-          ND [ j * NNode + i ] = ID [INod [i][iel]][j];
-        }
-      }
-
-    // force vector of the element
-    // not applicable in this code
-
-
-
-/*
-    // Check element matrices
-    Check << "Damping matrix" << "\n";
-      for (int i = 0; i<NEqEl; i++){
-        for (int j = 0; j<NEqEl; j++){
-          Check << setw(20) << Ce[i][j] ;
-        }
-        Check <<  endl;
-      }
-
-    Check <<  endl;
-    Check <<  endl;
-    Check <<  endl;
-*/
-
-    AssembleMassDampingStiffForceFull (NEqEl, ND, Ke, Ce, Me, K, C, M);
-
-
-
-  }
-
-
-
-// Deallocating Element Matrices
-for(int i=0;i<NEqEl;i++){
- delete []Ke[i];
-}
-delete []Ke;
-
-for(int i=0;i<NEqEl;i++){
- delete []Ce[i];
-}
-delete []Ce;
-
-for(int i=0;i<NEqEl;i++){
- delete []Me[i];
-}
-delete []Me;
-
-/*
-for(int i=0;i<NDim;i++){
- delete []XT[i];
-}
-delete []XT;
-*/
-
-delete Fe;
-delete ND;
-
-
-
-}
-
-
-
-
 //***************************************************************************************************************************************************
 // computing element matrices - second order
 //***************************************************************************************************************************************************
+/*
 void MassDampStiffS_1D_second_Full ( int& iel, int& NInt, int& NNode, int& NEqEl, double& Rho, double& E, double **& XT, double ** &Me, double ** &Ce,  double ** &Ke, Gauss& Gauss_PNT)
 {
 
@@ -456,7 +451,7 @@ for(int i=0;i<NEqEl;i++){
     DETJ = DJ ;   // Jacobian
     FAC  = WX * DETJ ;
 
-      if ( DETJ <= 0.0 ) std::cout << "Jacobian is negative!!!" << endl;
+      if ( DETJ <= 0.0 ) std::cout << "Jacobian is negative!!!" << std::endl;
 
     // CALCULATING THE INVERSE OF THE JACOBIAN
     DJI = 1.0 / DETJ ;
@@ -551,7 +546,7 @@ int i,j;   // Loop indices
 
 
 
-
+*/
 
 
 

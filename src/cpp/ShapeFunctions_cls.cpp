@@ -1,10 +1,15 @@
 
-
 #include "../include/ShapeFunctions_cls.h"
 
-void main_ns::ShapeFunctions_ns::ShapeFunctions_cls::ShapeFunctions_cls(){};
+main_ns::ShapeFunctions_ns::ShapeFunctions_cls::ShapeFunctions_cls(int aNInt, int aNNode):
+     NInt(aNInt),
+     NNode(aNNode),
+     Fn(new double [NNode]),
+     DFXI(new double [NNode]),
+     XInt(new double [NInt]),
+     WInt(new double [NInt]){}
 
-// 
+ 
 /*
 ###################################################################################################
 Purpose: This function retrieves Gauss points for the numerical integration.
@@ -20,32 +25,30 @@ V0.01: 06/02/2018 - Initiated: Compiled without error for the first time.
 
 ###################################################################################################
 */
-template<int NInt, int NNode>
-void main_ns::ShapeFunctions_ns::ShapeFunctions_cls::Retrieving_Gauss_Points_fn (const int& NInt, const int& NNode){
+
+void main_ns::ShapeFunctions_ns::ShapeFunctions_cls::Retrieving_Gauss_Points_fn (){
 
   switch (NInt) {
     case 1:
-      GAUSS_POINTS.XInt[0] =  0.0;  // ABSCISSAE
-      GAUSS_POINTS.WInt[0] = +2.0; // WEIGHTS
+      XInt[0] =  0.0;  // ABSCISSAE
+      WInt[0] = +2.0; // WEIGHTS
     break;
     case 2:
-      GAUSS_POINTS.XInt[0] = - sqrt(1.0/3.0) ; // ABSCISSAE
-      GAUSS_POINTS.XInt[1] = + sqrt(1.0/3.0) ; // ABSCISSAE
-      GAUSS_POINTS.WInt[0] = +1.0 ; // WEIGHTS
-      GAUSS_POINTS.WInt[1] = +1.0 ; // WEIGHTS
+      XInt[0] = - sqrt(1.0/3.0); // ABSCISSAE
+      XInt[1] = + sqrt(1.0/3.0); // ABSCISSAE
+      WInt[0] = +1.0; // WEIGHTS
+      WInt[1] = +1.0; // WEIGHTS
     break;
     case 3:
-      GAUSS_POINTS.XInt[0] = -sqrt(3.0/5.0);  // ABSCISSAE
-      GAUSS_POINTS.XInt[1] = 0.0;             // ABSCISSAE
-      GAUSS_POINTS.XInt[2] = +sqrt(3.0/5.0);  // ABSCISSAE
-      GAUSS_POINTS.WInt[0] = 5.0/9.0;         // WEIGHTS
-      GAUSS_POINTS.WInt[1] = 8.0/9.0;         // WEIGHTS
-      GAUSS_POINTS.WInt[2] = 5.0/9.0;         // WEIGHTS
+      XInt[0] = -sqrt(3.0/5.0);  // ABSCISSAE
+      XInt[1] = 0.0;             // ABSCISSAE
+      XInt[2] = +sqrt(3.0/5.0);  // ABSCISSAE
+      WInt[0] = 5.0/9.0;         // WEIGHTS
+      WInt[1] = 8.0/9.0;         // WEIGHTS
+      WInt[2] = 5.0/9.0;         // WEIGHTS
     break;
     default:
-      cout << "This NInt is not available in code."<< endl;
+      std::cout << "This NInt is not available in code."<< std::endl;
   }
 
 }
-
-

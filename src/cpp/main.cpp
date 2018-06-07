@@ -45,8 +45,8 @@ Comments:
 #include "../include/Model_cls.h"
 #include "../include/Discretization_cls.h"
 #include "../include/Visualization_cls.h"
-#include "../include/Matrices_cls.h"
-#include "../include/Matrices_Full_cls.h"
+#include "../include/create_global_matrices_cls.h"
+#include "../include/create_full_matrices_cls.h"
 
 //#include "../include/Variables.h"
 //#include "../include/Discretization.h"
@@ -80,9 +80,14 @@ Visual.MatlabOutput_fn();
 main_ns::Matrices_ns::Matrices_cls* Matrix;
 
 Matrix = new main_ns::Matrices_Full_ns::Matrices_Full_cls(&discretized_model, &model);
-//Matrix->allocating_global_matrices_fn();
-//Matrix->allocating_local_matrices_fn();
+//Matrix.assemble_
 
+
+
+
+//===================================================
+//===================================================
+//===================================================
 /*
 // Allocating required arrays
   switch (Solver) {

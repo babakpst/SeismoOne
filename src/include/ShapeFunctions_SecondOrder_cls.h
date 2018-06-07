@@ -13,16 +13,18 @@ namespace ShapeFunctions_ns
 
 
 
-class ShapeFunctions_SecondOrder_cls: public main_ns::ShapeFunctions_ns::ShapeFunctions_cls{
+class ShapeFunctions_SecondOrder_cls: public main_ns::ShapeFunctions_ns::ShapeFunctions_cls {
 public: 
 
-ShapeFunctions_SecondOrder_cls();
+ShapeFunctions_SecondOrder_cls(int, int);
 
-void ShapeFunctions (); // ShapeFunc_1D_3N
-void DifferentialOfShapeFunctions (); // Dif_ShapeFunc_1D_3N
-~ShapeFunctions_SecondOrder_cls();
+virtual void ShapeFunctions (); // ShapeFunc_1D_3N
+virtual void DifferentialOfShapeFunctions(); // Dif_ShapeFunc_1D_3N
+
+//~ShapeFunctions_SecondOrder_cls();
  
-}  
+};
+  
 }
 
 }

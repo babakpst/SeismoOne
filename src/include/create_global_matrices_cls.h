@@ -20,12 +20,9 @@ namespace Matrices_ns
 {
 
 class Matrices_cls{
-  private:
-   
-    virtual void allocating_local_matrices_fn(void) = 0;
-    virtual void allocating_global_matrices_fn (void) =0;
-    virtual void compute_elemental_matrices_fn (void) =0;
   protected:
+
+
     int NEqEl;              // Number of equations of each element
 
     int * JD;             // Skyline matrix
@@ -57,17 +54,23 @@ class Matrices_cls{
     double * Fe;            // element force vector
     int    * ND;            // element constraints
 
+
+    virtual void allocating_global_matrices_fn (void) =0;   
+    virtual void allocating_local_matrices_fn(void) = 0;
+    virtual void assembling_local_matrices_into_global_matrices_fn(void) = 0;  
+
   public:
     main_ns::discretization_ns::discretization_cls* DiscretizedModel;
     main_ns::model_ns::model_cls* Model;
 
 
-	explicit Matrices_cls(main_ns::discretization_ns::discretization_cls*,
-             main_ns::model_ns::model_cls*);
+	Matrices_cls( main_ns::discretization_ns::discretization_cls*,
+                main_ns::model_ns::model_cls*);
   
-  virtual void assembling_local_matrices_into_global_matrices_fn(void) = 0;
+  
+  
   //virtual void matrices_fn (void) =0;
-  
+  //virtual void compute_elemental_matrices_fn (void) =0;
   //virtual void shapefunctions_fn (void) =0;
   //virtual void load_fn (void) =0;
   //virtual void solver_fn (void) =0;
@@ -80,4 +83,4 @@ class Matrices_cls{
 
 }
 }
-#endif // !SOLVER_CLS_H
+#endif

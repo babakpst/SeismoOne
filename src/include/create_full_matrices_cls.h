@@ -2,9 +2,11 @@
 #include <iostream>
 #include <fstream>
 
-#include "../include/Matrices_cls.h"
+#include "../include/create_global_matrices_cls.h"
 #include "../include/Discretization_cls.h"
 #include "../include/ShapeFunctions_cls.h"
+#include "../include/ShapeFunctions_FirstOrder_cls.h"
+#include "../include/ShapeFunctions_SecondOrder_cls.h"
 
 #ifndef SOLVER_FULL_H
 #define SOLVER_FULL_H
@@ -15,17 +17,18 @@ namespace Matrices_Full_ns{
   
 class Matrices_Full_cls: public main_ns::Matrices_ns::Matrices_cls{
 
-  void allocating_local_matrices_fn();
+protected:
 	void allocating_global_matrices_fn();
-  void compute_elemental_matrices_fn();
+  void allocating_local_matrices_fn();
+  
 
 public:
-	explicit Matrices_Full_cls(main_ns::discretization_ns::discretization_cls*, 
-	                           main_ns::model_ns::model_cls*);
-  void assembling_local_matrices_into_global_matrices_fn();
+	Matrices_Full_cls( main_ns::discretization_ns::discretization_cls*, 
+	                            main_ns::model_ns::model_cls*);
 
+  virtual void assembling_local_matrices_into_global_matrices_fn();  
 
-
+  void compute_elemental_matrices_fn();
 /*
 //void Reduce_Full (int& NEqM, double **& K, ofstream& Check);
 void LDLT ( int& NEqM, double **& K); 
