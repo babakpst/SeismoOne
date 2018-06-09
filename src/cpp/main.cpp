@@ -79,6 +79,7 @@ Visual.MatlabOutput_fn();
 // = matrices =======================================================================================
 main_ns::Matrices_ns::Matrices_cls* Matrix;
 
+
 Matrix = new main_ns::Matrices_Full_ns::Matrices_Full_cls(&discretized_model, &model);
 //Matrix.assemble_
 
@@ -120,10 +121,6 @@ Matrix = new main_ns::Matrices_Full_ns::Matrices_Full_cls(&discretized_model, &m
       {
       // - Computing Global Matrices -------------------------------------------------------------------------------------------------------------------
       GlobalMatrices_Full( NInt, NDim, NDOF, NNode, NEl,   MTel, INod, ID, XYZ, M, C, K ) ;
-
-
-
-
 
 
 

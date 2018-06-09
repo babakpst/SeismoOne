@@ -9,13 +9,11 @@
 
 #include "Model_cls.h"
 
-
 #ifndef DISCRETIZATION_H
 #define DISCRETIZATION_H
 
 namespace main_ns
 {
-
 namespace discretization_ns
 {
 

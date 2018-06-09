@@ -63,6 +63,7 @@ class Matrices_cls{
     main_ns::discretization_ns::discretization_cls* DiscretizedModel;
     main_ns::model_ns::model_cls* Model;
 
+    main_ns::ShapeFunctions_ns::ShapeFunctions_cls* SF;
 
 	Matrices_cls( main_ns::discretization_ns::discretization_cls*,
                 main_ns::model_ns::model_cls*);

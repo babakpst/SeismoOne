@@ -148,16 +148,10 @@ void main_ns::Matrices_Full_ns::Matrices_Full_cls::assembling_local_matrices_int
     int ElementPercent;     // To show the progress in assembly
     double AssemblyPercentage; //
 
-    int MType;              // Material type
-    double E;               // elastic modulus
-    double Rho;             // density
-
-    main_ns::ShapeFunctions_ns::ShapeFunctions_cls* SF;
-
 if (Model->OrderOfShapeFunc == 1){
-   SF = new main_ns::ShapeFunctions_ns::ShapeFunctions_FirstOrder_cls(Model->NInt, Model->NNode );}
+   SF = new main_ns::ShapeFunctions_ns::ShapeFunctions_FirstOrder_cls(Model->NInt, Model->NNode);}
 else if (Model->OrderOfShapeFunc == 2){
-   SF = new main_ns::ShapeFunctions_ns::ShapeFunctions_SecondOrder_cls(Model->NInt, Model->NNode );}
+   SF = new main_ns::ShapeFunctions_ns::ShapeFunctions_SecondOrder_cls(Model->NInt, Model->NNode);}
 
 SF->Retrieving_Gauss_Points_fn(); // Extracting quadratures
 
@@ -174,12 +168,7 @@ ElementPercent = (int)( Model->NEl/10.0);
       std::cout << "Assembly progress:  %" << AssemblyPercentage << std::endl;
     }
     
-    // Material Property of this element
-    MType = DiscretizedModel->MTel [iel];    // Material property type
-    E   = Model->PMat[MType][0];  // Elastic modulus of this material
-    Rho = Model->PMat[MType][1];  // Density of this material 
-
-      // coordinates of this element
+       // coordinates of this element
       for (int i=0; i<Model->NDim; i++) {
         for (int j=0; j<Model->NNode; j++) {
           XT [i][j] =  DiscretizedModel->XYZ [ DiscretizedModel->INod[j][iel] ][i]; 
@@ -196,8 +185,13 @@ ElementPercent = (int)( Model->NEl/10.0);
         Fe[i] = 0.0;
       }
 
+    // Material Property of this element
+    MType = DiscretizedModel->MTel [iel];    // Material property type
+    E   = Model->PMat[MType][0];  // Elastic modulus of this material
+    Rho = Model->PMat[MType][1];  // Density of this material 
+
     
-    compute_elemental_matrices_fn(iel, Rho, E);
+    compute_elemental_matrices_fn(&iel, &Rho, &E);
 
 /* up to here
     // computing elemental matrices 
@@ -283,9 +277,8 @@ V0.01: 06/02/2018 - Initiated: Compiled without error for the first time.
 ###################################################################################################
 */
 
-
 void main_ns::Matrices_Full_ns::Matrices_Full_cls::compute_elemental_matrices_fn
-                                             (const int& iel, const double& Rho, const double& E){
+                                             (const int* iel, const double* Rho, const double* E){
 
 double WX;              // weight in Gauss integration scheme - in the x coordinate
 double DJ;              // Jacobian
@@ -315,53 +308,48 @@ for(int i=0;i<NEqEl;i++){
 // Integrating over the element
   for (int lx=0; lx<Model->NInt; lx++){
 
-    SF.X1  = SF.XInt[lx];
-    SF.X1  = SF.XInt[lx];
-    WX     = SF.WInt[lx];
-
-    
-    
+    SF->x1  = SF->XInt[lx];
+    WX      = SF->WInt[lx];
     
     // Shape functions and differential of shape functions at this local point
-    SF.ShapeFunctions();
-    SF.DifferentialOfShapeFunctions();
+    SF->ShapeFunctions();
+    SF->DifferentialOfShapeFunctions();
 
     // Jacobian
-    DJ   = XT[0][0] * DSF.DFXI[0] + XT[0][1] * DSF.DFXI[1];
+    DJ   = 0.0;
+      for (int i=0;i<Model->NInt;i++) {
+          DJ   += XT[0][i] * SF->DFXI[i];
+      }
 
+    DETJ = DJ;   // Jacobian
+    FAC  = WX * DETJ;
 
-    DETJ = DJ ;   // Jacobian
-    FAC  = WX * DETJ ;
-
-      if ( DETJ <= 0.0 ) std::cout << "Jacobian is negative!!!" << endl;
+      if (DETJ <= 0.0) std::cout << "Jacobian is negative!!!" << std::endl;
 
     // CALCULATING THE INVERSE OF THE JACOBIAN
-    DJI = 1.0 / DETJ ;
+    DJI = 1.0 / DETJ;
 
-    DFX [0] = DSF.DFXI[0] * DJI ;
-    DFX [1] = DSF.DFXI[1] * DJI ;
+      for (int i=0;i<Model->NInt;i++) {
+        DFX [i] = SF->DFXI[i] * DJI;
+      }
 
-    Psi_Psi_T [0][0]  = SF.FN[0] * SF.FN[0] * FAC ;
-    Psi_Psi_T [0][1]  = SF.FN[0] * SF.FN[1] * FAC ;
-    Psi_Psi_T [1][0]  = SF.FN[1] * SF.FN[0] * FAC ;
-    Psi_Psi_T [1][1]  = SF.FN[1] * SF.FN[1] * FAC ;
-
-    PsiX_PsiX_T [0][0]  = DFX[0] * DFX[0] * FAC ;
-    PsiX_PsiX_T [0][1]  = DFX[0] * DFX[1] * FAC ;
-    PsiX_PsiX_T [1][0]  = DFX[1] * DFX[0] * FAC ;
-    PsiX_PsiX_T [1][1]  = DFX[1] * DFX[1] * FAC ;
+      for (int i=0;i<Model->NInt;i++) {
+        for (int j=0;j<Model->NInt;j++) {
+          Psi_Psi_T   [i][j]  = SF->Fn[i] * SF->Fn[j] * FAC;          
+          PsiX_PsiX_T [i][j]  = DFX[i] * DFX[j] * FAC;
+        }
+      }  
 
       for (int i=0;i<NEqEl;i++) {
         for (int j=0;j<NEqEl;j++) {
           // mass matrix
-          Me [i][j] = Me [i][j] + Rho * Psi_Psi_T [i][j] ;
+          Me [i][j] +=  Rho * Psi_Psi_T [i][j] ;
 
           // stiffness matrix
-          Ke [i][j] = Ke [i][j] + E   * PsiX_PsiX_T [i][j] ;
+          Ke [i][j] +=  E   * PsiX_PsiX_T [i][j] ;
 
           // damping matrix
           Ce [i][j] = 0.0;
-
         }
       }
 
@@ -472,6 +460,7 @@ for(int i=0;i<NEqEl;i++){
     Psi_Psi_T [2][0]  = SF.FN[2] * SF.FN[0] * FAC ;
     Psi_Psi_T [2][1]  = SF.FN[2] * SF.FN[1] * FAC ;
     Psi_Psi_T [2][2]  = SF.FN[2] * SF.FN[2] * FAC ;
+
 
     PsiX_PsiX_T [0][0]  = DFX[0] * DFX[0] * FAC ;
     PsiX_PsiX_T [0][1]  = DFX[0] * DFX[1] * FAC ;

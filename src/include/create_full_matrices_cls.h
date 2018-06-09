@@ -17,6 +17,10 @@ namespace Matrices_Full_ns{
   
 class Matrices_Full_cls: public main_ns::Matrices_ns::Matrices_cls{
 
+  int MType;              // Material type
+  double E;               // elastic modulus
+  double Rho;             // density
+
 protected:
 	void allocating_global_matrices_fn();
   void allocating_local_matrices_fn();
@@ -28,13 +32,19 @@ public:
 
   virtual void assembling_local_matrices_into_global_matrices_fn();  
 
-  void compute_elemental_matrices_fn();
+  void compute_elemental_matrices_fn(int*, double*, double*);
+
+
 /*
 //void Reduce_Full (int& NEqM, double **& K, ofstream& Check);
 void LDLT ( int& NEqM, double **& K); 
 void Substitute ( int& NEqM, double *& UN, double **& K);
 //void Gaussian ( int& NEqM, double *& UN, double **& K);
-void Newmark_Full ( double & L, int & Wave_Type, int & Wave_Func, int &NStep, int& NEqM, int& LoadType, double& Gama, double& Beta, double& DT, double& Alpha, double **& M, double **& C, double **& K, double *& F, double **& PMat, double **& XYZ, ofstream& FullSol, ofstream& History, int *&ND_e, int *&ND_b, int *&Nodal_History );
+void Newmark_Full ( double & L, int & Wave_Type, int & Wave_Func, int &NStep, int& NEqM, 
+                    int& LoadType, double& Gama, double& Beta, double& DT, double& Alpha, 
+                    double **& M, double **& C, double **& K, double *& F, double **& PMat, 
+                    double **& XYZ, ofstream& FullSol, ofstream& History, int *&ND_e, int *&ND_b, 
+                    int *&Nodal_History );
 */
 
 };
