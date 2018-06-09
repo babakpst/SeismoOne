@@ -278,7 +278,7 @@ V0.01: 06/02/2018 - Initiated: Compiled without error for the first time.
 */
 
 void main_ns::Matrices_Full_ns::Matrices_Full_cls::compute_elemental_matrices_fn
-                                             (const int* iel, const double* Rho, const double* E){
+                                             (int* iel, double* Rho, double* E){
 
 double WX;              // weight in Gauss integration scheme - in the x coordinate
 double DJ;              // Jacobian
@@ -357,7 +357,7 @@ for(int i=0;i<NEqEl;i++){
 
 
 c = sqrt(E/Rho);  // speed of wave
-if (iel == NEl-1) {
+if (iel == (Model->NEl)-1) {
  Ce[NEqEl-1][NEqEl-1] = E/c;
 }
 

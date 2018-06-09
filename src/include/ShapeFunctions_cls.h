@@ -34,7 +34,7 @@ void Retrieving_Gauss_Points_fn();
 virtual void ShapeFunctions (void) = 0;
 virtual void DifferentialOfShapeFunctions (void)  = 0;
 
-//~ShapeFunctions_cls();
+virtual ~ShapeFunctions_cls();
   
 }; 
 }

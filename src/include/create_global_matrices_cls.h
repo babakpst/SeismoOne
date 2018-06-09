@@ -65,9 +65,9 @@ class Matrices_cls{
 
     main_ns::ShapeFunctions_ns::ShapeFunctions_cls* SF;
 
-	Matrices_cls( main_ns::discretization_ns::discretization_cls*,
+    Matrices_cls( main_ns::discretization_ns::discretization_cls*,
                 main_ns::model_ns::model_cls*);
-  
+    virtual ~Matrices_cls();
   
   
   //virtual void matrices_fn (void) =0;

@@ -22,12 +22,12 @@ class Matrices_Full_cls: public main_ns::Matrices_ns::Matrices_cls{
   double Rho;             // density
 
 protected:
-	void allocating_global_matrices_fn();
+  void allocating_global_matrices_fn();
   void allocating_local_matrices_fn();
   
 
 public:
-	Matrices_Full_cls( main_ns::discretization_ns::discretization_cls*, 
+  Matrices_Full_cls( main_ns::discretization_ns::discretization_cls*, 
 	                            main_ns::model_ns::model_cls*);
 
   virtual void assembling_local_matrices_into_global_matrices_fn();  
