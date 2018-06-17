@@ -163,7 +163,7 @@ ElementPercent = (int)( Model->NEl/10.0);
   for (int iel=0; iel<Model->NEl; iel++) {
 
     // writing down the work done on screen
-    if ((iel % ElementPercent ) == 0) {
+    if ((iel % ElementPercent) == 0) {
       AssemblyPercentage = ((double) iel/Model->NEl)*(double)100;
       std::cout << "Assembly progress:  %" << AssemblyPercentage << std::endl;
     }

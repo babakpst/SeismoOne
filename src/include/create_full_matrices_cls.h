@@ -8,8 +8,8 @@
 #include "../include/ShapeFunctions_FirstOrder_cls.h"
 #include "../include/ShapeFunctions_SecondOrder_cls.h"
 
-#ifndef SOLVER_FULL_H
-#define SOLVER_FULL_H
+#ifndef CREATE_FULL_MATRICES_CLS_H
+#define CREATE_FULL_MATRICES_CLS_H
 
 namespace main_ns{
 
@@ -22,17 +22,17 @@ class Matrices_Full_cls: public main_ns::Matrices_ns::Matrices_cls{
   double Rho;             // density
 
 protected:
-  void allocating_global_matrices_fn();
+	void allocating_global_matrices_fn();
   void allocating_local_matrices_fn();
   
 
 public:
-  Matrices_Full_cls( main_ns::discretization_ns::discretization_cls*, 
+	Matrices_Full_cls( main_ns::discretization_ns::discretization_cls*, 
 	                            main_ns::model_ns::model_cls*);
 
   virtual void assembling_local_matrices_into_global_matrices_fn();  
 
-  void compute_elemental_matrices_fn(int*, double*, double*);
+  void compute_elemental_matrices_fn(const int*, const double*, const double*);
 
 
 /*
