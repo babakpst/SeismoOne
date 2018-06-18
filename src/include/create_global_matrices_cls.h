@@ -10,6 +10,8 @@ Purpose: This class defines all virutal functions related to all solvers.
 #include "../include/Discretization_cls.h"
 #include "../include/ShapeFunctions_cls.h"
 
+#include "../include/assemble_local_to_global.h"
+
 #ifndef SOLVER_CLS_H
 #define SOLVER_CLS_H
 
@@ -42,8 +44,7 @@ class Matrices_cls{
 
     double * F;           // global force vector
 
-    int * ND_b;           // Nodal ID for DRM
-    int * ND_e;           // Nodal ID for DRM
+
 
     int LoadFunc;         // Load Function  0:DRM
 
@@ -52,12 +53,14 @@ class Matrices_cls{
     double ** Ce;           // damping matrix of each element
     double ** Me;           // mass matrix of each element
     double * Fe;            // element force vector
-    int    * ND;            // element constraints
+
 
 
     virtual void allocating_global_matrices_fn (void) =0;   
     virtual void allocating_local_matrices_fn(void) = 0;
     virtual void assembling_local_matrices_into_global_matrices_fn(void) = 0;  
+
+    void compute_elemental_matrices_fn(int, double, double);
 
   public:
     main_ns::discretization_ns::discretization_cls* DiscretizedModel;
@@ -65,10 +68,12 @@ class Matrices_cls{
 
     main_ns::ShapeFunctions_ns::ShapeFunctions_cls* SF;
 
-    Matrices_cls( main_ns::discretization_ns::discretization_cls*,
-                main_ns::model_ns::model_cls*);
+    Matrices_cls( main_ns::discretization_ns::discretization_cls*,main_ns::model_ns::model_cls*);
+    
     virtual ~Matrices_cls();
   
+
+
   
   //virtual void matrices_fn (void) =0;
   //virtual void compute_elemental_matrices_fn (void) =0;

@@ -4,20 +4,24 @@
 
 #include "../include/create_global_matrices_cls.h"
 #include "../include/Discretization_cls.h"
+
 #include "../include/ShapeFunctions_cls.h"
 #include "../include/ShapeFunctions_FirstOrder_cls.h"
 #include "../include/ShapeFunctions_SecondOrder_cls.h"
+
+//#include "../include/assemble_local_to_global.h"
 
 #ifndef CREATE_FULL_MATRICES_CLS_H
 #define CREATE_FULL_MATRICES_CLS_H
 
 namespace main_ns{
 
-namespace Matrices_Full_ns{
+namespace Matrices_ns{
   
-class Matrices_Full_cls: public main_ns::Matrices_ns::Matrices_cls{
+class Matrices_Full_cls: public main_ns::Matrices_ns::Matrices_cls, 
+                         public main_ns::Matrices_ns::assemble_local_to_global_cls{
 
-  int MType;              // Material type
+  int MType;              // material type
   double E;               // elastic modulus
   double Rho;             // density
 
@@ -27,13 +31,15 @@ protected:
   
 
 public:
-	Matrices_Full_cls( main_ns::discretization_ns::discretization_cls*, 
+	Matrices_Full_cls(main_ns::discretization_ns::discretization_cls*, 
 	                            main_ns::model_ns::model_cls*);
 
+  
+
+
+
   virtual void assembling_local_matrices_into_global_matrices_fn();  
-
-  void compute_elemental_matrices_fn(const int*, const double*, const double*);
-
+  virtual void assemble_local_to_global_fn();
 
 /*
 //void Reduce_Full (int& NEqM, double **& K, ofstream& Check);
@@ -53,3 +59,4 @@ void Newmark_Full ( double & L, int & Wave_Type, int & Wave_Func, int &NStep, in
 
 #endif
 
+void AssembleMassDampingStiffForceFull (int& NEqEl, int *& ND, double **& Ke, double **& Ce, double **& Me, double **& K, double **& C, double **& M);

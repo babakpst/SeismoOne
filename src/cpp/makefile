@@ -32,8 +32,8 @@ $(OBJS): $(SRCS)
 	mkdir -p $(ODIR)
 	$(CC) $(CFLAGS) $(RFLAGS) $(INC) -c $(SRCS)
 cln:
-	rm $(TARGET)
 	rm *.o
+	rm $(TARGET)
 test:
 	@echo "Sources are: " $(SRCS)
 	@echo "Objects are: " $(OBJS)

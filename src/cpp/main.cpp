@@ -47,6 +47,7 @@ Comments:
 #include "../include/Visualization_cls.h"
 #include "../include/create_global_matrices_cls.h"
 #include "../include/create_full_matrices_cls.h"
+#include "../include/create_skyline_matrices_cls.h"
 
 //#include "../include/Variables.h"
 //#include "../include/Discretization.h"
@@ -79,39 +80,28 @@ Visual.MatlabOutput_fn();
 // = matrices =======================================================================================
 main_ns::Matrices_ns::Matrices_cls* Matrix;
 
-
-Matrix = new main_ns::Matrices_Full_ns::Matrices_Full_cls(&discretized_model, &model);
-//Matrix.assemble_
-
-
-
-
-//===================================================
-//===================================================
-//===================================================
-/*
-// Allocating required arrays
-  switch (Solver) {
-    case 0:   // Full matrices
-       Matrix->allocating_global_matrices_fn();
+  
+  switch(solver){
+    case 0:   // solving the system using full matrices
+      Matrix = new main_ns::Matrices_ns::Matrices_Full_cls(&discretized_model, &model);
     break;
-    case 1:   // Skyline method
-      JD   = new int [NEqM] ;
-      NTK  = new int [NEqM] ;
+    case 1:  // solving the system using skyline mathod
+      Matrix = new main_ns::Matrices_ns::Matrices_Skyline_cls(&discretized_model, &model);
+      //JD   = new int [NEqM] ;
+      //NTK  = new int [NEqM] ;
 
-      Skyline ( NEqM, NEl, NNode, NDOF, NTK, INod, ID, JD );
+      //Skyline ( NEqM, NEl, NNode, NDOF, NTK, INod, ID, JD );
 
-      K_S  = new double [ JD[NEqM-1] ];  // Stiffness Matrix
-      C_S  = new double [ JD[NEqM-1] ];  // Damping matrix
-      M_S  = new double [ JD[NEqM-1] ];  // Mass matrix
+      //K_S  = new double [ JD[NEqM-1] ];  // Stiffness Matrix
+      //C_S  = new double [ JD[NEqM-1] ];  // Damping matrix
+      //M_S  = new double [ JD[NEqM-1] ];  // Mass matrix
     break;
-    case 2: //   Transfer functions in the frequency domain
-      Matrix->allocating_global_matrices_fn();
+    case 2:  // Transfer functions in the frequency domain
+      Matrix = new main_ns::Matrices_ns::Matrices_Full_cls(&discretized_model, &model);
     break;
     default:
-      cout << "Solver type is not available. Solver should be either 0 for full matrices or 1 for skyline method"<< endl;
+      std::cout << "The input solver type is not available. Solver should be either 0 for full matrices or 1 for skyline method" << std::endl;
   }
-*/
 
 
 /*
