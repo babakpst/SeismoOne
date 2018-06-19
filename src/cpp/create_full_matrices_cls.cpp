@@ -1,13 +1,11 @@
 #include "../include/create_full_matrices_cls.h"
 
 // Constructor: we also create and allocate matrices
-main_ns::Matrices_ns::Matrices_cls::Matrices_cls
-                                  (main_ns::discretization_ns::discretization_cls* aDiscretization,
-                                   main_ns::model_ns::model_cls* aModel):
-                                   main_ns::Matrices_ns::Matrices_cls(aDiscretization,aModel){
-                    main_ns::Matrices_ns::Matrices_cls::allocating_global_matrices_fn();
-                    main_ns::Matrices_ns::Matrices_cls::allocating_local_matrices_fn(); 
-                    }
+main_ns::Matrices_ns::Matrices_cls::Matrices_cls(main_ns::discretization_ns::discretization_cls *aDiscretization, main_ns::model_ns::model_cls *aModel) : main_ns::Matrices_ns::Matrices_cls(aDiscretization, aModel)
+{
+  main_ns::Matrices_ns::Matrices_cls::allocating_global_matrices_fn();
+  main_ns::Matrices_ns::Matrices_cls::allocating_local_matrices_fn();
+}
 
 /*
 ###################################################################################################
@@ -25,77 +23,84 @@ V1.00: 06/18/2018 -
 ###################################################################################################
 */
 
-void main_ns::Matrices_ns::Matrices_cls::allocating_global_matrices_fn(){
+void main_ns::Matrices_ns::Matrices_cls::allocating_global_matrices_fn()
+{
 
-std::cout<< " -allocating global matrices ..." << std::endl;
-K  = new double *[DiscretizedModel->NEqM];  // Stiffness Matrix
-  for(int i=0;i<DiscretizedModel->NEqM;i++){
-    K[i]=new double[DiscretizedModel->NEqM];
+  std::cout << " -allocating global matrices ..." << std::endl;
+  K = new double *[DiscretizedModel->NEqM]; // Stiffness Matrix
+  for (int i = 0; i < DiscretizedModel->NEqM; i++)
+  {
+    K[i] = new double[DiscretizedModel->NEqM];
   }
 
-C  = new double *[DiscretizedModel->NEqM];  // Damping matrix
-  for(int i=0;i<DiscretizedModel->NEqM;i++){
-    C[i]=new double[DiscretizedModel->NEqM];
+  C = new double *[DiscretizedModel->NEqM]; // Damping matrix
+  for (int i = 0; i < DiscretizedModel->NEqM; i++)
+  {
+    C[i] = new double[DiscretizedModel->NEqM];
   }
 
-M  = new double *[DiscretizedModel->NEqM];  // Mass matrix
-  for(int i=0;i<DiscretizedModel->NEqM;i++){
-    M[i]=new double[DiscretizedModel->NEqM];
+  M = new double *[DiscretizedModel->NEqM]; // Mass matrix
+  for (int i = 0; i < DiscretizedModel->NEqM; i++)
+  {
+    M[i] = new double[DiscretizedModel->NEqM];
   }
 
-F  = new double [DiscretizedModel->NEqM] ;
+  F = new double[DiscretizedModel->NEqM];
 
-std::cout << " -initializing global matrices ..." << std::endl;
-for (int i=0; i<DiscretizedModel->NEqM; i++) {
-    for (int j=0; j<DiscretizedModel->NEqM; j++) {
+  std::cout << " -initializing global matrices ..." << std::endl;
+  for (int i = 0; i < DiscretizedModel->NEqM; i++)
+  {
+    for (int j = 0; j < DiscretizedModel->NEqM; j++)
+    {
       M[i][j] = 0.0;
       C[i][j] = 0.0;
       K[i][j] = 0.0;
     }
-  F[i]=0.0;
-}
-
-
-std::cout<< " -allocating DRM matrices ..." << std::endl;
-K_eb  = new double *[Model->NDim * Model->NNLayer];  // 
-  for(int i=0;i<(Model->NDim * Model->NNLayer);i++){
-    K_eb[i]=new double[ Model->NDim * Model->NNBndry ];
+    F[i] = 0.0;
   }
 
-C_eb  = new double *[ Model->NDim * Model->NNLayer ];  // 
-  for(int i=0;i<(Model->NDim * Model->NNLayer);i++){
-    C_eb[i]=new double[ Model->NDim * Model->NNBndry ];
+  std::cout << " -allocating DRM matrices ..." << std::endl;
+  K_eb = new double *[Model->NDim * Model->NNLayer]; //
+  for (int i = 0; i < (Model->NDim * Model->NNLayer); i++)
+  {
+    K_eb[i] = new double[Model->NDim * Model->NNBndry];
   }
 
-M_eb  = new double *[ Model->NDim * Model->NNLayer ];  // 
-  for(int i=0; i<(Model->NDim * Model->NNLayer); i++){
-    M_eb[i]= new double[ Model->NDim * Model->NNBndry ];
+  C_eb = new double *[Model->NDim * Model->NNLayer]; //
+  for (int i = 0; i < (Model->NDim * Model->NNLayer); i++)
+  {
+    C_eb[i] = new double[Model->NDim * Model->NNBndry];
   }
 
+  M_eb = new double *[Model->NDim * Model->NNLayer]; //
+  for (int i = 0; i < (Model->NDim * Model->NNLayer); i++)
+  {
+    M_eb[i] = new double[Model->NDim * Model->NNBndry];
+  }
 
-ND_b = new int  [ Model->NNBndry * Model->NDim ];
-ND_e = new int  [ Model->NNLayer * Model->NDim ];
+  ND_b = new int[Model->NNBndry * Model->NDim];
+  ND_e = new int[Model->NNLayer * Model->NDim];
 
-// Filling the index for layered nodes
-  for (int i=0;i<Model->NNLayer;i++) {
-    for ( int j=0;j<Model->NDim;j++) {
-      ND_e [ j * Model->NNLayer + i ] = DiscretizedModel->ID [ DiscretizedModel->NoLayer_DRM [ i ] ][j];
+  // Filling the index for layered nodes
+  for (int i = 0; i < Model->NNLayer; i++)
+  {
+    for (int j = 0; j < Model->NDim; j++)
+    {
+      ND_e[j * Model->NNLayer + i] = DiscretizedModel->ID[DiscretizedModel->NoLayer_DRM[i]][j];
     }
   }
 
   // Filling the index for boundary nodes
-  for ( int i=0;i<Model->NNBndry;i++) {
-    for (int j=0;j<Model->NDim;j++) {
-      ND_b [ j * Model->NNBndry + i ] = DiscretizedModel->ID [ DiscretizedModel->NoBndry_DRM[i]][j];
+  for (int i = 0; i < Model->NNBndry; i++)
+  {
+    for (int j = 0; j < Model->NDim; j++)
+    {
+      ND_b[j * Model->NNBndry + i] = DiscretizedModel->ID[DiscretizedModel->NoBndry_DRM[i]][j];
     }
-
   }
 
-std::cout<< " Done with allocation, successfully." << std::endl;
+  std::cout << " Done with allocation, successfully." << std::endl;
 }
-
-
-
 
 /*
 ###################################################################################################
@@ -111,27 +116,29 @@ V0.00: 06/18/2018 - Subroutine initiated.
 ###################################################################################################
 */
 
-void assemble_local_to_global_fn(){
+void assemble_local_to_global_fn()
+{
 
-int L;
-int N;
+  int L;
+  int N;
 
-  for (int i=0; i<NEqEl; i++) {
-    for (int j=0; j<NEqEl; j++) {
-      L = ND [i] ;
-      N = ND [j] ;
-        if (L == -1 || N == -1) continue;
-      K [L][N] = K [L][N] + Ke [i][j];
-      C [L][N] = C [L][N] + Ce [i][j];
-      M [L][N] = M [L][N] + Me [i][j];
+  for (int i = 0; i < NEqEl; i++)
+  {
+    for (int j = 0; j < NEqEl; j++)
+    {
+      L = ND[i];
+      N = ND[j];
+      if (L == -1 || N == -1)
+        continue;
+      K[L][N] = K[L][N] + Ke[i][j];
+      C[L][N] = C[L][N] + Ce[i][j];
+      M[L][N] = M[L][N] + Me[i][j];
     }
   }
 
-// std::cout << "C  " <<  C [L][N] << "Ce" << Ce [i][j] << endl;
-//cin.get();
-
+  // std::cout << "C  " <<  C [L][N] << "Ce" << Ce [i][j] << endl;
+  //cin.get();
 }
-
 
 /*
 //***************************************************************************************************************************************************
@@ -157,8 +164,3 @@ int i,j;   // Loop indices
 }
 
 */
-
-
-
-
-
