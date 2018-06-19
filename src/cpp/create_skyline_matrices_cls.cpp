@@ -1,12 +1,12 @@
 #include "../include/create_full_matrices_cls.h"
 
 // Constructor: we also create and allocate matrices
-main_ns::Matrices_ns::Matrices_cls::Matrices_cls
+main_ns::Matrices_ns::Matrices_cls::Matrices_Skyline_cls
                                   (main_ns::discretization_ns::discretization_cls* aDiscretization,
                                    main_ns::model_ns::model_cls* aModel):
                                    main_ns::Matrices_ns::Matrices_cls(aDiscretization,aModel){
-                    main_ns::Matrices_ns::Matrices_cls::allocating_global_matrices_fn();
-                    main_ns::Matrices_ns::Matrices_cls::allocating_local_matrices_fn(); 
+                    main_ns::Matrices_ns::Matrices_Full_cls::allocating_global_matrices_fn();
+                    main_ns::Matrices_ns::Matrices_Full_cls::allocating_local_matrices_fn(); 
                     }
 
 /*
@@ -18,9 +18,8 @@ Developed by: Babak Poursartip
 The Institute for Computational Engineering and Sciences (ICES)
 The University of Texas at Austin	
 ================================= V E R S I O N ===================================================
-V0.00: 05/14/2018 - Subroutine initiated.
-V0.01: 05/15/2018 - Initiated: Compiled without error for the first time.
-V1.00: 06/18/2018 - 
+V0.00: 06/18/2018 - Subroutine initiated.
+
 
 ###################################################################################################
 */
@@ -28,6 +27,18 @@ V1.00: 06/18/2018 -
 void main_ns::Matrices_ns::Matrices_cls::allocating_global_matrices_fn(){
 
 std::cout<< " -allocating global matrices ..." << std::endl;
+
+
+JD   = new int [NEqM] ;
+NTK  = new int [NEqM] ;
+
+Skyline ( NEqM, NEl, NNode, NDOF, NTK, INod, ID, JD );
+
+K_S  = new double [ JD[NEqM-1] ];  // Stiffness Matrix
+C_S  = new double [ JD[NEqM-1] ];  // Damping matrix
+M_S  = new double [ JD[NEqM-1] ];  // Mass matrix
+
+
 K  = new double *[DiscretizedModel->NEqM];  // Stiffness Matrix
   for(int i=0;i<DiscretizedModel->NEqM;i++){
     K[i]=new double[DiscretizedModel->NEqM];

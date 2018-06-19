@@ -12,8 +12,8 @@ Purpose: This class defines all virutal functions related to all solvers.
 
 #include "../include/assemble_local_to_global.h"
 
-#ifndef SOLVER_CLS_H
-#define SOLVER_CLS_H
+#ifndef CREATE_GLOBAL_MATRICES_H
+#define CREATE_GLOBAL_MATRICES_H
 
 namespace main_ns
 {
@@ -22,21 +22,17 @@ namespace Matrices_ns
 {
 
 class Matrices_cls{
+
+  int MType;              // material type
+  double E;               // elastic modulus
+  double Rho;             // density
+
+  void assembling_local_matrices_into_global_matrices_fn();  
+
   protected:
 
 
     int NEqEl;              // Number of equations of each element
-
-    int * JD;             // Skyline matrix
-    int * NTK;            // Skyline matrix
-
-    double * K_S;         // global stiffness matrix -skyline
-    double * C_S;         // global damping matrix -skyline
-    double * M_S;         // global mass matrix -skyline
-
-    double ** K;          // global stiffness matrix
-    double ** C;          // global damping matrix
-    double ** M;          // global mass matrix
 
     double ** K_eb;          // global stiffness matrix
     double ** C_eb;          // global damping matrix
@@ -52,13 +48,13 @@ class Matrices_cls{
     double ** Ke;           // stiffness matrix of each element
     double ** Ce;           // damping matrix of each element
     double ** Me;           // mass matrix of each element
-    double * Fe;            // element force vector
+    double *  Fe;            // element force vector
 
-
+    void allocating_local_matrices_fn();
 
     virtual void allocating_global_matrices_fn (void) =0;   
-    virtual void allocating_local_matrices_fn(void) = 0;
-    virtual void assembling_local_matrices_into_global_matrices_fn(void) = 0;  
+        
+    void assembling_local_matrices_into_global_matrices_fn();  
 
     void compute_elemental_matrices_fn(int, double, double);
 

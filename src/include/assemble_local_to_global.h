@@ -17,6 +17,8 @@ public:
 
     int* ND;        // element constraints
 
+assemble_local_to_global_cls();
+
 virtual void assemble_local_to_global_fn(void)=0;
 
 // void AssembleMassDampingStiffForceSkyline (int& NEqEl, int *& ND, double **& Ke, double **& Ce, double **& Me, double *& K_S, double *& C_S, double *& M_S, int *& JD);
