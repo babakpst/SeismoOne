@@ -9,8 +9,12 @@ Purpose: This class defines all virutal functions related to all solvers.
 
 #include "../include/Discretization_cls.h"
 #include "../include/ShapeFunctions_cls.h"
+#include "../include/ShapeFunctions_FirstOrder_cls.h"
+#include "../include/ShapeFunctions_SecondOrder_cls.h"
 
-#include "../include/create_full_matrices_cls.h"
+//#include "../include/create_full_matrices_cls.h"
+//
+
 #include "../include/create_skyline_matrices_cls.h"
 
 #include "../include/assemble_local_to_global.h"
@@ -32,6 +36,7 @@ class Matrices_cls
   double Rho; // density
 
   void assembling_local_matrices_into_global_matrices_fn();
+  void compute_elemental_matrices_fn(int, double, double);
 
 protected:
   int NEqEl; // Number of equations of each element
@@ -53,10 +58,6 @@ protected:
   void allocating_local_matrices_fn();
 
   virtual void allocating_global_matrices_fn(void) = 0;
-
-  void assembling_local_matrices_into_global_matrices_fn();
-
-  void compute_elemental_matrices_fn(int, double, double);
 
 public:
   main_ns::discretization_ns::discretization_cls *DiscretizedModel;

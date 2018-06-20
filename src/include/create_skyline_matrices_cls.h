@@ -3,13 +3,6 @@
 #include <fstream>
 
 #include "../include/create_global_matrices_cls.h"
-#include "../include/Discretization_cls.h"
-
-#include "../include/ShapeFunctions_cls.h"
-//#include "../include/ShapeFunctions_FirstOrder_cls.h"
-//#include "../include/ShapeFunctions_SecondOrder_cls.h"
-
-//#include "../include/assemble_local_to_global.h"
 
 #ifndef CREATE_SKYLINE_MATRICES_CLS_H
 #define CREATE_SKYLINE_MATRICES_CLS_H
