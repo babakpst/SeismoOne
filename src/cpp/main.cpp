@@ -46,65 +46,50 @@ Comments:
 #include "../include/Discretization_cls.h"
 #include "../include/Visualization_cls.h"
 #include "../include/create_global_matrices_cls.h"
-#include "../include/create_full_matrices_cls.h"
-#include "../include/create_skyline_matrices_cls.h"
 
-//#include "../include/Variables.h"
-//#include "../include/Discretization.h"
-//#include "../include/GlobalMatrices_Full.h"
-//#include "../include/GlobalMatrices_Skyline.h"
-//#include "../include/Solver_Full.h"
-//#include "../include/Solver_Skyline.h"
-//#include "../include/Fre_Full.h"
+#include "../include/create_full_matrices_cls.h"    // This should be here <delete> the comment
+#include "../include/create_skyline_matrices_cls.h" // This should be here <delete> the comment
 
 int main()
 {
 
-// = input class ==================================================================================
-main_ns::address_ns::address_cls input;
-input.address_fn();
+  // = input class ==================================================================================
+  main_ns::address_ns::address_cls input;
+  input.address_fn();
 
-// = model data ===================================================================================
-main_ns::model_ns::model_cls model(&input);
-model.InputBasic(); // Reading basic data
-model.InputArrays(); // Reading arrays
+  // = model data ===================================================================================
+  main_ns::model_ns::model_cls model(&input);
+  model.InputBasic();  // Reading basic data
+  model.InputArrays(); // Reading arrays
 
-// = discretization ===============================================================================
-main_ns::discretization_ns::discretization_cls discretized_model(&model);
-discretized_model.Discretization();
+  // = discretization ===============================================================================
+  main_ns::discretization_ns::discretization_cls discretized_model(&model);
+  discretized_model.Discretization();
 
-// = discretization ===============================================================================
-main_ns::visualization_ns::visualization_cls Visual(&input, &model, &discretized_model);
-Visual.MatlabOutput_fn();
+  // = discretization ===============================================================================
+  main_ns::visualization_ns::visualization_cls Visual(&input, &model, &discretized_model);
+  Visual.MatlabOutput_fn();
 
-// = matrices =======================================================================================
-main_ns::Matrices_ns::Matrices_cls* Matrix;
+  // = matrices =======================================================================================
+  main_ns::Matrices_ns::Matrices_cls *Matrix;
 
-  
-  switch(solver){
-    case 0:   // solving the system using full matrices
-      Matrix = new main_ns::Matrices_ns::Matrices_Full_cls(&discretized_model, &model);
+  switch (solver)
+  {
+  case 0: // solving the system using full matrices
+    Matrix = new main_ns::Matrices_ns::Matrices_Full_cls(&discretized_model, &model);
     break;
-    case 1:  // solving the system using skyline mathod
-      Matrix = new main_ns::Matrices_ns::Matrices_Skyline_cls(&discretized_model, &model);
-      //JD   = new int [NEqM] ;
-      //NTK  = new int [NEqM] ;
-
-      //Skyline ( NEqM, NEl, NNode, NDOF, NTK, INod, ID, JD );
-
-      //K_S  = new double [ JD[NEqM-1] ];  // Stiffness Matrix
-      //C_S  = new double [ JD[NEqM-1] ];  // Damping matrix
-      //M_S  = new double [ JD[NEqM-1] ];  // Mass matrix
+  case 1: // solving the system using skyline mathod
+    Matrix = new main_ns::Matrices_ns::Matrices_Skyline_cls(&discretized_model, &model);
+    //Skyline ( NEqM, NEl, NNode, NDOF, NTK, INod, ID, JD ); // this should create the skyline matrices
     break;
-    case 2:  // Transfer functions in the frequency domain
-      Matrix = new main_ns::Matrices_ns::Matrices_Full_cls(&discretized_model, &model);
+  case 2: // Transfer functions in the frequency domain
+    Matrix = new main_ns::Matrices_ns::Matrices_Full_cls(&discretized_model, &model);
     break;
-    default:
-      std::cout << "The input solver type is not available. Solver should be either 0 for full matrices or 1 for skyline method" << std::endl;
+  default:
+    std::cout << "The input solver type is not available. Solver should be either 0 for full matrices or 1 for skyline method" << std::endl;
   }
 
-
-/*
+  /*
 // Solving
   switch (Solver) {
     case 0:   // Time domain anaylsis using full matrices
@@ -278,7 +263,5 @@ delete []XYZ;
 
 */
 
-return 0;
+  return 0;
 }
-
-

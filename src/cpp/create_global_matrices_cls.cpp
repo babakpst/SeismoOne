@@ -23,7 +23,7 @@ V1.00: 06/18/2018 -
 ###################################################################################################
 */
 
-void main_ns::Matrices_ns::Matrices_Full_cls::allocating_local_matrices_fn()
+void main_ns::Matrices_ns::Matrices_cls::allocating_local_matrices_fn()
 {
 
   NEqEl = Model->NDOF * Model->NNode;

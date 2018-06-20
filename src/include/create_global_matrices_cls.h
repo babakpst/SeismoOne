@@ -10,6 +10,9 @@ Purpose: This class defines all virutal functions related to all solvers.
 #include "../include/Discretization_cls.h"
 #include "../include/ShapeFunctions_cls.h"
 
+#include "../include/create_full_matrices_cls.h"
+#include "../include/create_skyline_matrices_cls.h"
+
 #include "../include/assemble_local_to_global.h"
 
 #ifndef CREATE_GLOBAL_MATRICES_H
@@ -60,17 +63,11 @@ public:
   main_ns::model_ns::model_cls *Model;
 
   main_ns::ShapeFunctions_ns::ShapeFunctions_cls *SF;
+  main_ns::Matrices_ns::assemble_local_to_global_cls *assemble;
 
   Matrices_cls(main_ns::discretization_ns::discretization_cls *, main_ns::model_ns::model_cls *);
 
   virtual ~Matrices_cls();
-
-  //virtual void matrices_fn (void) =0;
-  //virtual void compute_elemental_matrices_fn (void) =0;
-  //virtual void shapefunctions_fn (void) =0;
-  //virtual void load_fn (void) =0;
-  //virtual void solver_fn (void) =0;
-  //virtual void results_fn (void) =0;
 };
 
 } // namespace Matrices_ns
