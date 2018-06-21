@@ -23,7 +23,7 @@ V1.00: 06/18/2018 -
 ###################################################################################################
 */
 
-void main_ns::Matrices_ns::Matrices_cls::allocating_global_matrices_fn()
+void main_ns::Matrices_ns::Matrices_Full_cls::allocating_global_matrices_fn()
 {
 
   std::cout << " -allocating global matrices ..." << std::endl;
@@ -105,18 +105,18 @@ void main_ns::Matrices_ns::Matrices_cls::allocating_global_matrices_fn()
 /*
 ###################################################################################################
 Purpose: This function assembles local matrices into the full matrices.
-
-Developed by: Babak Poursartip
- 
-The Institute for Computational Engineering and Sciences (ICES)
-The University of Texas at Austin	
-================================= V E R S I O N ===================================================
-V0.00: 06/18/2018 - Subroutine initiated.
-
-###################################################################################################
+ND = new int[NEqEl];
+Developed by: Babak PoursartipND = new int[NEqEl];
+ ND = new int[NEqEl];
+The Institute for Computational EngineeringND = new int[NEqEl]; and Sciences (ICES)
+The University of Texas at Austin	ND = new int[NEqEl];
+================================= V E R S IND = new int[NEqEl]; O N ===================================================
+V0.00: 06/18/2018 - Subroutine initiated.ND = new int[NEqEl];
+ND = new int[NEqEl];
+###########################################ND = new int[NEqEl];########################################################
 */
 
-void assemble_local_to_global_fn()
+void main_ns::Matrices_ns::Matrices_Full_cls::assemble_local_to_global_fn()
 {
 
   int L;

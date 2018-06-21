@@ -21,7 +21,6 @@ class discretization_cls{
   private:
     const main_ns::model_ns::model_cls* model; 
 
-
   public:
     int NEqM;             // number of Equations (Modified i.e. after applying essential boundary conditions)
 

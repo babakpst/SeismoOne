@@ -6,6 +6,7 @@ main_ns::Matrices_ns::Matrices_Skyline_cls::Matrices_Skyline_cls(main_ns::discre
 {
   main_ns::Matrices_ns::Matrices_Skyline_cls::allocating_global_matrices_fn();
   main_ns::Matrices_ns::Matrices_Skyline_cls::allocating_local_matrices_fn();
+  main_ns::Matrices_ns::Matrices_Skyline_cls::Skyline_fn(); 
 }
 
 /*
@@ -23,39 +24,39 @@ V0.00: 06/18/2018 - Subroutine initiated.
 ###################################################################################################
 */
 
-void main_ns::Matrices_ns::Matrices_cls::allocating_global_matrices_fn()
+void main_ns::Matrices_ns::Matrices_Skyline_cls::allocating_global_matrices_fn()
 {
 
   std::cout << " -allocating global matrices ..." << std::endl;
 
-  JD = new int[NEqM];
-  NTK = new int[NEqM];
+  JD = new int[DiscretizedModel->NEqM];
+  NTK = new int[DiscretizedModel->NEqM];
 
-  Skyline(NEqM, NEl, NNode, NDOF, NTK, INod, ID, JD);
-
-  K_S = new double[JD[NEqM - 1]]; // Stiffness Matrix
-  C_S = new double[JD[NEqM - 1]]; // Damping matrix
-  M_S = new double[JD[NEqM - 1]]; // Mass matrix
-
-  K = new double *[DiscretizedModel->NEqM]; // Stiffness Matrix
-  for (int i = 0; i < DiscretizedModel->NEqM; i++)
-  {
-    K[i] = new double[DiscretizedModel->NEqM];
-  }
-
-  C = new double *[DiscretizedModel->NEqM]; // Damping matrix
-  for (int i = 0; i < DiscretizedModel->NEqM; i++)
-  {
-    C[i] = new double[DiscretizedModel->NEqM];
-  }
-
-  M = new double *[DiscretizedModel->NEqM]; // Mass matrix
-  for (int i = 0; i < DiscretizedModel->NEqM; i++)
-  {
-    M[i] = new double[DiscretizedModel->NEqM];
-  }
+  K_S = new double[JD[DiscretizedModel->NEqM - 1]]; // Stiffness Matrix
+  C_S = new double[JD[DiscretizedModel->NEqM - 1]]; // Damping matrix
+  M_S = new double[JD[DiscretizedModel->NEqM - 1]]; // Mass matrix
 
   F = new double[DiscretizedModel->NEqM];
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   std::cout << " -initializing global matrices ..." << std::endl;
   for (int i = 0; i < DiscretizedModel->NEqM; i++)
@@ -126,7 +127,7 @@ V0.00: 06/18/2018 - Subroutine initiated.
 ###################################################################################################
 */
 
-void assemble_local_to_global_fn()
+void main_ns::Matrices_ns::Matrices_Skyline_cls::assemble_local_to_global_fn()
 {
 
   int l, n, i, j, ij;
@@ -147,3 +148,110 @@ void assemble_local_to_global_fn()
     }
   }
 }
+
+
+
+/*
+###################################################################################################
+Purpose: This function creates the required matrices for the skyline method.
+
+Developed by: Babak Poursartip
+ 
+The Institute for Computational Engineering and Sciences (ICES)
+The University of Texas at Austin	
+================================= V E R S I O N ===================================================
+V0.00: 06/18/2018 - Subroutine initiated.
+
+###################################################################################################
+*/
+
+void main_ns::Matrices_ns::Matrices_Skyline_cls::Skyline_fn()
+{
+
+int i,j,k;
+
+  for (int i = 0; i < NEqEl; i++){
+    ND[i]=0.0;
+  }
+
+  for (int i=0; i < DiscretizedModel->NEqM; i++){
+    NTK[i] = i ;
+  }
+
+  for (int iel=0; iel < Model->NEl; iel++){ 
+    for (int i = 0; i<Model->NNode; i++){
+      k = DiscretizedModel->INod[i][iel];
+        for (int j=0; j < Model->NDOF; j++){
+          ND[j * Model->NNode + i] = DiscretizedModel->ID[k][j] ;
+        }
+    }
+
+    for (int l =0; l<NEqEl; l++){
+      for (int k=0; k<NEqEl; k++){ 
+        i = ND[l];
+        j = ND[k];
+        //if ((i==0) ||  (j==0)) continue;
+        if (i>j) continue;
+        if (i<NTK[j]) NTK[j]=i;
+      }
+    }
+  }
+
+JD[0]=0;
+
+  for (int i=1; i<DiscretizedModel->NEqM; i++){ 
+    JD[i]=JD[i-1]+i+1-NTK[i];
+  }
+
+std::cout << "End function skyline" << std::endl; 
+
+}
+
+/*
+//***************************************************************************************************************************************************
+// Copy the submatrices for DRM loads.  
+//***************************************************************************************************************************************************
+void DRM_Matrices_Skyline( int & NNBndry, int &NNLayer, double *& K_S, double *& C_S, double *& M_S, double **& K_eb, double **& C_eb, double **& M_eb, int *&ND_e, int *&ND_b , int *& JD)  
+{
+
+int ij,i,j,l,n;   // Loop indices
+
+// - Code ---------------------------------------------------------------------
+std::cout << "Create DRM matrices ..." << endl; 
+
+  for ( l = 0; l < NNLayer * NDim; l++) {
+    for ( n = 0; n < NNBndry * NDim; n++) {
+
+      i = ND_e [ l ] ;
+      j = ND_b [ n ] ;
+
+
+      if (i>j) {
+        ij = i;
+        i  = j;
+        j  = ij; 
+        std::cout << " i and j replaced"<< endl;
+      }
+
+      ij = JD[j]+i-j;
+
+//cout<< "DRM" << ij << " K_S  "<< K_S[ ij ] <<  " M_S "<< M_S[ ij ] << " C_S  "<< C_S[ ij ] <<  endl;
+   
+      K_eb[l][n] = K_S[ ij ];
+      C_eb[l][n] = C_S[ ij ];
+      M_eb[l][n] = M_S[ ij ];
+
+//      cin.get();
+    }
+  }
+
+std::cout << "DRM matrices created." << std::endl; 
+
+}
+*/
+
+
+
+
+
+

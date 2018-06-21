@@ -53,24 +53,24 @@ Comments:
 int main()
 {
 
-  // = input class ==================================================================================
+  // = input class ================================================================================
   main_ns::address_ns::address_cls input;
   input.address_fn();
 
-  // = model data ===================================================================================
+  // = model data =================================================================================
   main_ns::model_ns::model_cls model(&input);
   model.InputBasic();  // Reading basic data
   model.InputArrays(); // Reading arrays
 
-  // = discretization ===============================================================================
+  // = discretization =============================================================================
   main_ns::discretization_ns::discretization_cls discretized_model(&model);
   discretized_model.Discretization();
 
-  // = discretization ===============================================================================
+  // = discretization =============================================================================
   main_ns::visualization_ns::visualization_cls Visual(&input, &model, &discretized_model);
   Visual.MatlabOutput_fn();
 
-  // = matrices =======================================================================================
+  // = matrices ===================================================================================
   main_ns::Matrices_ns::Matrices_cls *Matrix;
 
   switch (solver)
@@ -94,7 +94,7 @@ int main()
   switch (Solver) {
     case 0:   // Time domain anaylsis using full matrices
       {
-      // - Computing Global Matrices -------------------------------------------------------------------------------------------------------------------
+      // - Computing Global Matrices --------------------------------------------------------------
       GlobalMatrices_Full( NInt, NDim, NDOF, NNode, NEl,   MTel, INod, ID, XYZ, M, C, K ) ;
 
 

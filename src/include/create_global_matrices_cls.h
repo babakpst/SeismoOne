@@ -13,9 +13,7 @@ Purpose: This class defines all virutal functions related to all solvers.
 #include "../include/ShapeFunctions_SecondOrder_cls.h"
 
 //#include "../include/create_full_matrices_cls.h"
-//
-
-#include "../include/create_skyline_matrices_cls.h"
+//#include "../include/create_skyline_matrices_cls.h"
 
 #include "../include/assemble_local_to_global.h"
 
@@ -30,10 +28,9 @@ namespace Matrices_ns
 
 class Matrices_cls
 {
-
-  int MType;  // material type
-  double E;   // elastic modulus
-  double Rho; // density
+  int   MType; // material type
+  double E;    // elastic modulus
+  double Rho;  // density
 
   void assembling_local_matrices_into_global_matrices_fn();
   void compute_elemental_matrices_fn(int, double, double);
@@ -73,4 +70,5 @@ public:
 
 } // namespace Matrices_ns
 } // namespace main_ns
+
 #endif
