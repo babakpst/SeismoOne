@@ -15,8 +15,6 @@ Purpose: This class defines all virutal functions related to all solvers.
 //#include "../include/create_full_matrices_cls.h"
 //#include "../include/create_skyline_matrices_cls.h"
 
-#include "../include/assemble_local_to_global.h"
-
 #ifndef CREATE_GLOBAL_MATRICES_H
 #define CREATE_GLOBAL_MATRICES_H
 
@@ -52,16 +50,24 @@ protected:
   double **Me; // mass matrix of each element
   double *Fe;  // element force vector
 
+    int *ND_b; // Nodal ID for DRM
+    int *ND_e; // Nodal ID for DRM
+
+    int *ND; // element constraints
+
+
   void allocating_local_matrices_fn();
 
   virtual void allocating_global_matrices_fn(void) = 0;
+  virtual void assemble_local_to_global_fn(void) = 0;
+  void allocate_matrices_for_assembling_fn();
+
 
 public:
   main_ns::discretization_ns::discretization_cls *DiscretizedModel;
   main_ns::model_ns::model_cls *Model;
 
   main_ns::ShapeFunctions_ns::ShapeFunctions_cls *SF;
-  main_ns::Matrices_ns::assemble_local_to_global_cls *assemble;
 
   Matrices_cls(main_ns::discretization_ns::discretization_cls *, main_ns::model_ns::model_cls *);
 

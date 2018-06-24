@@ -1,9 +1,10 @@
 
 #include "../include/create_global_matrices_cls.h"
 
-main_ns::Matrices_ns::Matrices_cls::Matrices_cls(main_ns::discretization_ns::discretization_cls *aDiscretization,
-                                                 main_ns::model_ns::model_cls *aModel)
-    : DiscretizedModel(aDiscretization), Model(aModel)
+main_ns::Matrices_ns::Matrices_cls::Matrices_cls
+                                  (main_ns::discretization_ns::discretization_cls *aDiscretization,
+                                   main_ns::model_ns::model_cls *aModel)
+                                   : DiscretizedModel(aDiscretization), Model(aModel)
 {
 }
 
@@ -54,7 +55,26 @@ void main_ns::Matrices_ns::Matrices_cls::allocating_local_matrices_fn()
   }
 
   Fe = new double[NEqEl];
-  ND = new int[NEqEl];
+  
+  std::cout << " -allocating DRM matrices ..." << std::endl;
+  K_eb = new double *[Model->NDim * Model->NNLayer]; //
+  for (int i = 0; i < (Model->NDim * Model->NNLayer); i++)
+  {
+    K_eb[i] = new double[Model->NDim * Model->NNBndry];
+  }
+
+  C_eb = new double *[Model->NDim * Model->NNLayer]; //
+  for (int i = 0; i < (Model->NDim * Model->NNLayer); i++)
+  {
+    C_eb[i] = new double[Model->NDim * Model->NNBndry];
+  }
+
+  M_eb = new double *[Model->NDim * Model->NNLayer]; //
+  for (int i = 0; i < (Model->NDim * Model->NNLayer); i++)
+  {
+    M_eb[i] = new double[Model->NDim * Model->NNBndry];
+  }
+
 }
 
 /*
@@ -295,4 +315,45 @@ void main_ns::Matrices_ns::Matrices_cls::compute_elemental_matrices_fn(int iel, 
     delete[] PsiX_PsiX_T[i];
   }
   delete[] PsiX_PsiX_T;
+}
+
+/*
+###################################################################################################
+Purpose: This function computes the local matrices (mass, damping, and stiffness), and trasmits 
+the matrices to be assembled in the global matrices.
+
+Developed by: Babak Poursartip
+ 
+The Institute for Computational Engineering and Sciences (ICES)
+The University of Texas at Austin	
+================================= V E R S I O N ===================================================
+V0.00: 05/14/2018 - Subroutine initiated.
+V0.01: 06/02/2018 - Initiated: Compiled without error for the first time.
+
+###################################################################################################
+*/
+
+void main_ns::Matrices_ns::Matrices_cls::allocate_matrices_for_assembling_fn()
+{
+  ND_b = new int[Model->NNBndry * Model->NDim];
+  ND_e = new int[Model->NNLayer * Model->NDim];
+
+  // Filling the index for layered nodes
+  for (int i = 0; i < Model->NNLayer; i++)
+  {
+    for (int j = 0; j < Model->NDim; j++)
+    {
+      ND_e[j * Model->NNLayer + i] = DiscretizedModel->ID[DiscretizedModel->NoLayer_DRM[i]][j];
+    }
+  }
+
+  // Filling the index for boundary nodes
+  for (int i = 0; i < Model->NNBndry; i++)
+  {
+    for (int j = 0; j < Model->NDim; j++)
+    {
+      ND_b[j * Model->NNBndry + i] = DiscretizedModel->ID[DiscretizedModel->NoBndry_DRM[i]][j];
+    }
+  }
+
 }

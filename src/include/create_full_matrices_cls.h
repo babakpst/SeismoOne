@@ -13,8 +13,7 @@ namespace main_ns
 namespace Matrices_ns
 {
 
-class Matrices_Full_cls : public main_ns::Matrices_ns::Matrices_cls,
-                          public main_ns::Matrices_ns::assemble_local_to_global_cls
+class Matrices_Full_cls : public main_ns::Matrices_ns::Matrices_cls
 {
 
 protected:
