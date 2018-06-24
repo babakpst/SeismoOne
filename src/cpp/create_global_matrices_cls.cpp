@@ -6,6 +6,8 @@ main_ns::Matrices_ns::Matrices_cls::Matrices_cls
                                    main_ns::model_ns::model_cls *aModel)
                                    : DiscretizedModel(aDiscretization), Model(aModel)
 {
+main_ns::Matrices_ns::Matrices_cls::allocating_global_matrices_fn();  // allocating global matrices
+main_ns::Matrices_ns::Matrices_cls::allocate_matrices_for_assembling_fn(); // allocating local mat
 }
 
 /*

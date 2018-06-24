@@ -5,8 +5,8 @@
 #include <sstream>
 #include <fstream>
 
-#include "../include/Discretization_cls.h"
-#include "../include/Model_cls.h"
+#include "../include/discretize_the_domain_cls.h"
+#include "../include/reading_the_model_cls.h"
 
 #ifndef VISUALIZATION_H
 #define VISUALIZATION_H

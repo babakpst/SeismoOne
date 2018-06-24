@@ -7,7 +7,7 @@
 #include <cmath>
 #include <iomanip>
 
-#include "Model_cls.h"
+#include "../include/reading_the_model_cls.h"
 
 #ifndef DISCRETIZATION_H
 #define DISCRETIZATION_H

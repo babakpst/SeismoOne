@@ -42,8 +42,8 @@ Comments:
 */
 
 #include "../include/Address_cls.h"
-#include "../include/Model_cls.h"
-#include "../include/Discretization_cls.h"
+#include "../include/reading_the_model_cls.h"
+#include "../include/discretize_the_domain_cls.h"
 #include "../include/Visualization_cls.h"
 #include "../include/create_global_matrices_cls.h"
 
@@ -71,6 +71,7 @@ int main()
   Visual.MatlabOutput_fn();
 
   // = matrices ===================================================================================
+  // creating global matrices
   main_ns::Matrices_ns::Matrices_cls *Matrix;
 
   switch (solver)
@@ -88,6 +89,9 @@ int main()
   default:
     std::cout << "The input solver type is not available. Solver should be either 0 for full matrices or 1 for skyline method" << std::endl;
   }
+
+  Matrix->assembling_local_matrices_into_global_matrices_fn();
+  Matrix->create_DRM_matrices_fn();
 
   /*
 // Solving

@@ -153,47 +153,55 @@ std::cout << "End function skyline" << std::endl;
 }
 
 /*
-//***************************************************************************************************************************************************
-// Copy the submatrices for DRM loads.  
-//***************************************************************************************************************************************************
-void DRM_Matrices_Skyline( int & NNBndry, int &NNLayer, double *& K_S, double *& C_S, double *& M_S, double **& K_eb, double **& C_eb, double **& M_eb, int *&ND_e, int *&ND_b , int *& JD)  
+###################################################################################################
+Purpose: This function extracts the DRM matrices from the skyline matrices.
+
+Developed by: Babak Poursartip
+ 
+The Institute for Computational Engineering and Sciences (ICES)
+The University of Texas at Austin	
+================================= V E R S I O N ===================================================
+V0.00: 05/14/2018 - Subroutine initiated.
+V0.01: 05/15/2018 - Initiated: Compiled without error for the first time.
+V1.00: 06/24/2018 - 
+
+###################################################################################################
+*/
+
+void main_ns::Matrices_ns::Matrices_Skyline_cls::create_DRM_matrices_fn()  
 {
 
-int ij,i,j,l,n;   // Loop indices
+int ij,i,j;   // Loop indices
 
 // - Code ---------------------------------------------------------------------
-std::cout << "Create DRM matrices ..." << endl; 
+std::cout << "Create DRM matrices ..." << std::endl; 
 
-  for ( l = 0; l < NNLayer * NDim; l++) {
-    for ( n = 0; n < NNBndry * NDim; n++) {
+  for ( int l = 0; l < Model->NNLayer * Model->NDim; l++) {
+    for (int n = 0; n < Model->NNBndry * Model->NDim; n++) {
 
       i = ND_e [ l ] ;
       j = ND_b [ n ] ;
-
 
       if (i>j) {
         ij = i;
         i  = j;
         j  = ij; 
-        std::cout << " i and j replaced"<< endl;
+        std::cout << " i and j replaced"<< std::endl;
       }
 
       ij = JD[j]+i-j;
-
-//cout<< "DRM" << ij << " K_S  "<< K_S[ ij ] <<  " M_S "<< M_S[ ij ] << " C_S  "<< C_S[ ij ] <<  endl;
    
       K_eb[l][n] = K_S[ ij ];
       C_eb[l][n] = C_S[ ij ];
       M_eb[l][n] = M_S[ ij ];
 
-//      cin.get();
     }
   }
 
 std::cout << "DRM matrices created." << std::endl; 
 
 }
-*/
+
 
 
 

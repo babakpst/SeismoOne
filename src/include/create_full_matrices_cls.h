@@ -19,6 +19,7 @@ class Matrices_Full_cls : public main_ns::Matrices_ns::Matrices_cls
 protected:
 
   virtual void allocating_global_matrices_fn();
+  virtual void create_DRM_matrices_fn();
 
 public:
   double **K; // global stiffness matrix

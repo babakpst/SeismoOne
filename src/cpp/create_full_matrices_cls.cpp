@@ -66,20 +66,22 @@ void main_ns::Matrices_ns::Matrices_Full_cls::allocating_global_matrices_fn()
   std::cout << " Done with allocation, successfully." << std::endl;
 }
 
+
 /*
 ###################################################################################################
-Purpose: This function assembles local matrices into the full matrices.
-ND = new int[NEqEl];
-Developed by: Babak PoursartipND = new int[NEqEl];
- ND = new int[NEqEl];
-The Institute for Computational EngineeringND = new int[NEqEl]; and Sciences (ICES)
-The University of Texas at Austin	ND = new int[NEqEl];
-================================= V E R S IND = new int[NEqEl]; O N ===================================================
-V0.00: 06/18/2018 - Subroutine initiated.ND = new int[NEqEl];
-ND = new int[NEqEl];
-###########################################ND = new int[NEqEl];########################################################
-*/
+Purpose: This function allocates the required matrices for assembling. 
 
+Developed by: Babak Poursartip
+ 
+The Institute for Computational Engineering and Sciences (ICES)
+The University of Texas at Austin	
+================================= V E R S I O N ===================================================
+V0.00: 05/14/2018 - Subroutine initiated.
+V0.01: 05/15/2018 - Initiated: Compiled without error for the first time.
+V1.00: 06/24/2018 - 
+
+###################################################################################################
+*/
 void main_ns::Matrices_ns::Matrices_Full_cls::assemble_local_to_global_fn()
 {
 
@@ -104,19 +106,28 @@ void main_ns::Matrices_ns::Matrices_Full_cls::assemble_local_to_global_fn()
   //cin.get();
 }
 
+
 /*
-//***************************************************************************************************************************************************
-// Copy the submatrices for DRM loads.  
-//***************************************************************************************************************************************************
-void DRM_Matrices_Full( int & NNBndry, int &NNLayer, double **& K, double **& C, double **& M, double **& K_eb, double **& C_eb, double **& M_eb, int *&ND_e, int *&ND_b ) 
+###################################################################################################
+Purpose: This function extracts the DRM matrices from the full matrices.
+
+Developed by: Babak Poursartip
+ 
+The Institute for Computational Engineering and Sciences (ICES)
+The University of Texas at Austin	
+================================= V E R S I O N ===================================================
+V0.00: 05/14/2018 - Subroutine initiated.
+V0.01: 05/15/2018 - Initiated: Compiled without error for the first time.
+V1.00: 06/24/2018 - 
+
+###################################################################################################
+*/
+
+void main_ns::Matrices_ns::Matrices_Full_cls::create_DRM_matrices_fn() 
 {
 
-int i,j;   // Loop indices
-
-// - Code ---------------------------------------------------------------------
-
-  for ( i = 0; i < NNLayer * NDim; i++) {
-    for ( j = 0; j < NNBndry * NDim; j++) {
+  for (int i = 0; i < Model->NNLayer * Model->NDim; i++) {
+    for (int j = 0; j < Model->NNBndry * Model->NDim; j++) {
       K_eb[i][j] = K[ ND_e[i] ][ ND_b[j] ];
       C_eb[i][j] = C[ ND_e[i] ][ ND_b[j] ];
       M_eb[i][j] = M[ ND_e[i] ][ ND_b[j] ];
@@ -126,5 +137,3 @@ int i,j;   // Loop indices
 
 
 }
-
-*/

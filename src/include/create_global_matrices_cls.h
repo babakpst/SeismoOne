@@ -1,19 +1,13 @@
 
-/*
-Purpose: This class defines all virutal functions related to all solvers.
-*/
 
 #include <iostream>
 #include <string>
 #include <sstream>
 
-#include "../include/Discretization_cls.h"
+#include "../include/discretize_the_domain_cls.h"
 #include "../include/ShapeFunctions_cls.h"
 #include "../include/ShapeFunctions_FirstOrder_cls.h"
 #include "../include/ShapeFunctions_SecondOrder_cls.h"
-
-//#include "../include/create_full_matrices_cls.h"
-//#include "../include/create_skyline_matrices_cls.h"
 
 #ifndef CREATE_GLOBAL_MATRICES_H
 #define CREATE_GLOBAL_MATRICES_H
@@ -30,7 +24,6 @@ class Matrices_cls
   double E;    // elastic modulus
   double Rho;  // density
 
-  void assembling_local_matrices_into_global_matrices_fn();
   void compute_elemental_matrices_fn(int, double, double);
 
 protected:
@@ -70,7 +63,8 @@ public:
   main_ns::ShapeFunctions_ns::ShapeFunctions_cls *SF;
 
   Matrices_cls(main_ns::discretization_ns::discretization_cls *, main_ns::model_ns::model_cls *);
-
+  void assembling_local_matrices_into_global_matrices_fn();
+  virtual void create_DRM_matrices_fn(void) = 0;
   virtual ~Matrices_cls();
 };
 
