@@ -74,7 +74,7 @@ int main()
   // creating global matrices
   main_ns::Matrices_ns::Matrices_cls *Matrix;
 
-  switch (solver)
+  switch (model.Solver)
   {
   case 0: // solving the system using full matrices
     Matrix = new main_ns::Matrices_ns::Matrices_Full_cls(&discretized_model, &model);
