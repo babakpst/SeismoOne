@@ -1,10 +1,11 @@
 
-
-#include "Variables.h"
 #include "Load.h"
 
-#ifndef SOLVER
-#define SOLVER
+#ifndef SOLVER_FULL_SYSTEM_H
+#define SOLVER_FULL_SYSTEM_H
+
+
+
 
 //void Reduce_Full (int& NEqM, double **& K, ofstream& Check);
 void LDLT ( int& NEqM, double **& K); 

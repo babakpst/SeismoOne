@@ -1,6 +1,5 @@
 
 #include "../include/Solver_Skyline.h"
-using namespace std;
 
 
 

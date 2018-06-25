@@ -72,7 +72,7 @@ int main()
 
   // = matrices ===================================================================================
   // creating global matrices
-  main_ns::Matrices_ns::Matrices_cls *Matrix;
+  main_ns::Matrices_ns::Matrices_cls* Matrix;
 
   switch (model.Solver)
   {
@@ -93,19 +93,15 @@ int main()
   Matrix->assembling_local_matrices_into_global_matrices_fn();
   Matrix->create_DRM_matrices_fn();
 
+// Solver:
+main_ns::Solver_ns::Solver_cls* Solver
+
+
   /*
 // Solving
   switch (Solver) {
     case 0:   // Time domain anaylsis using full matrices
       {
-      // - Computing Global Matrices --------------------------------------------------------------
-      GlobalMatrices_Full( NInt, NDim, NDOF, NNode, NEl,   MTel, INod, ID, XYZ, M, C, K ) ;
-
-
-
-      // Get part of the global matrices for DRM loading
-      DRM_Matrices_Full(  NNBndry, NNLayer, K, C, M, K_eb, C_eb, M_eb, ND_e, ND_b ) ;
-
 
       // Open output files for the time domain simulations 
       ofstream FullSol;
@@ -113,8 +109,6 @@ int main()
 
       ofstream History;
       History.open (HistoryFile_Dir.c_str(), ios::out );
-
-
 
       // - Newmark algorithm for marchin in time -------------------------------------------------------------------------------------------------------
       Newmark_Full ( L, Wave_Type, Wave_Func, NStep, NEqM, LoadType, Gama, Beta, DT, Alpha, M, C, K, F, PMat, XYZ, FullSol, History, ND_e, ND_b, Nodal_History ) ;
@@ -161,12 +155,6 @@ int main()
           F[i]=0.0;
         }
 
-      // - Computing Global Matrices -------------------------------------------------------------------------------------------------------------------
-      GlobalMatrices_Skyline ( NInt, NDim, NDOF, NNode, MTel, INod, ID, XYZ, M_S, C_S, K_S, JD ) ;
-
-      // Get part of the global matrices for DRM loading
-      DRM_Matrices_Skyline( NNBndry, NNLayer, K_S, C_S, M_S, K_eb, C_eb, M_eb, ND_e, ND_b , JD)  ;
-
       // - Newmark algorithm for marchin in time -------------------------------------------------------------------------------------------------------
       Newmark_Skyline ( L, Wave_Type, Wave_Func, NStep, NEqM, LoadType, Gama, Beta, DT, Alpha, M_S, C_S, K_S, F, PMat, XYZ, FullSol, History, ND_e, ND_b, Nodal_History, JD, NTK, info );
 
@@ -186,21 +174,6 @@ int main()
       // Open output files for the transfer function output
       ofstream TransferFunc;
       TransferFunc.open (TransferFunction_Dir.c_str(), ios::out );
-
-        for (int i=0; i<NEqM; i++) {
-            for (int j=0; j<NEqM; j++) {
-              M[i][j] = 0.0;
-              C[i][j] = 0.0;
-              K[i][j] = 0.0;
-            }
-          F[i]=0.0;
-        }
-
-      // - Computing Global Matrices -------------------------------------------------------------------------------------------------------------------
-      GlobalMatrices_Full( NInt, NDim, NDOF, NNode, NEl,   MTel, INod, ID, XYZ, M, C, K ) ;
-
-      // Get part of the global matrices for DRM loading
-      DRM_Matrices_Full(  NNBndry, NNLayer, K, C, M, K_eb, C_eb, M_eb, ND_e, ND_b ) ;
 
       // - Computing the transfer functions in the frequency domain ------------------------------------------------------------------------------------
       Transfer_Full ( alpha1, alpha2, Wave_Type, NEqM, M, C, K, PMat, XYZ, ND_e, ND_b, TransferFunc );

@@ -5,8 +5,6 @@
 #include <sstream>
 
 
-#include "../include/create_global_matrices_cls.h"
-
 #ifndef SOLVER_H
 #define SOLVER_H
 
@@ -24,7 +22,9 @@ protected:
 
 public:
 
-  Solver_cls(main_ns::discretization_ns::discretization_cls *, main_ns::model_ns::model_cls *);
+  Solver_cls();
+
+  virtual solve_the_system_using_implicit_newmark_method(void)=0;
 
   virtual ~Solver_cls();
 };
