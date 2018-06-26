@@ -1,9 +1,8 @@
 
-#include "Variables.h"
 #include "Load.h"
 
-#ifndef SOLVER_SKYLINE
-#define SOLVER_SKYLINE
+#ifndef SOLVER_SKYLINE_H
+#define SOLVER_SKYLINE_H
 
 void Skyline ( int & NEqM, int & NEl, int & NNode, int & NDOF, int *& NTK, int**& INod, int**& ID, int *& JD ) ;
 void Reduce_Skyline ( int& NEqM,      double *& K_S, int *& NTK, int *& JD, ofstream& info );

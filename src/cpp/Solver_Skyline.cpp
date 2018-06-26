@@ -200,7 +200,6 @@ int    i, ij ;                  // Loop indices
 double A0, A1, A2, A3, A4, A5;  // Newmark variables
 double Time;                    // time
 double Total_Time;              // time
-double LoadFactor;              // Load Factor at each time step
 double E;                       // Elastic Modulus
 double Rho;                     // density
 double c ; 

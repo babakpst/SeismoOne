@@ -2,14 +2,13 @@
 #include "../include/create_skyline_matrices_cls.h"
 
 // Constructor: we also create and allocate matrices
-main_ns::Matrices_ns::Matrices_Skyline_cls::Matrices_Skyline_cls
-                                  (main_ns::discretization_ns::discretization_cls *aDiscretization,
-                                  main_ns::model_ns::model_cls *aModel) 
-                                  : main_ns::Matrices_ns::Matrices_cls(aDiscretization, aModel)
+main_ns::Matrices_ns::Matrices_Skyline_cls::Matrices_Skyline_cls(main_ns::discretization_ns::discretization_cls *aDiscretization,
+                                                                 main_ns::model_ns::model_cls *aModel)
+    : main_ns::Matrices_ns::Matrices_cls(aDiscretization, aModel)
 {
   main_ns::Matrices_ns::Matrices_Skyline_cls::allocating_global_matrices_fn();
   main_ns::Matrices_ns::Matrices_Skyline_cls::allocating_local_matrices_fn();
-  main_ns::Matrices_ns::Matrices_Skyline_cls::Skyline_fn(); 
+  main_ns::Matrices_ns::Matrices_Skyline_cls::Skyline_fn();
   main_ns::Matrices_ns::Matrices_cls::allocate_matrices_for_assembling_fn();
 }
 
@@ -52,7 +51,7 @@ void main_ns::Matrices_ns::Matrices_Skyline_cls::allocating_global_matrices_fn()
   {
     K_S[i] = 0.0;
     C_S[i] = 0.0;
-    M_S[i] = 0.0;  
+    M_S[i] = 0.0;
   }
 
   std::cout << " Done with allocation, successfully." << std::endl;
@@ -94,8 +93,6 @@ void main_ns::Matrices_ns::Matrices_Skyline_cls::assemble_local_to_global_fn()
   }
 }
 
-
-
 /*
 ###################################################################################################
 Purpose: This function creates the required matrices for the skyline method.
@@ -113,43 +110,52 @@ V0.00: 06/18/2018 - Subroutine initiated.
 void main_ns::Matrices_ns::Matrices_Skyline_cls::Skyline_fn()
 {
 
-int i,j,k;
+  int i, j, k;
 
-  for (int i = 0; i < NEqEl; i++){
-    ND[i]=0.0;
+  for (int i = 0; i < NEqEl; i++)
+  {
+    ND[i] = 0.0;
   }
 
-  for (int i=0; i < DiscretizedModel->NEqM; i++){
-    NTK[i] = i ;
+  for (int i = 0; i < DiscretizedModel->NEqM; i++)
+  {
+    NTK[i] = i;
   }
 
-  for (int iel=0; iel < Model->NEl; iel++){ 
-    for (int i = 0; i<Model->NNode; i++){
+  for (int iel = 0; iel < Model->NEl; iel++)
+  {
+    for (int i = 0; i < Model->NNode; i++)
+    {
       k = DiscretizedModel->INod[i][iel];
-        for (int j=0; j < Model->NDOF; j++){
-          ND[j * Model->NNode + i] = DiscretizedModel->ID[k][j] ;
-        }
+      for (int j = 0; j < Model->NDOF; j++)
+      {
+        ND[j * Model->NNode + i] = DiscretizedModel->ID[k][j];
+      }
     }
 
-    for (int l =0; l<NEqEl; l++){
-      for (int k=0; k<NEqEl; k++){ 
+    for (int l = 0; l < NEqEl; l++)
+    {
+      for (int k = 0; k < NEqEl; k++)
+      {
         i = ND[l];
         j = ND[k];
         //if ((i==0) ||  (j==0)) continue;
-        if (i>j) continue;
-        if (i<NTK[j]) NTK[j]=i;
+        if (i > j)
+          continue;
+        if (i < NTK[j])
+          NTK[j] = i;
       }
     }
   }
 
-JD[0]=0;
+  JD[0] = 0;
 
-  for (int i=1; i<DiscretizedModel->NEqM; i++){ 
-    JD[i]=JD[i-1]+i+1-NTK[i];
+  for (int i = 1; i < DiscretizedModel->NEqM; i++)
+  {
+    JD[i] = JD[i - 1] + i + 1 - NTK[i];
   }
 
-std::cout << "End function skyline" << std::endl; 
-
+  std::cout << "End function skyline" << std::endl;
 }
 
 /*
@@ -168,43 +174,37 @@ V1.00: 06/24/2018 -
 ###################################################################################################
 */
 
-void main_ns::Matrices_ns::Matrices_Skyline_cls::create_DRM_matrices_fn()  
+void main_ns::Matrices_ns::Matrices_Skyline_cls::create_DRM_matrices_fn()
 {
 
-int ij,i,j;   // Loop indices
+  int ij, i, j; // Loop indices
 
-// - Code ---------------------------------------------------------------------
-std::cout << "Create DRM matrices ..." << std::endl; 
+  // - Code ---------------------------------------------------------------------
+  std::cout << "Create DRM matrices ..." << std::endl;
 
-  for ( int l = 0; l < Model->NNLayer * Model->NDim; l++) {
-    for (int n = 0; n < Model->NNBndry * Model->NDim; n++) {
+  for (int l = 0; l < Model->NNLayer * Model->NDim; l++)
+  {
+    for (int n = 0; n < Model->NNBndry * Model->NDim; n++)
+    {
 
-      i = ND_e [ l ] ;
-      j = ND_b [ n ] ;
+      i = ND_e[l];
+      j = ND_b[n];
 
-      if (i>j) {
+      if (i > j)
+      {
         ij = i;
-        i  = j;
-        j  = ij; 
-        std::cout << " i and j replaced"<< std::endl;
+        i = j;
+        j = ij;
+        std::cout << " i and j replaced" << std::endl;
       }
 
-      ij = JD[j]+i-j;
-   
-      K_eb[l][n] = K_S[ ij ];
-      C_eb[l][n] = C_S[ ij ];
-      M_eb[l][n] = M_S[ ij ];
+      ij = JD[j] + i - j;
 
+      K_eb[l][n] = K_S[ij];
+      C_eb[l][n] = C_S[ij];
+      M_eb[l][n] = M_S[ij];
     }
   }
 
-std::cout << "DRM matrices created." << std::endl; 
-
+  std::cout << "DRM matrices created." << std::endl;
 }
-
-
-
-
-
-
-
