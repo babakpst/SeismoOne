@@ -2,6 +2,10 @@
 
 #include "../include/Load.h"
 
+
+main_ns::Solver_ns::apply_seismic_loads_to_the_domain_cls::
+                                                         apply_seismic_loads_to_the_domain_cls(){};
+
 /*
 ###################################################################################################
 Purpose: This function computes the load factor to apply the pressure load on the surface.
@@ -17,14 +21,16 @@ V1.00: 06/26/2018 - Compiled successfully.
 ###################################################################################################
 */
 
-double LoadFunction(double Time, double Alpha, double P)
+double main_ns::Solver_ns::apply_seismic_loads_to_the_domain_cls::
+                                LoadFunction(const double Time, const double Alpha, const double P)
 {
+
   if (Time < 2.0 * pi / Alpha)
     LoadFactor = -P * sin(Alpha * Time);
   else
     LoadFactor = 0.0;
 
-  return (LoadFacor);
+  return (LoadFactor);
 }
 
 /*
@@ -37,16 +43,14 @@ The Institute for Computational Engineering and Sciences (ICES)
 The University of Texas at Austin	
 ================================= V E R S I O N ===================================================
 V0.00: 06/26/2018 - Subroutine initiated.
-V1.00: 06/26/2018 - Compiled successfully.
+V1.00: 06/27/2018 - Compiled successfully.
 
 ###################################################################################################
 */
 
-void DRM_PointValues(int &Wave_Func, double &amplitude, double &Time, double &x, double &c,
-                     double &omega, double &alpha1, double &alpha2, double &u, double &v, double &a)
+void main_ns::Solver_ns::apply_seismic_loads_to_the_domain_cls::
+       DRM_PointValues(PointLoad Load)
 {
-
-  int j; // loop index
 
   int TotalCycle;
   int Direction;
@@ -64,53 +68,54 @@ void DRM_PointValues(int &Wave_Func, double &amplitude, double &Time, double &x,
   double ur;
 
   // The analytical solution is u (x,t) = Ui (f_inc (t - x/c) + f_inc (t + x/c) )
+  
   // phases
 
-  switch (Wave_Func)
+  switch (Load.Wave_Func)
   {
   case 0: // sine function
 
-    wr = 2.0 * pi * omega; // characteristic central circular frequency
+    wr = 2.0 * pi * Load.omega; // characteristic central circular frequency
 
-    arg1 = Time - x / c; // positive direction phase - incident wave
-    arg2 = Time + x / c; // negative direction phase - reflected wave
+    arg1 = Time - Load.x / Load.c; // positive direction phase - incident wave
+    arg2 = Time + Load.x / Load.c; // negative direction phase - reflected wave
 
     arg1 *= wr;
     arg2 *= wr;
 
-    LowerLimit = alpha1;
-    UpperLimit = alpha2;
+    LowerLimit = Load.alpha1;
+    UpperLimit = Load.alpha2;
 
     if (LowerLimit <= arg1 && arg1 <= UpperLimit)
     {
 
-      u += amplitude * sin(arg1);
-      v += wr * amplitude * cos(arg1);
-      a -= wr * wr * amplitude * sin(arg1);
+      Load.u += Load.amplitude * sin(arg1);
+      Load.v += wr * Load.amplitude * cos(arg1);
+      Load.a -= wr * wr * Load.amplitude * sin(arg1);
     }
 
     if (LowerLimit <= arg2 && arg2 <= UpperLimit)
     {
 
-      u += amplitude * sin(arg2);
-      v += wr * amplitude * cos(arg2);
-      a -= wr * wr * amplitude * sin(arg2);
+      Load.u += Load.amplitude * sin(arg2);
+      Load.v += wr * Load.amplitude * cos(arg2);
+      Load.a -= wr * wr * Load.amplitude * sin(arg2);
     }
 
     break;
   case 1: // Ricker
 
-    TotalCycle = (int)(alpha1);
-    Direction = (int)(alpha2);
+    TotalCycle = (int)(Load.alpha1);
+    Direction = (int)(Load.alpha2);
 
-    fr = omega;         // Central frequency of Ricker pulse
+    fr = Load.omega;         // Central frequency of Ricker pulse
     wr = 2.0 * pi * fr; // characteristic central circular frequency
 
     //arg1 = wr * Time - wr * x/c ; // positive direction phase - incident wave
     //arg2 = wr * Time + wr * x/c ; // negative direction phase - reflected wave
 
-    arg1 = Time - x / c; // positive direction phase - incident wave
-    arg2 = Time + x / c; // negative direction phase - reflected wave
+    arg1 = Time - Load.x / Load.c; // positive direction phase - incident wave
+    arg2 = Time + Load.x / Load.c; // negative direction phase - reflected wave
 
     //wr = omega ;           // characteristic central circular frequency
 
@@ -124,23 +129,23 @@ void DRM_PointValues(int &Wave_Func, double &amplitude, double &Time, double &x,
 
       ur = wr * arg1 - 3.0 * sqrt(6.0);
 
-      u += amplitude * ((0.25 * ur * ur - 0.5) * exp(-0.25 * ur * ur) - 13.0 * exp(-13.5)) 
+      Load.u += Load.amplitude * ((0.25 * ur * ur - 0.5) * exp(-0.25 * ur * ur) - 13.0 * exp(-13.5)) 
                                                                        / (0.5 + 13.0 * exp(-13.5));
-      v += amplitude * (wr * (0.75 * ur - 0.125 * pow(ur, 3.0)) * exp(-0.25 * ur * ur)) / (0.5 + 13.0 * exp(-13.5));
-      a += amplitude * (pow(wr, 2.0) * (0.75 - 0.75 * pow(ur, 2.0) + 0.0625 * pow(ur, 4.0)) * exp(-0.25 * ur * ur)) / (0.5 + 13.0 * exp(-13.5));
+      Load.v += Load.amplitude * (wr * (0.75 * ur - 0.125 * pow(ur, 3.0)) * exp(-0.25 * ur * ur)) / (0.5 + 13.0 * exp(-13.5));
+      Load.a += Load.amplitude * (pow(wr, 2.0) * (0.75 - 0.75 * pow(ur, 2.0) + 0.0625 * pow(ur, 4.0)) * exp(-0.25 * ur * ur)) / (0.5 + 13.0 * exp(-13.5));
     }
     else
     {
-      for (j = 2; j <= TotalCycle; j++)
+      for (int j = 2; j <= TotalCycle; j++)
       {
-        arg1 = Time - x / c - (j - 1) * t_max;
+        arg1 = Time - Load.x / Load.c - (j - 1) * t_max;
         if (LowerLimit <= arg1 && arg1 <= UpperLimit)
         {
           ur = wr * arg1 - 3.0 * sqrt(6.0);
 
-          u += (pow(Direction, (j - 1))) * amplitude * ((0.25 * ur * ur - 0.5) * exp(-0.25 * ur * ur) - 13.0 * exp(-13.5)) / (0.5 + 13.0 * exp(-13.5));
-          v += (pow(Direction, (j - 1))) * amplitude * (wr * (0.75 * ur - 0.125 * pow(ur, 3.0)) * exp(-0.25 * ur * ur)) / (0.5 + 13.0 * exp(-13.5));
-          a += (pow(Direction, (j - 1))) * amplitude * (pow(wr, 2.0) * (0.75 - 0.75 * pow(ur, 2.0) + 0.0625 * pow(ur, 4.0)) * exp(-0.25 * ur * ur)) / (0.5 + 13.0 * exp(-13.5));
+          Load.u += (pow(Direction, (j - 1))) * Load.amplitude * ((0.25 * ur * ur - 0.5) * exp(-0.25 * ur * ur) - 13.0 * exp(-13.5)) / (0.5 + 13.0 * exp(-13.5));
+          Load.v += (pow(Direction, (j - 1))) * Load.amplitude * (wr * (0.75 * ur - 0.125 * pow(ur, 3.0)) * exp(-0.25 * ur * ur)) / (0.5 + 13.0 * exp(-13.5));
+          Load.a += (pow(Direction, (j - 1))) * Load.amplitude * (pow(wr, 2.0) * (0.75 - 0.75 * pow(ur, 2.0) + 0.0625 * pow(ur, 4.0)) * exp(-0.25 * ur * ur)) / (0.5 + 13.0 * exp(-13.5));
         }
       }
     }
@@ -156,7 +161,7 @@ void DRM_PointValues(int &Wave_Func, double &amplitude, double &Time, double &x,
     }
     else
     {
-      for (j = 2; j <= TotalCycle; j++)
+      for (int j = 2; j <= TotalCycle; j++)
       {
         arg2 = Time + x / c - (j - 1) * t_max;
         if (LowerLimit <= arg2 && arg2 <= UpperLimit)

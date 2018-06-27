@@ -22,7 +22,7 @@ The Institute for Computational Engineering and Sciences (ICES)
 The University of Texas at Austin	
 ================================= V E R S I O N ===================================================
 V0.00: 06/18/2018 - Subroutine initiated.
-
+V1.00: 06/27/2018 - compiled correctly.
 
 ###################################################################################################
 */
@@ -67,6 +67,7 @@ The Institute for Computational Engineering and Sciences (ICES)
 The University of Texas at Austin	
 ================================= V E R S I O N ===================================================
 V0.00: 06/18/2018 - Subroutine initiated.
+V1.00: 06/27/2018 - compiled correctly.
 
 ###################################################################################################
 */
@@ -103,6 +104,7 @@ The Institute for Computational Engineering and Sciences (ICES)
 The University of Texas at Austin	
 ================================= V E R S I O N ===================================================
 V0.00: 06/18/2018 - Subroutine initiated.
+V1.00: 06/27/2018 - compiled correctly.
 
 ###################################################################################################
 */
@@ -169,7 +171,7 @@ The University of Texas at Austin
 ================================= V E R S I O N ===================================================
 V0.00: 05/14/2018 - Subroutine initiated.
 V0.01: 05/15/2018 - Initiated: Compiled without error for the first time.
-V1.00: 06/24/2018 - 
+V1.00: 06/27/2018 - compiled correctly.
 
 ###################################################################################################
 */
