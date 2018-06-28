@@ -3,6 +3,8 @@
 #include <iostream>
 #include <string>
 
+#include "../include/reading_the_model_cls.h"
+
 #ifndef LOAD_H
 #define LOAD_H
 
@@ -19,7 +21,7 @@ private:
 
   struct PointLoad 
   {
-  int Wave_Func;     // determine the shape of the incoming wave
+  int    Wave_Func;  // determine the shape of the incoming wave
   double amplitude;  // amplitude of the incoming wave
   double Time;       // Time instant that we want to calculate the DRM forces
   double x;          // the location that we want to find the forces
@@ -31,7 +33,7 @@ private:
   double v;          // velocity at this node of the DRM
   double a;          // the acceleration at this node of the DRM
   };
-
+ 
   PointLoad Load;
 
   void DRM_PointValues(PointLoad );

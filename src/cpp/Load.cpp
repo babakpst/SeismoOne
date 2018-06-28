@@ -2,9 +2,8 @@
 
 #include "../include/Load.h"
 
-
 main_ns::Solver_ns::apply_seismic_loads_to_the_domain_cls::
-                                                         apply_seismic_loads_to_the_domain_cls(){};
+    apply_seismic_loads_to_the_domain_cls(){};
 
 /*
 ###################################################################################################
@@ -22,9 +21,8 @@ V1.00: 06/26/2018 - Compiled successfully.
 */
 
 double main_ns::Solver_ns::apply_seismic_loads_to_the_domain_cls::
-                                LoadFunction(const double Time, const double Alpha, const double P)
+    LoadFunction(const double Time, const double Alpha, const double P)
 {
-
   if (Time < 2.0 * pi / Alpha)
     LoadFactor = -P * sin(Alpha * Time);
   else
@@ -49,7 +47,7 @@ V1.00: 06/27/2018 - Compiled successfully.
 */
 
 void main_ns::Solver_ns::apply_seismic_loads_to_the_domain_cls::
-       DRM_PointValues(PointLoad Load)
+    DRM_PointValues(PointLoad Load)
 {
 
   int TotalCycle;
@@ -68,7 +66,7 @@ void main_ns::Solver_ns::apply_seismic_loads_to_the_domain_cls::
   double ur;
 
   // The analytical solution is u (x,t) = Ui (f_inc (t - x/c) + f_inc (t + x/c) )
-  
+
   // phases
 
   switch (Load.Wave_Func)
@@ -77,8 +75,8 @@ void main_ns::Solver_ns::apply_seismic_loads_to_the_domain_cls::
 
     wr = 2.0 * pi * Load.omega; // characteristic central circular frequency
 
-    arg1 = Time - Load.x / Load.c; // positive direction phase - incident wave
-    arg2 = Time + Load.x / Load.c; // negative direction phase - reflected wave
+    arg1 = Load.Time - Load.x / Load.c; // positive direction phase - incident wave
+    arg2 = Load.Time + Load.x / Load.c; // negative direction phase - reflected wave
 
     arg1 *= wr;
     arg2 *= wr;
@@ -88,17 +86,15 @@ void main_ns::Solver_ns::apply_seismic_loads_to_the_domain_cls::
 
     if (LowerLimit <= arg1 && arg1 <= UpperLimit)
     {
-
-      Load.u += Load.amplitude * sin(arg1);
-      Load.v += wr * Load.amplitude * cos(arg1);
+      Load.u +=           Load.amplitude * sin(arg1);
+      Load.v += wr *      Load.amplitude * cos(arg1);
       Load.a -= wr * wr * Load.amplitude * sin(arg1);
     }
 
     if (LowerLimit <= arg2 && arg2 <= UpperLimit)
     {
-
-      Load.u += Load.amplitude * sin(arg2);
-      Load.v += wr * Load.amplitude * cos(arg2);
+      Load.u +=           Load.amplitude * sin(arg2);
+      Load.v += wr *      Load.amplitude * cos(arg2);
       Load.a -= wr * wr * Load.amplitude * sin(arg2);
     }
 
@@ -106,16 +102,16 @@ void main_ns::Solver_ns::apply_seismic_loads_to_the_domain_cls::
   case 1: // Ricker
 
     TotalCycle = (int)(Load.alpha1);
-    Direction = (int)(Load.alpha2);
+    Direction  = (int)(Load.alpha2);
 
-    fr = Load.omega;         // Central frequency of Ricker pulse
+    fr = Load.omega;    // Central frequency of Ricker pulse
     wr = 2.0 * pi * fr; // characteristic central circular frequency
 
     //arg1 = wr * Time - wr * x/c ; // positive direction phase - incident wave
     //arg2 = wr * Time + wr * x/c ; // negative direction phase - reflected wave
 
-    arg1 = Time - Load.x / Load.c; // positive direction phase - incident wave
-    arg2 = Time + Load.x / Load.c; // negative direction phase - reflected wave
+    arg1 = Load.Time - Load.x / Load.c; // positive direction phase - incident wave
+    arg2 = Load.Time + Load.x / Load.c; // negative direction phase - reflected wave
 
     //wr = omega ;           // characteristic central circular frequency
 
@@ -129,8 +125,7 @@ void main_ns::Solver_ns::apply_seismic_loads_to_the_domain_cls::
 
       ur = wr * arg1 - 3.0 * sqrt(6.0);
 
-      Load.u += Load.amplitude * ((0.25 * ur * ur - 0.5) * exp(-0.25 * ur * ur) - 13.0 * exp(-13.5)) 
-                                                                       / (0.5 + 13.0 * exp(-13.5));
+      Load.u += Load.amplitude * ((0.25 * ur * ur - 0.5) * exp(-0.25 * ur * ur) - 13.0 * exp(-13.5)) / (0.5 + 13.0 * exp(-13.5));
       Load.v += Load.amplitude * (wr * (0.75 * ur - 0.125 * pow(ur, 3.0)) * exp(-0.25 * ur * ur)) / (0.5 + 13.0 * exp(-13.5));
       Load.a += Load.amplitude * (pow(wr, 2.0) * (0.75 - 0.75 * pow(ur, 2.0) + 0.0625 * pow(ur, 4.0)) * exp(-0.25 * ur * ur)) / (0.5 + 13.0 * exp(-13.5));
     }
@@ -138,7 +133,7 @@ void main_ns::Solver_ns::apply_seismic_loads_to_the_domain_cls::
     {
       for (int j = 2; j <= TotalCycle; j++)
       {
-        arg1 = Time - Load.x / Load.c - (j - 1) * t_max;
+        arg1 = Load.Time - Load.x / Load.c - (j - 1) * t_max;
         if (LowerLimit <= arg1 && arg1 <= UpperLimit)
         {
           ur = wr * arg1 - 3.0 * sqrt(6.0);
@@ -155,23 +150,22 @@ void main_ns::Solver_ns::apply_seismic_loads_to_the_domain_cls::
 
       ur = wr * arg2 - 3.0 * sqrt(6.0);
 
-      u += amplitude * ((0.25 * ur * ur - 0.5) * exp(-0.25 * ur * ur) - 13.0 * exp(-13.5)) / (0.5 + 13.0 * exp(-13.5));
-      v += amplitude * (wr * (0.75 * ur - 0.125 * pow(ur, 3.0)) * exp(-0.25 * ur * ur)) / (0.5 + 13.0 * exp(-13.5));
-      a += amplitude * (pow(wr, 2.0) * (0.75 - 0.75 * pow(ur, 2.0) + 0.0625 * pow(ur, 4.0)) * exp(-0.25 * ur * ur)) / (0.5 + 13.0 * exp(-13.5));
+      Load.u += Load.amplitude * ((0.25 * ur * ur - 0.5) * exp(-0.25 * ur * ur) - 13.0 * exp(-13.5)) / (0.5 + 13.0 * exp(-13.5));
+      Load.v += Load.amplitude * (wr * (0.75 * ur - 0.125 * pow(ur, 3.0)) * exp(-0.25 * ur * ur)) / (0.5 + 13.0 * exp(-13.5));
+      Load.a += Load.amplitude * (pow(wr, 2.0) * (0.75 - 0.75 * pow(ur, 2.0) + 0.0625 * pow(ur, 4.0)) * exp(-0.25 * ur * ur)) / (0.5 + 13.0 * exp(-13.5));
     }
     else
     {
       for (int j = 2; j <= TotalCycle; j++)
       {
-        arg2 = Time + x / c - (j - 1) * t_max;
+        arg2 = Load.Time + Load.x / Load.c - (j - 1) * t_max;
         if (LowerLimit <= arg2 && arg2 <= UpperLimit)
         {
-
           ur = wr * arg2 - 3.0 * sqrt(6.0);
 
-          u += (pow(Direction, (j - 1))) * amplitude * ((0.25 * ur * ur - 0.5) * exp(-0.25 * ur * ur) - 13.0 * exp(-13.5)) / (0.5 + 13.0 * exp(-13.5));
-          v += (pow(Direction, (j - 1))) * amplitude * (wr * (0.75 * ur - 0.125 * pow(ur, 3.0)) * exp(-0.25 * ur * ur)) / (0.5 + 13.0 * exp(-13.5));
-          a += (pow(Direction, (j - 1))) * amplitude * (pow(wr, 2.0) * (0.75 - 0.75 * pow(ur, 2.0) + 0.0625 * pow(ur, 4.0)) * exp(-0.25 * ur * ur)) / (0.5 + 13.0 * exp(-13.5));
+          Load.u += (pow(Direction, (j - 1))) * Load.amplitude * ((0.25 * ur * ur - 0.5) * exp(-0.25 * ur * ur) - 13.0 * exp(-13.5)) / (0.5 + 13.0 * exp(-13.5));
+          Load.v += (pow(Direction, (j - 1))) * Load.amplitude * (wr * (0.75 * ur - 0.125 * pow(ur, 3.0)) * exp(-0.25 * ur * ur)) / (0.5 + 13.0 * exp(-13.5));
+          Load.a += (pow(Direction, (j - 1))) * Load.amplitude * (pow(wr, 2.0) * (0.75 - 0.75 * pow(ur, 2.0) + 0.0625 * pow(ur, 4.0)) * exp(-0.25 * ur * ur)) / (0.5 + 13.0 * exp(-13.5));
         }
       }
     }
@@ -211,7 +205,13 @@ void HistorySolution(int &NJ, double &Time, double &Alpha, double &P, double &E,
 //***************************************************************************************************************************************************
 // Domain Reduction Load  - The function creates the total load vector
 //***************************************************************************************************************************************************
-void DRM_Loads_Implicit(double &alpha1, double &alpha2, double &Time, int NDim, int NNBndry, int NNLayer, int &Wave_Type, int &Wave_Func, double &amplitude, double &c, double *&UN, double **&XYZ, int *&NoBndry_DRM, int *&NoLayer_DRM, double **&M_eb, double **&C_eb, double **&K_eb, int *&ND_e, int *&ND_b)
+void DRM_Loads_Implicit(double &Time, double &c,
+
+  double &alpha1, double &alpha2,  int NDim, int NNBndry, int NNLayer, int &Wave_Type, int &Wave_Func, double &amplitude, 
+
+                        double *&UN, double **&XYZ, int *&NoBndry_DRM, 
+                        int *&NoLayer_DRM, double **&M_eb, double **&C_eb, double **&K_eb, 
+                        int *&ND_e, int *&ND_b)
 {
 
   // = Local Variables ================================================================================================================================
@@ -247,6 +247,13 @@ void DRM_Loads_Implicit(double &alpha1, double &alpha2, double &Time, int NDim, 
     F_e[i] = 0.0;
   }
 
+  Load.Wave_Func = 
+  Load.amplitude =
+  
+  Wave_Func, amplitude, Time, x, c, omega, alpha1, alpha2, u, v, a
+
+
+  
   // Loop on the nodes on the DRM boundary to find out the analytical solution (In this case only one node)
   for (i = 0; i < NNBndry; i++)
   {
@@ -254,7 +261,13 @@ void DRM_Loads_Implicit(double &alpha1, double &alpha2, double &Time, int NDim, 
     {
       x = XYZ[NoBndry_DRM[i]][j]; // Coordinate of the node
       u = v = a = 0.0;            // Initialize the values
-      // Computing the analytical solution - Comment: the one-dimensional wave-motion is identical for both SV and P waves.
+      
+      // Computing the analytical solution at this particular node
+      // Remark: the one-dimensional wave-motion is identical for both SV and P waves.
+
+
+
+
       if (Wave_Type == 0)
         DRM_PointValues(Wave_Func, amplitude, Time, x, c, omega, alpha1, alpha2, u, v, a); // SV wave
       else if (Wave_Type == 1)

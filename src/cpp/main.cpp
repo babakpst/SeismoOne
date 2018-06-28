@@ -73,6 +73,7 @@ int main()
   // = matrices ===================================================================================
   // creating global matrices
   main_ns::Matrices_ns::Matrices_cls* Matrix;
+  main_ns::Solver_ns::Solver_cls* Solver
 
   switch (model.Solver)
   {
@@ -94,7 +95,7 @@ int main()
   Matrix->create_DRM_matrices_fn();
 
 // Solver:
-main_ns::Solver_ns::Solver_cls* Solver
+
 
 
   /*

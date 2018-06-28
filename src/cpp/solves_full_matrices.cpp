@@ -1,5 +1,4 @@
 
-
 /*
 //*************************************************************************************************
 // Solver: Gauss-Elimination
@@ -22,7 +21,6 @@ cout << "Upper" << endl;
         UN[i] += Fac * UN[j];
     }  
   }
-
 
 //Backwardsubstitution
 cout << "Backward" << endl;
