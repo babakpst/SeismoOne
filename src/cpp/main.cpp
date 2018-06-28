@@ -50,6 +50,10 @@ Comments:
 #include "../include/create_full_matrices_cls.h"    // This should be here <delete> the comment
 #include "../include/create_skyline_matrices_cls.h" // This should be here <delete> the comment
 
+#include "../include/solver_cls.h"
+#include "../include/solves_full_matrices.h"
+#include "../include/solves_Skyline_matrices.h"
+
 int main()
 {
 
@@ -73,7 +77,7 @@ int main()
   // = matrices ===================================================================================
   // creating global matrices
   main_ns::Matrices_ns::Matrices_cls* Matrix;
-  main_ns::Solver_ns::Solver_cls* Solver
+  main_ns::Solver_ns::Solver_cls* Solver;
 
   switch (model.Solver)
   {
@@ -95,7 +99,22 @@ int main()
   Matrix->create_DRM_matrices_fn();
 
 // Solver:
-
+switch (model.Solver)
+  {
+  case 0: // solving the system using full matrices
+    Solver = new main_ns::Solver_ns::solve_full_matrices_cls();
+    Solver.solve_the_system_using_implicit_newmark_method();
+    break;
+  case 1: // solving the system using skyline mathod
+    Solver = new main_ns::Solver_ns::solve_Skyline_matrices_cls();
+    Solver.solve_the_system_using_implicit_newmark_method();
+    break;
+  case 2: // Transfer functions in the frequency domain
+    //Solver = new ;
+    break;
+  default:
+    std::cout << "The input solver type is not available. Solver should be either 0 for full matrices or 1 for skyline method" << std::endl;
+  }
 
 
   /*
@@ -136,6 +155,8 @@ int main()
 
       break;
     }
+
+
     case 1:   // Time domain analysis using skyline method
       {
 
@@ -146,22 +167,8 @@ int main()
       ofstream History;
       History.open (HistoryFile_Dir.c_str(), ios::out );
 
-        for (int i=0; i<JD[NEqM-1]; i++) {
-          M_S[i] = 0.0; 
-          C_S[i] = 0.0;
-          K_S[i] = 0.0;
-        }
-
-        for (int i=0; i<NEqM; i++) {
-          F[i]=0.0;
-        }
-
       // - Newmark algorithm for marchin in time -------------------------------------------------------------------------------------------------------
       Newmark_Skyline ( L, Wave_Type, Wave_Func, NStep, NEqM, LoadType, Gama, Beta, DT, Alpha, M_S, C_S, K_S, F, PMat, XYZ, FullSol, History, ND_e, ND_b, Nodal_History, JD, NTK, info );
-
-      delete K_S;
-      delete C_S;
-      delete M_S;
 
       // Close output files 
       FullSol.close();
@@ -170,6 +177,9 @@ int main()
 
       break;
     }
+
+
+
     case 2:   // Computing transfer functions in the frequency domain anaylsis using full matrices
       {
       // Open output files for the transfer function output
