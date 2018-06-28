@@ -31,9 +31,9 @@ public:
 
   Solver_cls(main_ns::discretization_ns::discretization_cls*, main_ns::model_ns::model_cls*,
              main_ns::Matrices_ns::Matrices_cls*, 
-             main_ns::Solver_ns::apply_seismic_loads_to_the_domain_cls*)
+             main_ns::Solver_ns::apply_seismic_loads_to_the_domain_cls*);
 
-  virtual solve_the_system_using_implicit_newmark_method(void) = 0;
+  virtual void solve_the_system_using_implicit_newmark_method(void) = 0;
 
   virtual ~Solver_cls();
 };

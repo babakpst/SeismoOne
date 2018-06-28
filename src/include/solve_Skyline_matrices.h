@@ -1,5 +1,33 @@
 
-#include "Load.h"
+
+#include "../include/solver_cls.h"
+
+#ifndef SOLVER_SKYLINE_SYSTEM_H
+#define SOLVER_SKYLINE_SYSTEM_H
+
+namespace main_ns
+{
+
+namespace Solver_ns
+{
+
+class solve_Skyline_matrices : public main_ns::Solver_ns::Solver_cls
+{
+
+  public:
+  solve_Skyline_matrices();
+  
+  virtual void solve_the_system_using_implicit_newmark_method();
+}
+
+} // namespace Solver_ns
+
+} // namespace main_ns
+
+
+
+
+
 
 #ifndef SOLVER_SKYLINE_H
 #define SOLVER_SKYLINE_H
