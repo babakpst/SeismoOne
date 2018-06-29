@@ -173,11 +173,9 @@ V0.01: 06/28/2018 - Initiated: Compiled without error for the first time.
 ###################################################################################################
 */
 
-void main_ns::Solver_ns::solve_full_matrices_cls::
-     solve_the_system_using_implicit_newmark_method(
+void main_ns::Solver_ns::solve_full_matrices_cls::solve_the_system_using_implicit_newmark_method(
        
-                                                    double &L, int &Wave_Type, int &Wave_Func, 
-                                                    int &NStep, int &NEqM, int &LoadType, 
+                                                    double &L, int &LoadType, 
                                                     double &Alpha, double **&M, double **&C, 
                                                     double **&K, double *&F, double **&PMat, 
                                                     double **&XYZ, ofstream &FullSol, 
@@ -187,55 +185,8 @@ void main_ns::Solver_ns::solve_full_matrices_cls::
 
   int ij; // Loop indices
   
-  // Newmark constants
-  double A0 = 1.0 / (Model->Beta * Model->DT * Model->DT);
-  double A1 = Model->Gama / (Model->Beta * Model->DT);
-  double A2 = 1.0 / (Model->Beta * Model->DT);
-  double A3 = 1.0 / (2.0 * Model->Beta) - 1.0;
-  double A4 = Model->Gama / Model->Beta - 1.0;
-  double A5 = Model->DT * (Model->Gama / (2.0 * Model->Beta) - 1.0);
-
-
-
-
-  double Time;                   // time
-  double Total_Time;             // time
-
   double TE;                     // temporary variable
-  double Initial_Time; // Starting time of the simulation
-
-  double *UN;   // temporay arrays
-  double *U;    // temporay arrays
-  double *UD;   // temporay arrays
-  double *UDD;  // temporay arrays
-  double *Temp; // temporay arrays
-
   bool InitialTime = false;
-
-
-  double E = PMat[0][0];    // Elastic Modulus of the base material required for the DRM loads
-  double Rho = PMat[0][1];  // density of the base material required for the DRM loads
-  double c = sqrt(E / Rho); // wave velocity of the base material required for the DRM loads
-  
-  
-  
-
-  UN   = new double[NEqM];
-  U    = new double[NEqM];
-  UD   = new double[NEqM];
-  UDD  = new double[NEqM];
-  Temp = new double[NEqM];
-
-
-
-  // Initializing displacement, velocity and acceleration
-  for (int i = 0; i < NEqM; i++)
-  {
-    UN[i] = 0.0;
-    U[i] = 0.0;
-    UD[i] = 0.0;
-    UDD[i] = 0.0;
-  }
 
   // Effective stiffness matrix
   std::cout << "Effective stress ..." << std::endl;

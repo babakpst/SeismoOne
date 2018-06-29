@@ -28,5 +28,4 @@ public:
 
 } // namespace main_ns
 
-
 #endif

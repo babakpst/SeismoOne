@@ -96,7 +96,7 @@ V0.01: 06/28/2018 - Initiated: Compiled without error for the first time.
 void main_ns::Solver_ns::solve_Skyline_matrices_cls::Reduce_Skyline(int &NEqM, double *&K_S, int *&NTK, int *&JD, ofstream &info)
 {
 
-  int N, N1,K1, I1, KJ, KK, KI, IJ;
+  int N, N1, K1, I1, KJ, KK, KI, IJ;
   double Fac;
 
   N = NEqM;
@@ -147,12 +147,9 @@ V0.01: 06/28/2018 - Initiated: Compiled without error for the first time.
 void main_ns::Solver_ns::solve_Skyline_matrices_cls::Gauss_El_Skyline(int *&NTK, int *&JD, int &NEqM, double *&UN, double *&K_S)
 {
 
-
-
   N = NEqM;
   N1 = N - 1;
 
-  
   int k, KJ, N, N1, KK, K1, NN; // temporary variables
   for (int k = 0; k < N1; k++)
   {
@@ -166,12 +163,10 @@ void main_ns::Solver_ns::solve_Skyline_matrices_cls::Gauss_El_Skyline(int *&NTK,
       UN[j] = UN[j] - UN[k] * K_S[KJ] / K_S[KK];
     }
   }
-  
+
   NN = JD[N];
   UN[N] = UN[N] / K_S[NN];
-  
 
-  
   for (int i = 0; i < N1; i++)
   {
     k = N - i;
@@ -187,7 +182,6 @@ void main_ns::Solver_ns::solve_Skyline_matrices_cls::Gauss_El_Skyline(int *&NTK,
     KK = JD[k];
     UN[k] = UN[k] / K_S[KK];
   }
-  
 }
 
 /*
@@ -247,51 +241,10 @@ V0.01: 06/28/2018 - Initiated: Compiled without error for the first time.
 */
 void main_ns::Solver_ns::solve_Skyline_matrices_cls::solve_the_system_using_implicit_newmark_method(double &L, int &Wave_Type, int &Wave_Func, int &NStep, int &NEqM, int &LoadType, double &Gama, double &Beta, double &DT, double &Alpha, double *&M_S, double *&C_S, double *&K_S, double *&F, double **&PMat, double **&XYZ, ofstream &FullSol, ofstream &History, int *&ND_e, int *&ND_b, int *&Nodal_History, int *&JD, int *&NTK, ofstream &Check)
 {
-  // Newmark constants
-  double A0 = 1.0 / (Model->Beta * Model->DT * Model->DT);
-  double A1 = Model->Gama / (Model->Beta * Model->DT);
-  double A2 = 1.0 / (Model->Beta * Model->DT);
-  double A3 = 1.0 / (2.0 * Model->Beta) - 1.0;
-  double A4 = Model->Gama / Model->Beta - 1.0;
-  double A5 = Model->DT * (Model->Gama / (2.0 * Model->Beta) - 1.0);
-  
-  double Time;                   // time
-  double Total_Time;             // time
-  double E;                      // Elastic Modulus
-  double Rho;                    // density
-  double c;
-  double Initial_Time; // Starting time of the simulation
 
-  double *UN;   // temporay arrays
-  double *U;    // temporay arrays
-  double *UD;   // temporay arrays
-  double *UDD;  // temporay arrays
-  double *Temp; // temporay arrays
 
-  bool InitialTime = false;
 
   std::cout << " Newmark solver -- skyline" << std::endl;
-
-  E   = PMat[0][0];
-  Rho = PMat[0][1];
-  c   = sqrt(E / Rho);
-
-  UN   = new double[NEqM];
-  U    = new double[NEqM];
-  UD   = new double[NEqM];
-  UDD  = new double[NEqM];
-  Temp = new double[NEqM];
-
-
-
-  // Initializing displacement, velocity and acceleration
-  for (int i = 0; i < NEqM; i++)
-  {
-    UN[i]  = 0.0;
-    U[i]   = 0.0;
-    UD[i]  = 0.0;
-    UDD[i] = 0.0;
-  }
 
   // Effective stiffness matrix
   std::cout << "Effective matrix ..." << std::endl;
@@ -305,6 +258,9 @@ void main_ns::Solver_ns::solve_Skyline_matrices_cls::solve_the_system_using_impl
   // Reduction the coefficient matrix ( Effective Stiffness Matrix )
   Reduce_Skyline(NEqM, K_S, NTK, JD, Check);
 
+
+
+  bool InitialTime = false;
   //  for (k=0; k<NEqM; k++){
   //    cout<<JD[k]<<"   "<< NTK[k]<< endl;
   //  }
@@ -349,11 +305,11 @@ cin.get();
     for (int i = 0; i < NEqM; i++)
     {
       Temp[i] = UD[i];
-      U[i]    = UN[i] - U[i];
-      UD[i]   = A1 * U[i] - A4 * Temp[i] - A5 * UDD[i];
-      UDD[i]  = A0 * U[i] - A2 * Temp[i] - A3 * UDD[i];
-      U[i]    = UN[i];
-      UN[i]   = 0.0;
+      U[i] = UN[i] - U[i];
+      UD[i] = A1 * U[i] - A4 * Temp[i] - A5 * UDD[i];
+      UDD[i] = A0 * U[i] - A2 * Temp[i] - A3 * UDD[i];
+      U[i] = UN[i];
+      UN[i] = 0.0;
     }
 
     /*
