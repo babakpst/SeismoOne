@@ -7,12 +7,15 @@
 
 namespace main_ns
 {
-
 namespace Solver_ns
 {
 
 class solve_full_matrices_cls : public main_ns::Solver_ns::Solver_cls
 {
+
+  virtual void Compute_the_effective_matrix();
+  virtual void Reduce_the_effective_forece();
+
 
   void Gaussian(int &NEqM, double *&UN, double **&K);
   void LDLT(int &NEqM, double **&K);
@@ -21,8 +24,6 @@ class solve_full_matrices_cls : public main_ns::Solver_ns::Solver_cls
 public:
   solve_full_matrices_cls();
 
-  virtual void solve_the_system_using_implicit_newmark_method();
-  (double &L, int &Wave_Type, int &Wave_Func, int &NStep, int &NEqM, int &LoadType, double &Gama, double &Beta, double &DT, double &Alpha, double **&M, double **&C, double **&K, double *&F, double **&PMat, double **&XYZ, ofstream &FullSol, ofstream &History, int *&ND_e, int *&ND_b, int *&Nodal_History);
 }
 
 } // namespace Solver_ns

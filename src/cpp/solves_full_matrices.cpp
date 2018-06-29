@@ -2,6 +2,90 @@
 
 #include "../include/solves_full_matrices.h"
 
+/*
+###################################################################################################
+Purpose: This function computes the effective matrix based on the Newmark algorithm.
+
+Developed by: Babak Poursartip
+ 
+The Institute for Computational Engineering and Sciences (ICES)
+The University of Texas at Austin	
+================================= V E R S I O N ===================================================
+V0.00: 06/29/2018 - Subroutine initiated.
+V0.01: 06/29/2018 - Initiated: Compiled without error for the first time.
+
+###################################################################################################
+*/
+
+void main_ns::Solver_ns::solve_full_matrices_cls::Compute_the_effective_matrix() {
+
+  // Effective stiffness matrix
+  std::cout << " Obtaining the effective matrix ..." << std::endl;
+  for (int i = 0; i < DiscretizedModel->NEqM; i++)
+  {
+    for (int j = 0; j < DiscretizedModel->NEqM; j++)
+    {
+      Matrix->K[i][j] = Matrix->K[i][j] + A0 * Matrix->M[i][j] + A1 * Matrix->C[i][j];
+    }
+  }
+}
+
+/*
+###################################################################################################
+Purpose: This function reduces the stiffness matrix using the LDLT method.
+
+Developed by: Babak Poursartip
+ 
+The Institute for Computational Engineering and Sciences (ICES)
+The University of Texas at Austin	
+================================= V E R S I O N ===================================================
+V0.00: 06/28/2018 - Subroutine initiated.
+V0.01: 06/29/2018 - Initiated: Compiled without error for the first time.
+
+###################################################################################################
+*/
+void main_ns::Solver_ns::solve_full_matrices_cls::Reduce_the_effective_forece()
+{
+
+  std::cout << "Reduce effective matrix ..." << std::endl;
+  int tempI;
+  double *L;
+
+  L = new double[DiscretizedModel->NEqM]; // Identifications
+
+  for (int j = 0; j < DiscretizedModel->NEqM; j++)
+  {
+    std::cout << j << " reduces out of " << DiscretizedModel->NEqM << std::endl;
+
+    tempI = 5 + j;
+    if (tempI > DiscretizedModel->NEqM)
+      tempI = DiscretizedModel->NEqM;
+
+    for (int i = j + 1; i < tempI; i++)
+    {
+      L[i] = Matrix->K[i][j] / Matrix->K[j][j];
+    }
+    for (int k = j + 1; k < tempI; k++)
+    {
+      for (int l = j + 1; l < DiscretizedModel->NEqM; l++)
+      {
+        Matrix->K[k][l] = Matrix->K[k][l] - L[k] * Matrix->K[j][l];
+      }
+    }
+    for (int i = j + 1; i < tempI; i++)
+    {
+      Matrix->K[i][j] = L[i];
+    }
+  }
+}
+
+
+
+
+
+
+
+
 
 /*
 ###################################################################################################
@@ -17,86 +101,44 @@ V0.01: 06/28/2018 - Initiated: Compiled without error for the first time.
 
 ###################################################################################################
 */
-void main_ns::Solver_ns::solve_full_matrices_cls::Gaussian ( int& NEqM, double *& UN, double **& K)
+void main_ns::Solver_ns::solve_full_matrices_cls::Gaussian(int &NEqM, double *&UN, double **&K)
 {
 
-int k, l; 
-double Fac;
-double sum;
+  int k, l;
+  double Fac;
+  double sum;
 
-// Uppertriangular
-std::cout << "Upper" << std::endl;
-  for (int j=0; j<NEqM-1; j++) {
-    for (int i=j+1; i<NEqM-1; i++) {
+  // Uppertriangular
+  std::cout << "Upper" << std::endl;
+  for (int j = 0; j < NEqM - 1; j++)
+  {
+    for (int i = j + 1; i < NEqM - 1; i++)
+    {
       Fac = -K[i][j] / K[j][j];
-          for (k=j; k<NEqM; k++) {
-            K[i][k] += Fac* K[j][k];
-          }
-        UN[i] += Fac * UN[j];
-    }  
+      for (k = j; k < NEqM; k++)
+      {
+        K[i][k] += Fac * K[j][k];
+      }
+      UN[i] += Fac * UN[j];
+    }
   }
 
-//Backwardsubstitution
-std::cout << "Backward" << std::endl;
-  for (int i=0; i<NEqM; i++) {
-    k = NEqM-i-1;
+  //Backwardsubstitution
+  std::cout << "Backward" << std::endl;
+  for (int i = 0; i < NEqM; i++)
+  {
+    k = NEqM - i - 1;
     sum = 0.0;
-      for (int j=0; j<i; j++) {
-        l=NEqM-j-1;
-        sum += K[k][l] * UN[l];
-      }
+    for (int j = 0; j < i; j++)
+    {
+      l = NEqM - j - 1;
+      sum += K[k][l] * UN[l];
+    }
     UN[k] = (UN[k] - sum) / K[k][k];
   }
 }
 
 
-/*
-###################################################################################################
-Purpose: This function solves the AX=B using LDLT method.
-
-Developed by: Babak Poursartip
- 
-The Institute for Computational Engineering and Sciences (ICES)
-The University of Texas at Austin	
-================================= V E R S I O N ===================================================
-V0.00: 06/28/2018 - Subroutine initiated.
-V0.01: 06/28/2018 - Initiated: Compiled without error for the first time.
-
-###################################################################################################
-*/
-void main_ns::Solver_ns::solve_full_matrices_cls::LDLT(int &NEqM, double **&K)
-{
-
-  int tempI;
-  double *L;
-
-  L = new double[NEqM]; // Identifications
-
-  for (int j = 0; j < NEqM; j++)
-  {
-    std::cout << j << " out of " << NEqM << std::endl;
-
-    tempI = 5 + j;
-    if (tempI > NEqM)
-      tempI = NEqM;
-
-    for (int i = j + 1; i < tempI; i++)
-    {
-      L[i] = K[i][j] / K[j][j];
-    }
-    for (int k = j + 1; k < tempI; k++)
-    {
-      for (int l = j + 1; l < NEqM; l++)
-      {
-        K[k][l] = K[k][l] - L[k] * K[j][l];
-      }
-    }
-    for (int i = j + 1; i < tempI; i++)
-    {
-      K[i][j] = L[i];
-    }
-  }
-}
 
 /*
 ###################################################################################################
@@ -158,53 +200,13 @@ void main_ns::Solver_ns::solve_full_matrices_cls::Substitute(int &NEqM, double *
   }
 }
 
-/*
-###################################################################################################
-Purpose: This function solves the time domain problem using the Newmark method.
 
-Developed by: Babak Poursartip
- 
-The Institute for Computational Engineering and Sciences (ICES)
-The University of Texas at Austin	
-================================= V E R S I O N ===================================================
-V0.00: 06/28/2018 - Subroutine initiated.
-V0.01: 06/28/2018 - Initiated: Compiled without error for the first time.
 
-###################################################################################################
-*/
-
-void main_ns::Solver_ns::solve_full_matrices_cls::solve_the_system_using_implicit_newmark_method(
-       
-                                                    double &L, int &LoadType, 
-                                                    double &Alpha, double **&M, double **&C, 
-                                                    double **&K, double *&F, double **&PMat, 
-                                                    double **&XYZ, ofstream &FullSol, 
-                                                    ofstream &History, int *&ND_e, int *&ND_b, 
-                                                    int *&Nodal_History)
+//// delete
+void main_ns::Solver_ns::solve_full_matrices_cls::solve_the_system_using_implicit_newmark_method()
 {
 
-  int ij; // Loop indices
-  
-  double TE;                     // temporary variable
-  bool InitialTime = false;
 
-  // Effective stiffness matrix
-  std::cout << "Effective stress ..." << std::endl;
-  for (int i = 0; i < NEqM; i++)
-  {
-    for (int j = 0; j < NEqM; j++)
-    {
-      K[i][j] = K[i][j] + A0 * M[i][j] + A1 * C[i][j];
-    }
-  }
-
-  // Reduction the coefficient matrix ( Effective Stiffness Matrix )
-  //Reduce_Full (NEqM, K, Check);
-  LDLT(NEqM, K);
-
-  Initial_Time = -L / c;
-
-  // Solve the PDE for each step -----------------------------------------------
   for (int IStep = 0; IStep < NStep + 1; IStep++)
   {
 
@@ -223,7 +225,7 @@ void main_ns::Solver_ns::solve_full_matrices_cls::solve_the_system_using_implici
       UN[i] = 0.0;
     }
 
-    //
+    //int ij; // Loop indices
     //// Recording the full results
     //FullSol << "Time:  " << Time << "\n";
     //HistorySolution ( NJ, Time, Alpha, P, E, Rho, A,   U_EX, XYZ) ;
@@ -269,7 +271,7 @@ void main_ns::Solver_ns::solve_full_matrices_cls::solve_the_system_using_implici
     if (LoadType == 0)
     {
       LoadFactor = LoadFunction(Time, Alpha, P); // Pressure load
-      for (ij = 0; ij < NJ; ij++)
+      for (int ij = 0; ij < NJ; ij++)
       {
         UN[ij] = UN[ij] - F[ij] * LoadFactor;
       }

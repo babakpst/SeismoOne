@@ -48,14 +48,14 @@ namespace model_ns
       int NNBndry;          // Number of nodes on the bounday of the DRM
       int NNLayer;          // Number of nodes on the bounday layer of the DRM
 
-      double DT ;           // time step
-      double Gama, Beta ;   // Newmark parameters
-      double Alpha, P ;     // loading parameters
+      double DT;            // time step
+      double Gama, Beta;    // Newmark parameters
+      double Alpha, P;      // loading parameters
       double A;             // area of the cross section of the beam
       double L;             // length of the beam
       double alpha1, alpha2;// 
-      double amplitude ;    // Amplitude of the incident wave
-      double omega ;        // central cyclic frequency in the Ricker pulse wave
+      double amplitude;     // Amplitude of the incident wave
+      double omega;         // central cyclic frequency in the Ricker pulse wave
 
       int *Element_Layer;  // Number of elements in each layer
       int *Layer_Depth;    // Depth of each layer

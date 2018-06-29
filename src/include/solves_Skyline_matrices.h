@@ -12,6 +12,9 @@ namespace Solver_ns
 class solve_Skyline_matrices_cls : public main_ns::Solver_ns::Solver_cls
 {
 
+  virtual void Compute_the_effective_matrix();
+  virtual void Reduce_the_effective_forece();
+
   void Skyline(int &NEqM, int &NEl, int &NNode, int &NDOF, int *&NTK, int **&INod, int **&ID, int *&JD);
   void Reduce_Skyline(int &NEqM, double *&K_S, int *&NTK, int *&JD, ofstream &info);
   void Gauss_El_Skyline(int *&NTK, int *&JD, int &NEqM, double *&UN, double *&K_S);
@@ -20,10 +23,7 @@ class solve_Skyline_matrices_cls : public main_ns::Solver_ns::Solver_cls
 public:
   solve_Skyline_matrices_cls();
 
-  virtual void solve_the_system_using_implicit_newmark_method
-  (double &L, int &Wave_Type, int &Wave_Func, int &NStep, int &NEqM, int &LoadType, double &Gama, double &Beta, double &DT, double &Alpha, double *&M_S, double *&C_S, double *&K_S, double *&F, double **&PMat, double **&XYZ, ofstream &FullSol, ofstream &History, int *&ND_e, int *&ND_b, int *&Nodal_History, int *&JD, int *&NTK, ofstream &Check);
 }
-
 } // namespace Solver_ns
 
 } // namespace main_ns
