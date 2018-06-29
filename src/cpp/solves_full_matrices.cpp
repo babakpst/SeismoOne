@@ -206,42 +206,16 @@ void main_ns::Solver_ns::solve_full_matrices_cls::Substitute(int &NEqM, double *
 void main_ns::Solver_ns::solve_full_matrices_cls::solve_the_system_using_implicit_newmark_method()
 {
 
-
-  for (int IStep = 0; IStep < NStep + 1; IStep++)
-  {
-
-    Total_Time = IStep * DT;
-    Time = Initial_Time + IStep * DT; // Time STEP
-    std::cout << "Time Step:  " << IStep << "  Time: " << Time << "  Total time:" << Total_Time << std::endl;
-
-    // Update displacements, velocity and acceleration
-    for (int i = 0; i < NEqM; i++)
-    {
-      Temp[i] = UD[i];
-      U[i] = UN[i] - U[i];
-      UD[i] = A1 * U[i] - A4 * Temp[i] - A5 * UDD[i];
-      UDD[i] = A0 * U[i] - A2 * Temp[i] - A3 * UDD[i];
-      U[i] = UN[i];
-      UN[i] = 0.0;
-    }
-
-    //int ij; // Loop indices
-    //// Recording the full results
-    //FullSol << "Time:  " << Time << "\n";
-    //HistorySolution ( NJ, Time, Alpha, P, E, Rho, A,   U_EX, XYZ) ;
-    //  // full results
-    //  for (ij=0;ij<NJ;ij++) {
-    //    if ( ID [ij][0] < 0 ) u = 0.0;
-    //    else u = U[ij];
-    //    FullSol << setw(15) << XYZ[ij][0] << setw(15) << u << setw(15) << U_EX[ij] << "\n";
-    //  }
-    //
-
     // Effective force - stored in UN
-    for (int i = 0; i < NEqM; i++)
+    for (int i = 0; i < DiscretizedModel->NEqM; i++)
     { // find the coefficient of the M matrix
       Temp[i] = A0 * U[i] + A2 * UD[i] + A3 * UDD[i];
     }
+
+
+
+
+
     for (int i = 0; i < NEqM; i++)
     { // multiplying the vector by the mass matrix
       TE = 0.0;

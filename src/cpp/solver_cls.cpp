@@ -87,25 +87,17 @@ void main_ns::Solver_ns::Solver_cls::solve_the_system_using_implicit_newmark_met
       UN[i]   = 0.0;
     }
 
-
-    /*
-    // Recording the full results
-    FullSol << "Time:  " << Time << "\n";
-    HistorySolution ( NJ, Time, Alpha, P, E, Rho, A,   U_EX, XYZ) ;
-      // full results
-      for (ij=0;ij<NJ;ij++) {
-        if ( ID [ij][0] < 0 ) u = 0.0;
-        else u = U[ij];
-        FullSol << setw(15) << XYZ[ij][0] << setw(15) << u << setw(15) << U_EX[ij] << "\n";
-      }
-    */
-
     // Effective force - stored in UN
-    for (int i = 0; i < NEqM; i++)
+    for (int i = 0; i < DiscretizedModel->NEqM; i++)
     { // find the coefficient of the M matrix
       Temp[i] = A0 * U[i] + A2 * UD[i] + A3 * UDD[i];
     }
 
+
+
+
+
+// up to here !!!
     Matrix_Multiplication(NTK, JD, M_S, Temp, UN, NEqM);
     /*
       for (i=0;i<NEqM;i++) { // multiplying the vector by the mass matrix
@@ -133,6 +125,16 @@ void main_ns::Solver_ns::Solver_cls::solve_the_system_using_implicit_newmark_met
         UN[i] +=  TE;
       }
 */
+
+
+
+
+
+
+
+
+
+
 
     // Adding load at this time step
     if (LoadType == 0)
