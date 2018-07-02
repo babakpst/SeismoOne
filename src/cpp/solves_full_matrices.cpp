@@ -17,7 +17,8 @@ V0.01: 06/29/2018 - Initiated: Compiled without error for the first time.
 ###################################################################################################
 */
 
-void main_ns::Solver_ns::solve_full_matrices_cls::Compute_the_effective_matrix() {
+void main_ns::Solver_ns::solve_full_matrices_cls::Compute_the_effective_matrix()
+{
 
   // Effective stiffness matrix
   std::cout << " Obtaining the effective matrix ..." << std::endl;
@@ -79,14 +80,39 @@ void main_ns::Solver_ns::solve_full_matrices_cls::Reduce_the_effective_forece()
   }
 }
 
+/*
+###################################################################################################
+Purpose: This function solves the AX=B using Gaussian-Elemination method.
+
+Developed by: Babak Poursartip
+ 
+The Institute for Computational Engineering and Sciences (ICES)
+The University of Texas at Austin	
+================================= V E R S I O N ===================================================
+V0.00: 06/28/2018 - Subroutine initiated.
+V0.01: 07/02/2018 - Initiated: Compiled without error for the first time.
+
+###################################################################################################
+*/
+
+void main_ns::Solver_ns::solve_full_matrices_cls::Matrix_Multiplication()
+{
+  double TempVar;
+  for (int i = 0; i < DiscretizedModel->NEqM; i++)
+  { // multiplying the vector by the mass matrix
+    TempVar = 0.0;
+    for (int j = 0; j < DiscretizedModel->NEqM; j++)
+    {
+      TempVar += Matrix->M[i][j] * Temp[j];
+    }
+    UN[i] = TempVar;
+  }
+}
 
 
 
 
-
-
-
-
+///////////////////////////////////////////
 /*
 ###################################################################################################
 Purpose: This function solves the AX=B using Gaussian-Elemination method.
@@ -137,8 +163,6 @@ void main_ns::Solver_ns::solve_full_matrices_cls::Gaussian(int &NEqM, double *&U
     UN[k] = (UN[k] - sum) / K[k][k];
   }
 }
-
-
 
 /*
 ###################################################################################################
@@ -200,99 +224,87 @@ void main_ns::Solver_ns::solve_full_matrices_cls::Substitute(int &NEqM, double *
   }
 }
 
-
-
 //// delete
+/*
+###################################################################################################
+Purpose: This function solves the AX=B using LDLT method.
+
+Developed by: Babak Poursartip
+ 
+The Institute for Computational Engineering and Sciences (ICES)
+The University of Texas at Austin	
+================================= V E R S I O N ===================================================
+V0.00: 06/28/2018 - Subroutine initiated.
+V0.01: 06/28/2018 - Initiated: Compiled without error for the first time.
+
+###################################################################################################
+*/
 void main_ns::Solver_ns::solve_full_matrices_cls::solve_the_system_using_implicit_newmark_method()
 {
 
-    // Effective force - stored in UN
-    for (int i = 0; i < DiscretizedModel->NEqM; i++)
-    { // find the coefficient of the M matrix
-      Temp[i] = A0 * U[i] + A2 * UD[i] + A3 * UDD[i];
-    }
-
-
-
-
-
-    for (int i = 0; i < NEqM; i++)
-    { // multiplying the vector by the mass matrix
-      TE = 0.0;
-      for (int j = 0; j < NEqM; j++)
-      {
-        TE += M[i][j] * Temp[j];
-      }
-      UN[i] = TE;
-    }
-
-    for (int i = 0; i < NEqM; i++)
+  // equivalent to matrix multiplication
+  for (int i = 0; i < NEqM; i++)
+  {
+    TE = 0.0;
+    for (int j = 0; j < NEqM; j++)
     {
-      Temp[i] = A1 * U[i] + A4 * UD[i] + A5 * UDD[i];
+      TE += C[i][j] * Temp[j];
     }
-
-    for (int i = 0; i < NEqM; i++)
-    {
-      TE = 0.0;
-      for (int j = 0; j < NEqM; j++)
-      {
-        TE += C[i][j] * Temp[j];
-      }
-      UN[i] += TE;
-    }
-
-    // Adding load at this time step
-    if (LoadType == 0)
-    {
-      LoadFactor = LoadFunction(Time, Alpha, P); // Pressure load
-      for (int ij = 0; ij < NJ; ij++)
-      {
-        UN[ij] = UN[ij] - F[ij] * LoadFactor;
-      }
-    }
-    else if (LoadType == 1)
-    { //        DRM_Load ();
-      F[0] = 0;
-
-      DRM_Loads_Implicit(alpha1, alpha2, Time, NDim, NNBndry, NNLayer, Wave_Type, Wave_Func, amplitude, c, UN, XYZ, NoBndry_DRM, NoLayer_DRM, M_eb, C_eb, K_eb, ND_e, ND_b);
-    }
-
-    // Check whether the initial time is small enough
-    if (IStep == 0)
-    {
-      for (int i = 0; i < NEqM; i++)
-      {
-        if (UN[i] != 0)
-        {
-          InitialTime = true;
-          break;
-        }
-      }
-      if (InitialTime == true)
-      {
-        std::cout << "WARNING: REDUCE THE INITIAL TIME" << std::endl;
-        return;
-      }
-    }
-
-    // SOLVE
-    //Gauss_El_Full ( NEqM, UN, K);
-    //Gaussian ( NEqM, UN, K);
-    Substitute(NEqM, UN, K);
-
-    // time history of the solution at some particular nodes
-    History << setw(6) << Total_Time;
-    for (int i = 0; i < Dis_History; i++)
-    {
-      History << setw(20) << UN[Nodal_History[i]];
-    }
-    History << std::endl;
-
-    //FullSol << "Time= " << Time << endl;
-    for (int i = 0; i < NEqM; i++)
-    {
-      FullSol << UN[i] << setw(20);
-    }
-    FullSol << std::endl;
+    UN[i] += TE;
   }
+
+  // Adding load at this time step
+  if (LoadType == 0)
+  {
+    LoadFactor = LoadFunction(Time, Alpha, P); // Pressure load
+    for (int ij = 0; ij < NJ; ij++)
+    {
+      UN[ij] = UN[ij] - F[ij] * LoadFactor;
+    }
+  }
+  else if (LoadType == 1)
+  { //        DRM_Load ();
+    F[0] = 0;
+
+    DRM_Loads_Implicit(alpha1, alpha2, Time, NDim, NNBndry, NNLayer, Wave_Type, Wave_Func, amplitude, c, UN, XYZ, NoBndry_DRM, NoLayer_DRM, M_eb, C_eb, K_eb, ND_e, ND_b);
+  }
+
+  // Check whether the initial time is small enough
+  if (IStep == 0)
+  {
+    for (int i = 0; i < NEqM; i++)
+    {
+      if (UN[i] != 0)
+      {
+        InitialTime = true;
+        break;
+      }
+    }
+    if (InitialTime == true)
+    {
+      std::cout << "WARNING: REDUCE THE INITIAL TIME" << std::endl;
+      return;
+    }
+  }
+
+  // SOLVE
+  //Gauss_El_Full ( NEqM, UN, K);
+  //Gaussian ( NEqM, UN, K);
+  Substitute(NEqM, UN, K);
+
+  // time history of the solution at some particular nodes
+  History << setw(6) << Total_Time;
+  for (int i = 0; i < Dis_History; i++)
+  {
+    History << setw(20) << UN[Nodal_History[i]];
+  }
+  History << std::endl;
+
+  //FullSol << "Time= " << Time << endl;
+  for (int i = 0; i < NEqM; i++)
+  {
+    FullSol << UN[i] << setw(20);
+  }
+  FullSol << std::endl;
+}
 }

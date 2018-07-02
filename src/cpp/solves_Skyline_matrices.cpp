@@ -85,7 +85,46 @@ void main_ns::Solver_ns::solve_Skyline_matrices_cls::Reduce_the_effective_forece
   }
 }
 
+/*
+###################################################################################################
+Purpose: This function conducts matrix-matrix multiplication.
 
+Developed by: Babak Poursartip
+ 
+The Institute for Computational Engineering and Sciences (ICES)
+The University of Texas at Austin	
+================================= V E R S I O N ===================================================
+V0.00: 06/28/2018 - Subroutine initiated.
+V0.01: 07/02/2018 - Initiated: Compiled without error for the first time.
+
+###################################################################################################
+*/
+
+void main_ns::Solver_ns::solve_Skyline_matrices_cls::Matrix_Multiplication()
+(int *&NTK, int *&JD, double *&M_S, double *&M2, double *&M3, int NEqM)
+{
+
+  int I, J, K, IJ;
+
+  for (int II = 0; II < DiscretizedModel->NEqM; II++)
+  {
+    for (int JJ = 0; JJ < DiscretizedModel->NEqM; JJ++)
+    {
+      I = II;
+      J = JJ;
+      if (I > J)
+      {
+        K = I;
+        I = J;
+        J = K;
+      }
+      if (I < NTK[J])
+        continue;
+      IJ = JD[J] + I - J;
+      M3[II] += M_S[IJ] * M2[JJ];
+    }
+  }
+}
 
 
 
@@ -224,42 +263,4 @@ void main_ns::Solver_ns::solve_Skyline_matrices_cls::Gauss_El_Skyline(int *&NTK,
   }
 }
 
-/*
-###################################################################################################
-Purpose: This function conducts matrix-matrix multiplication.
 
-Developed by: Babak Poursartip
- 
-The Institute for Computational Engineering and Sciences (ICES)
-The University of Texas at Austin	
-================================= V E R S I O N ===================================================
-V0.00: 06/28/2018 - Subroutine initiated.
-V0.01: 06/28/2018 - Initiated: Compiled without error for the first time.
-
-###################################################################################################
-*/
-
-void main_ns::Solver_ns::solve_Skyline_matrices_cls::Matrix_Multiplication(int *&NTK, int *&JD, double *&M1, double *&M2, double *&M3, int NEqM)
-{
-
-  int I, J, K, IJ;
-
-  for (int II = 0; II < NEqM; II++)
-  {
-    for (int JJ = 0; JJ < NEqM; JJ++)
-    {
-      I = II;
-      J = JJ;
-      if (I > J)
-      {
-        K = I;
-        I = J;
-        J = K;
-      }
-      if (I < NTK[J])
-        continue;
-      IJ = JD[J] + I - J;
-      M3[II] += M1[IJ] * M2[JJ];
-    }
-  }
-}

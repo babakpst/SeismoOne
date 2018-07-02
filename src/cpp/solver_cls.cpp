@@ -51,9 +51,9 @@ void main_ns::Solver_ns::Solver_cls::solve_the_system_using_implicit_newmark_met
   // Initializing displacement, velocity and acceleration
   for (int i = 0; i < DiscretizedModel->NEqM; i++)
   {
-    UN[i] = 0.0;
-    U[i] = 0.0;
-    UD[i] = 0.0;
+    UN[i]  = 0.0;
+    U[i]   = 0.0;
+    UD[i]  = 0.0;
     UDD[i] = 0.0;
   }
 
@@ -93,27 +93,15 @@ void main_ns::Solver_ns::Solver_cls::solve_the_system_using_implicit_newmark_met
       Temp[i] = A0 * U[i] + A2 * UD[i] + A3 * UDD[i];
     }
 
-
-
-
-
-// up to here !!!
+    // Multiply the mass matrix by the load vector
     Matrix_Multiplication(NTK, JD, M_S, Temp, UN, NEqM);
-    /*
-      for (i=0;i<NEqM;i++) { // multiplying the vector by the mass matrix
-        TE = 0.0;
-          for (int j=0;j<NEqM;j++) {
-            TE += M[i][j] * Temp[j];
-          }
-        UN[i] = TE;
-      }
-*/
 
     for (int i = 0; i < NEqM; i++)
     {
       Temp[i] = A1 * U[i] + A4 * UD[i] + A5 * UDD[i];
     }
 
+    // up to here
     Matrix_Multiplication(NTK, JD, C_S, Temp, UN, NEqM);
 
     /*
@@ -125,14 +113,6 @@ void main_ns::Solver_ns::Solver_cls::solve_the_system_using_implicit_newmark_met
         UN[i] +=  TE;
       }
 */
-
-
-
-
-
-
-
-
 
 
 

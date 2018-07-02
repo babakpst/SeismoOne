@@ -51,6 +51,7 @@ class Solver_cls
 
   virtual void Compute_the_effective_matrix(void)=0;
   virtual void Reduce_the_effective_forece(void)=0;
+  virtual void Matrix_Multiplication(void) =0;
 
 protected:
 public:
