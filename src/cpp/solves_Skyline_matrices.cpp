@@ -24,11 +24,9 @@ void main_ns::Solver_ns::solve_Skyline_matrices_cls::Compute_the_effective_matri
 
   for (int i = 0; i < Matrix->JD[DiscretizedModel->NEqM - 1]; i++)
   {
-    Matrix->K_S[i] = Matrix->K_S[i] + A0 * Matrix->M_S[i] + A1 * Matrix->C_S[i];
+    Matrix->K[i] = Matrix->K[i] + A0 * Matrix->M[i] + A1 * Matrix->C[i];
   }
 }
-
-
 
 /*
 ###################################################################################################
@@ -50,9 +48,9 @@ void main_ns::Solver_ns::solve_Skyline_matrices_cls::Reduce_the_effective_forece
 {
 
   std::cout << "Reduce effective matrix ..." << std::endl;
-  int K1, I1, KJ, KK, KI, IJ; //temp var 
-  
-  double Fac; //temp var 
+  int K1, I1, KJ, KK, KI, IJ; //temp var
+
+  double Fac; //temp var
 
   int N, N1; // temp var to follow the algorithm
 
@@ -76,9 +74,9 @@ void main_ns::Solver_ns::solve_Skyline_matrices_cls::Reduce_the_effective_forece
         if (K > (Matrix->NTK[I]))
         {
           KI = Matrix->JD[I] + K - I;
-          Fac = Matrix->K_S[KI] / K_S[KK];
+          Fac = Matrix->K[KI] / K[KK];
           IJ = Matrix->JD[J] + I - J;
-          Matrix->K_S[IJ] = Matrix->K_S[IJ] - Matrix->K_S[KJ] * Fac;
+          Matrix->K[IJ] = Matrix->K[IJ] - Matrix->K[KJ] * Fac;
         }
       }
     }
@@ -100,8 +98,7 @@ V0.01: 07/02/2018 - Initiated: Compiled without error for the first time.
 ###################################################################################################
 */
 
-void main_ns::Solver_ns::solve_Skyline_matrices_cls::Matrix_Multiplication(double*& Matrix, double*& Temp, double*& UN)
-(int *&NTK, int *&JD, double *&M_S, double *&M2, double *&M3, int NEqM)
+void main_ns::Solver_ns::solve_Skyline_matrices_cls::Matrix_Multiplication(double *&Matrix, double *&Temp, double *&UN)(int *&NTK, int *&JD, double *&M, double *&M2, double *&M3, int NEqM)
 {
 
   int I, J, K, IJ;
@@ -125,9 +122,6 @@ void main_ns::Solver_ns::solve_Skyline_matrices_cls::Matrix_Multiplication(doubl
     }
   }
 }
-
-
-
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 /*
@@ -206,8 +200,6 @@ void main_ns::Solver_ns::solve_Skyline_matrices_cls::Skyline(int &NEqM, int &NEl
   std::cout << "End function skyline" << std::endl;
 }
 
-
-
 /*
 ###################################################################################################
 Purpose: This function reduces of the effective stiffness matrix to a triangular one for 
@@ -223,7 +215,7 @@ V0.01: 06/28/2018 - Initiated: Compiled without error for the first time.
 
 ###################################################################################################
 */
-void main_ns::Solver_ns::solve_Skyline_matrices_cls::Gauss_El_Skyline(int *&NTK, int *&JD, int &NEqM, double *&UN, double *&K_S)
+void main_ns::Solver_ns::solve_Skyline_matrices_cls::Gauss_El_Skyline(int *&NTK, int *&JD, int &NEqM, double *&UN, double *&K)
 {
 
   N = NEqM;
@@ -239,12 +231,12 @@ void main_ns::Solver_ns::solve_Skyline_matrices_cls::Gauss_El_Skyline(int *&NTK,
         continue;
       KJ = JD[j] + k - j;
       KK = JD[k];
-      UN[j] = UN[j] - UN[k] * K_S[KJ] / K_S[KK];
+      UN[j] = UN[j] - UN[k] * K[KJ] / K[KK];
     }
   }
 
   NN = JD[N];
-  UN[N] = UN[N] / K_S[NN];
+  UN[N] = UN[N] / K[NN];
 
   for (int i = 0; i < N1; i++)
   {
@@ -255,12 +247,10 @@ void main_ns::Solver_ns::solve_Skyline_matrices_cls::Gauss_El_Skyline(int *&NTK,
       if (k >= NTK[j])
       {
         KJ = JD[j] + k - j;
-        UN[k] = UN[k] - K_S[KJ] * UN[j];
+        UN[k] = UN[k] - K[KJ] * UN[j];
       }
     }
     KK = JD[k];
-    UN[k] = UN[k] / K_S[KK];
+    UN[k] = UN[k] / K[KK];
   }
 }
-
-

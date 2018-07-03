@@ -21,9 +21,9 @@ protected:
   int *JD;  // Skyline matrix
   int *NTK; // Skyline matrix
 
-  double *K_S; // global stiffness matrix -skyline
-  double *C_S; // global damping matrix -skyline
-  double *M_S; // global mass matrix -skyline
+  double *K; // global stiffness matrix -skyline
+  double *C; // global damping matrix -skyline
+  double *M; // global mass matrix -skyline
 
   virtual void allocating_global_matrices_fn();
   virtual void create_DRM_matrices_fn();

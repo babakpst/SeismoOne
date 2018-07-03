@@ -143,7 +143,7 @@ void main_ns::Solver_ns::Solver_cls::solve_the_system_using_implicit_newmark_met
     }
 
     // SOLVE
-    Gauss_El_Skyline(NTK, JD, NEqM, UN, K_S);
+    Gauss_El_Skyline(NTK, JD, NEqM, UN, K);
 
     // time history of the solution at some particular nodes
     History << setw(6) << Total_Time;

@@ -35,9 +35,9 @@ void main_ns::Matrices_ns::Matrices_Skyline_cls::allocating_global_matrices_fn()
   JD = new int[DiscretizedModel->NEqM];
   NTK = new int[DiscretizedModel->NEqM];
 
-  K_S = new double[JD[DiscretizedModel->NEqM - 1]]; // Stiffness Matrix
-  C_S = new double[JD[DiscretizedModel->NEqM - 1]]; // Damping matrix
-  M_S = new double[JD[DiscretizedModel->NEqM - 1]]; // Mass matrix
+  K = new double[JD[DiscretizedModel->NEqM - 1]]; // Stiffness Matrix
+  C = new double[JD[DiscretizedModel->NEqM - 1]]; // Damping matrix
+  M = new double[JD[DiscretizedModel->NEqM - 1]]; // Mass matrix
 
   F = new double[DiscretizedModel->NEqM];
 
@@ -49,9 +49,9 @@ void main_ns::Matrices_ns::Matrices_Skyline_cls::allocating_global_matrices_fn()
 
   for (int i = 0; i < JD[DiscretizedModel->NEqM - 1]; i++)
   {
-    K_S[i] = 0.0;
-    C_S[i] = 0.0;
-    M_S[i] = 0.0;
+    K[i] = 0.0;
+    C[i] = 0.0;
+    M[i] = 0.0;
   }
 
   std::cout << " Done with allocation, successfully." << std::endl;
@@ -87,9 +87,9 @@ void main_ns::Matrices_ns::Matrices_Skyline_cls::assemble_local_to_global_fn()
         continue;
       ij = JD[j] + i - j;
 
-      K_S[ij] = K_S[ij] + Ke[l][n];
-      C_S[ij] = C_S[ij] + Ce[l][n];
-      M_S[ij] = M_S[ij] + Me[l][n];
+      K[ij] = K[ij] + Ke[l][n];
+      C[ij] = C[ij] + Ce[l][n];
+      M[ij] = M[ij] + Me[l][n];
     }
   }
 }
@@ -202,9 +202,9 @@ void main_ns::Matrices_ns::Matrices_Skyline_cls::create_DRM_matrices_fn()
 
       ij = JD[j] + i - j;
 
-      K_eb[l][n] = K_S[ij];
-      C_eb[l][n] = C_S[ij];
-      M_eb[l][n] = M_S[ij];
+      K_eb[l][n] = K[ij];
+      C_eb[l][n] = C[ij];
+      M_eb[l][n] = M[ij];
     }
   }
 

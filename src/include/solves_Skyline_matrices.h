@@ -17,8 +17,8 @@ class solve_Skyline_matrices_cls : public main_ns::Solver_ns::Solver_cls
   virtual void Matrix_Multiplication(double*&Matrix, double*& Temp, double*& UN);
 
   void Skyline(int &NEqM, int &NEl, int &NNode, int &NDOF, int *&NTK, int **&INod, int **&ID, int *&JD);
-  void Reduce_Skyline(int &NEqM, double *&K_S, int *&NTK, int *&JD, ofstream &info);
-  void Gauss_El_Skyline(int *&NTK, int *&JD, int &NEqM, double *&UN, double *&K_S);
+  void Reduce_Skyline(int &NEqM, double *&K, int *&NTK, int *&JD, ofstream &info);
+  void Gauss_El_Skyline(int *&NTK, int *&JD, int &NEqM, double *&UN, double *&K);
   void Matrix_Multiplication(int *&NTK, int *&JD, double *&M1, double *&M2, double *&M3, int NEqM);
 
 public:
