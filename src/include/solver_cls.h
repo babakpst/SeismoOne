@@ -40,11 +40,11 @@ class Solver_cls
   double Initial_Time; // Starting time of the simulation, usually negative, because of the DRM 
 
 
-  double *UN;   // temporay arrays for the Newmark algorithm
-  double *U;    // temporay arrays for the Newmark algorithm
-  double *UD;   // temporay arrays for the Newmark algorithm
-  double *UDD;  // temporay arrays for the Newmark algorithm
-  double *Temp; // temporay arrays for the Newmark algorithm
+  double* UN;   // temporay arrays for the Newmark algorithm
+  double* U;    // temporay arrays for the Newmark algorithm
+  double* UD;   // temporay arrays for the Newmark algorithm
+  double* UDD;  // temporay arrays for the Newmark algorithm
+  double* Temp; // temporay arrays for the Newmark algorithm
 
   main_ns::Solver_ns::apply_seismic_loads_to_the_domain_cls *Loads;
 

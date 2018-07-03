@@ -74,7 +74,8 @@ void main_ns::Solver_ns::Solver_cls::solve_the_system_using_implicit_newmark_met
 
     Elapsed_Time = IStep * Model->DT;
     Time = Initial_Time + IStep * Model->DT; // Time STEP
-    std::cout << "Time Step:  " << IStep << "  Time: " << Time << "  Total time:" << Elapsed_Time << std::endl;
+    std::cout << "Time Step:  " << IStep << "  Time: " << Time << "  Total time:" << 
+                                                                        Elapsed_Time << std::endl;
 
     // Update displacements, velocity and acceleration
     for (int i = 0; i < DiscretizedModel->NEqM; i++)
@@ -93,29 +94,20 @@ void main_ns::Solver_ns::Solver_cls::solve_the_system_using_implicit_newmark_met
       Temp[i] = A0 * U[i] + A2 * UD[i] + A3 * UDD[i];
     }
 
-    // Multiply the mass matrix by the load vector
-    Matrix_Multiplication(NTK, JD, M_S, Temp, UN, NEqM);
 
-    for (int i = 0; i < NEqM; i++)
+    // up to here
+    // Multiply the mass matrix by the load vector
+    Matrix_Multiplication(M, Temp, UN);
+
+    for (int i = 0; i < DiscretizedModel->NEqM; i++)
     {
       Temp[i] = A1 * U[i] + A4 * UD[i] + A5 * UDD[i];
     }
 
+    Matrix_Multiplication(C, Temp, UN);
+
+
     // up to here
-    Matrix_Multiplication(NTK, JD, C_S, Temp, UN, NEqM);
-
-    /*
-      for (i=0;i<NEqM;i++) {
-        TE = 0.0;
-          for (int j=0;j<NEqM;j++) {
-            TE  += C[i][j] * Temp[j] ;
-          }
-        UN[i] +=  TE;
-      }
-*/
-
-
-
     // Adding load at this time step
     if (LoadType == 0)
     {

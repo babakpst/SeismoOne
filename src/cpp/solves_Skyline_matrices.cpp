@@ -100,7 +100,7 @@ V0.01: 07/02/2018 - Initiated: Compiled without error for the first time.
 ###################################################################################################
 */
 
-void main_ns::Solver_ns::solve_Skyline_matrices_cls::Matrix_Multiplication()
+void main_ns::Solver_ns::solve_Skyline_matrices_cls::Matrix_Multiplication(double*& Matrix, double*& Temp, double*& UN)
 (int *&NTK, int *&JD, double *&M_S, double *&M2, double *&M3, int NEqM)
 {
 
@@ -121,7 +121,7 @@ void main_ns::Solver_ns::solve_Skyline_matrices_cls::Matrix_Multiplication()
       if (I < NTK[J])
         continue;
       IJ = JD[J] + I - J;
-      M3[II] += M_S[IJ] * M2[JJ];
+      UN[II] += Matrix[IJ] * Temp[JJ];
     }
   }
 }

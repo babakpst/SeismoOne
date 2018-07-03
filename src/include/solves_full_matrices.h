@@ -15,7 +15,7 @@ class solve_full_matrices_cls : public main_ns::Solver_ns::Solver_cls
 
   virtual void Compute_the_effective_matrix();
   virtual void Reduce_the_effective_forece();
-  virtual void Matrix_Multiplication();
+  virtual void Matrix_Multiplication(double**& Matrix, double*& Temp, double*& UN);
 
   void Gaussian(int &NEqM, double *&UN, double **&K);
   void LDLT(int &NEqM, double **&K);

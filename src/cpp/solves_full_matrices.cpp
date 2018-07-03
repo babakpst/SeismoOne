@@ -95,7 +95,7 @@ V0.01: 07/02/2018 - Initiated: Compiled without error for the first time.
 ###################################################################################################
 */
 
-void main_ns::Solver_ns::solve_full_matrices_cls::Matrix_Multiplication()
+void main_ns::Solver_ns::solve_full_matrices_cls::Matrix_Multiplication(double**&Matrix, double*& Temp, double*& UN)
 {
   double TempVar;
   for (int i = 0; i < DiscretizedModel->NEqM; i++)
@@ -103,7 +103,7 @@ void main_ns::Solver_ns::solve_full_matrices_cls::Matrix_Multiplication()
     TempVar = 0.0;
     for (int j = 0; j < DiscretizedModel->NEqM; j++)
     {
-      TempVar += Matrix->M[i][j] * Temp[j];
+      TempVar += Matrix[i][j] * Temp[j];
     }
     UN[i] = TempVar;
   }

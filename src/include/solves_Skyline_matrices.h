@@ -14,7 +14,7 @@ class solve_Skyline_matrices_cls : public main_ns::Solver_ns::Solver_cls
 
   virtual void Compute_the_effective_matrix();
   virtual void Reduce_the_effective_forece();
-  virtual void Matrix_Multiplication();
+  virtual void Matrix_Multiplication(double*&Matrix, double*& Temp, double*& UN);
 
   void Skyline(int &NEqM, int &NEl, int &NNode, int &NDOF, int *&NTK, int **&INod, int **&ID, int *&JD);
   void Reduce_Skyline(int &NEqM, double *&K_S, int *&NTK, int *&JD, ofstream &info);
