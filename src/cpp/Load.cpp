@@ -31,6 +31,16 @@ double main_ns::Solver_ns::apply_seismic_loads_to_the_domain_cls::
   return (LoadFactor);
 }
 
+
+
+
+
+
+
+
+
+
+///////////////////////////////////////////////////////
 /*
 ###################################################################################################
 Purpose: This function compuates the DRM point loads at each load.
@@ -176,47 +186,25 @@ void main_ns::Solver_ns::apply_seismic_loads_to_the_domain_cls::
   }
 }
 
-//***************************************************************************************************************************************************
-// computing exact solution
-//***************************************************************************************************************************************************
-void HistorySolution(int &NJ, double &Time, double &Alpha, double &P, double &E, double &Rho, double &A, double *&U_EX, double **&XYZ)
-{
+/*
+###################################################################################################
+Purpose: This function computes the load factor to apply the pressure load on the surface.
 
-  double fac;
-  double x;
-  double c;
+Developed by: Babak Poursartip
+ 
+The Institute for Computational Engineering and Sciences (ICES)
+The University of Texas at Austin	
+================================= V E R S I O N ===================================================
+V0.00: 07/04/2018 - Subroutine initiated.
+V1.00: 07/04/2018 - Compiled successfully.
 
-  c = sqrt(E / Rho);
-
-  fac = P * c / (Alpha * E * A);
-
-  for (int ij = 0; ij < NJ; ij++)
-  {
-    x = XYZ[ij][0];
-    U_EX[ij] = 0.0;
-
-    if (Time >= (x / c))
-      U_EX[ij] = U_EX[ij] + fac * (1 - cos(Alpha * (Time - x / c)));
-    if (Time >= (x / c + 2 * pi / Alpha))
-      U_EX[ij] = U_EX[ij] - fac * (1 - cos(Alpha * (Time - x / c - 2 * pi / Alpha)));
-  }
-}
-
-//***************************************************************************************************************************************************
-// Domain Reduction Load  - The function creates the total load vector
-//***************************************************************************************************************************************************
-void DRM_Loads_Implicit(double &Time, double &c,
-
-  double &alpha1, double &alpha2,  int NDim, int NNBndry, int NNLayer, int &Wave_Type, int &Wave_Func, double &amplitude, 
-
-                        double *&UN, double **&XYZ, int *&NoBndry_DRM, 
-                        int *&NoLayer_DRM, double **&M_eb, double **&C_eb, double **&K_eb, 
-                        int *&ND_e, int *&ND_b)
+###################################################################################################
+*/
+void DRM_Loads_Implicit(const main_ns::Solver_ns::InputLoad* LoadPackage, 
+                        const main_ns::Solver_ns::PointLoad* Load)
 {
 
   // = Local Variables ================================================================================================================================
-  int i, j; // Loop index on the nodes
-
   double x; // The coordinate
   double u; // Analytical displacement
   double v; // Analytical velocity
@@ -233,72 +221,67 @@ void DRM_Loads_Implicit(double &Time, double &c,
   double *F_e;   // The vector that holds the loads for the layer nodes.
 
   // = Function =======================================================================================================================================
-  //c = sqrt(E/Rho);
-
+  
   // Defining the required vectors
-  U_b = new double[NNBndry * NDim];
-  Ud_b = new double[NNBndry * NDim];
-  Udd_b = new double[NNBndry * NDim];
+  U_b   = new double[LoadPackage.NNBndry * LoadPackage.NDim];
+  Ud_b  = new double[LoadPackage.NNBndry * LoadPackage.NDim];
+  Udd_b = new double[LoadPackage.NNBndry * LoadPackage.NDim];
 
-  F_e = new double[NNLayer * NDim];
+  F_e   = new double[LoadPackage.NNLayer * LoadPackage.NDim];
 
-  for (i = 0; i < NNLayer * NDim; i++)
+  for (i = 0; i < LoadPackage.NNLayer * LoadPackage.NDim; i++)
   {
     F_e[i] = 0.0;
   }
 
-  Load.Wave_Func = 
-  Load.amplitude =
-  
-  Wave_Func, amplitude, Time, x, c, omega, alpha1, alpha2, u, v, a
-
-
-  
   // Loop on the nodes on the DRM boundary to find out the analytical solution (In this case only one node)
-  for (i = 0; i < NNBndry; i++)
+  for (int i = 0; i < NNBndry; i++)
   {
-    for (j = 0; j < NDim; j++)
+    for (int j = 0; j < NDim; j++)
     {
-      x = XYZ[NoBndry_DRM[i]][j]; // Coordinate of the node
-      u = v = a = 0.0;            // Initialize the values
+      x = LoadPackage.XYZ[ LoadPackage.NoBndry_DRM[i]][j]; // Coordinate of the node
+      u= v= a= 0.0;            // Initialize the values
       
       // Computing the analytical solution at this particular node
       // Remark: the one-dimensional wave-motion is identical for both SV and P waves.
 
+      // The point loads are identical for both shear and pressure waves. 
+      // Just for the sake of clarity, we wrtie it as follows.
+      if (LoadPackage.Wave_Type == 0) // SV wave
+        DRM_PointValues(Wave_Func, amplitude, Time, x, c, omega, alpha1, alpha2, u, v, a); 
+      else if (LoadPackage.Wave_Type == 1) // P wave
+        DRM_PointValues(Wave_Func, amplitude, Time, x, c, omega, alpha1, alpha2, u, v, a); 
 
-
-
-      if (Wave_Type == 0)
-        DRM_PointValues(Wave_Func, amplitude, Time, x, c, omega, alpha1, alpha2, u, v, a); // SV wave
-      else if (Wave_Type == 1)
-        DRM_PointValues(Wave_Func, amplitude, Time, x, c, omega, alpha1, alpha2, u, v, a); // P wave
 
       // Filling the analytical solution vector
-      U_b[i * NNBndry * NDim + j] = u;
-      Ud_b[i * NNBndry * NDim + j] = v;
-      Udd_b[i * NNBndry * NDim + j] = a;
+      U_b  [i * LoadPackage.NNBndry * LoadPackage.NDim + j] = u;
+      Ud_b [i * LoadPackage.NNBndry * LoadPackage.NDim + j] = v;
+      Udd_b[i * LoadPackage.NNBndry * LoadPackage.NDim + j] = a;
     }
   }
 
   // Multiply the Mass, Damp, and Stiffness matrix by the vector
-  for (i = 0; i < NNLayer * NDim; i++)
+  for (int i = 0; i < LoadPackage.NNLayer * LoadPackage.NDim; i++)
   {
-    for (j = 0; j < NNBndry * NDim; j++)
+    for (int j = 0; j < LoadPackage.NNBndry * LoadPackage.NDim; j++)
     {
-      F_e[i] += M_eb[i][j] * Udd_b[j] + C_eb[i][j] * Ud_b[j] + K_eb[i][j] * U_b[j];
+      F_e[i] += LoadPackage.M_eb[i][j] * Udd_b[j] + LoadPackage.C_eb[i][j] * Ud_b[j] + LoadPackage.K_eb[i][j] * U_b[j];
     }
   }
 
   // Assemble the load vector
-  for (i = 0; i < NNLayer * NDim; i++)
+  for (int i = 0; i < LoadPackage.NNLayer * LoadPackage.NDim; i++)
   {
-    UN[ND_e[i]] += F_e[i];
+    LoadPackage.UN[ND_e[i]] += F_e[i];
   }
 
   delete U_b;
   delete Ud_b;
   delete Udd_b;
   delete F_e;
+
+
+
 
   U_e = new double[NNLayer * NDim];
   Ud_e = new double[NNLayer * NDim];
@@ -352,32 +335,66 @@ void DRM_Loads_Implicit(double &Time, double &c,
   delete F_b;
 }
 
-//***************************************************************************************************************************************************
-// Analytical solution in the frequency domain
-//***************************************************************************************************************************************************
+
+/*
+###################################################################################################
+Purpose: This function computes ????.
+
+Developed by: Babak Poursartip
+ 
+The Institute for Computational Engineering and Sciences (ICES)
+The University of Texas at Austin	
+================================= V E R S I O N ===================================================
+V0.00: 07/04/2018 - Subroutine initiated.
+V1.00: 07/04/2018 - Compiled successfully.
+
+###################################################################################################
+*/
+
+void HistorySolution(int &NJ, double &Time, double &Alpha, double &P, double &E, double &Rho, double &A, double *&U_EX, double **&XYZ)
+{
+
+  double fac;
+  double x;
+  double c;
+
+  c = sqrt(E / Rho);
+
+  fac = P * c / (Alpha * E * A);
+
+  for (int ij = 0; ij < NJ; ij++)
+  {
+    x = XYZ[ij][0];
+    U_EX[ij] = 0.0;
+
+    if (Time >= (x / c))
+      U_EX[ij] = U_EX[ij] + fac * (1 - cos(Alpha * (Time - x / c)));
+    if (Time >= (x / c + 2 * pi / Alpha))
+      U_EX[ij] = U_EX[ij] - fac * (1 - cos(Alpha * (Time - x / c - 2 * pi / Alpha)));
+  }
+}
+
+
+
+/*
+###################################################################################################
+Purpose: This function computes 
+
+Developed by: Babak Poursartip
+ 
+The Institute for Computational Engineering and Sciences (ICES)
+The University of Texas at Austin	
+================================= V E R S I O N ===================================================
+V0.00: 07/04/2018 - Subroutine initiated.
+V1.00: 07/04/2018 - Compiled successfully.
+
+###################################################################################################
+*/
+
 void DRM_PointValues_Freq(double &amplitude, double &x, double &c, double &omega, double &u_R, double &u_I)
 {
 
-  // = Local Variables ================================================================================================================================
-
-  // - Integer variables ------------------------------------------------------------------------------------------------------------------------------
-  //int j;       // loop index
-
-  // - Real variables ---------------------------------------------------------------------------------------------------------------------------------
-
   double k; // wavenumber
-
-  // - Strings ----------------------------------------------------------------------------------------------------------------------------------------
-
-  // - bool -------------------------------------------------------------------------------------------------------------------------------------------
-
-  // - integer arrays ---------------------------------------------------------------------------------------------------------------------------------
-
-  // - real arrays ------------------------------------------------------------------------------------------------------------------------------------
-
-  // - data structure ---------------------------------------------------------------------------------------------------------------------------------
-
-  // ==================== Code ========================================================================================================================
 
   // The analytical solution is u (x,t) = u_i (exp(i k x) + exp (-i k x)) = 2 u_i cos(kx)
 

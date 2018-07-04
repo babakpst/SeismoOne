@@ -98,7 +98,7 @@ V0.01: 07/02/2018 - Initiated: Compiled without error for the first time.
 ###################################################################################################
 */
 
-void main_ns::Solver_ns::solve_Skyline_matrices_cls::Matrix_Multiplication(double *&Matrix, double *&Temp, double *&UN)(int *&NTK, int *&JD, double *&M, double *&M2, double *&M3, int NEqM)
+void main_ns::Solver_ns::solve_Skyline_matrices_cls::Matrix_Multiplication(double *&Matrix, double *&Temp, double *&UN)
 {
 
   int I, J, K, IJ;

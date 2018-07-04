@@ -20,7 +20,7 @@ namespace main_ns
 namespace Solver_ns
 {
 
-class Solver_cls
+class Solver_cls: public main_ns::Solver_ns::apply_seismic_loads_to_the_domain_cls
 {
 
   // Newmark constants
@@ -46,7 +46,9 @@ class Solver_cls
   double* UDD;  // temporay arrays for the Newmark algorithm
   double* Temp; // temporay arrays for the Newmark algorithm
 
-  main_ns::Solver_ns::apply_seismic_loads_to_the_domain_cls *Loads;
+  double * F;   // global force vector
+
+  main_ns::Solver_ns::apply_seismic_loads_to_the_domain_cls* Loads;
 
 
   virtual void Compute_the_effective_matrix(void)=0;
@@ -55,13 +57,13 @@ class Solver_cls
 
 protected:
 public:
-  main_ns::discretization_ns::discretization_cls *DiscretizedModel;
-  main_ns::model_ns::model_cls *Model;
-  main_ns::Matrices_ns::Matrices_cls *Matrices;
+  main_ns::discretization_ns::discretization_cls* DiscretizedModel;
+  main_ns::model_ns::model_cls* Model;
+  main_ns::Matrices_ns::Matrices_cls* Matrices;
 
-  Solver_cls(main_ns::discretization_ns::discretization_cls *, main_ns::model_ns::model_cls *,
-             main_ns::Matrices_ns::Matrices_cls *,
-             main_ns::Solver_ns::apply_seismic_loads_to_the_domain_cls *);
+  Solver_cls(main_ns::discretization_ns::discretization_cls*, main_ns::model_ns::model_cls*,
+             main_ns::Matrices_ns::Matrices_cls*,
+             main_ns::Solver_ns::apply_seismic_loads_to_the_domain_cls*);
 
   void solve_the_system_using_implicit_newmark_method(); //either using the skyline or full system
   

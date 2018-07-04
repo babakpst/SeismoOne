@@ -95,7 +95,7 @@ V0.01: 07/02/2018 - Initiated: Compiled without error for the first time.
 ###################################################################################################
 */
 
-void main_ns::Solver_ns::solve_full_matrices_cls::Matrix_Multiplication(double**&Matrix, double*& Temp, double*& UN)
+void main_ns::Solver_ns::solve_full_matrices_cls::Matrix_Multiplication(double **&Matrix, double *&Temp, double *&UN)
 {
   double TempVar;
   for (int i = 0; i < DiscretizedModel->NEqM; i++)
@@ -108,9 +108,6 @@ void main_ns::Solver_ns::solve_full_matrices_cls::Matrix_Multiplication(double**
     UN[i] = TempVar;
   }
 }
-
-
-
 
 ///////////////////////////////////////////
 /*
@@ -241,33 +238,6 @@ V0.01: 06/28/2018 - Initiated: Compiled without error for the first time.
 */
 void main_ns::Solver_ns::solve_full_matrices_cls::solve_the_system_using_implicit_newmark_method()
 {
-
-  // equivalent to matrix multiplication
-  for (int i = 0; i < NEqM; i++)
-  {
-    TE = 0.0;
-    for (int j = 0; j < NEqM; j++)
-    {
-      TE += C[i][j] * Temp[j];
-    }
-    UN[i] += TE;
-  }
-
-  // Adding load at this time step
-  if (LoadType == 0)
-  {
-    LoadFactor = LoadFunction(Time, Alpha, P); // Pressure load
-    for (int ij = 0; ij < NJ; ij++)
-    {
-      UN[ij] = UN[ij] - F[ij] * LoadFactor;
-    }
-  }
-  else if (LoadType == 1)
-  { //        DRM_Load ();
-    F[0] = 0;
-
-    DRM_Loads_Implicit(alpha1, alpha2, Time, NDim, NNBndry, NNLayer, Wave_Type, Wave_Func, amplitude, c, UN, XYZ, NoBndry_DRM, NoLayer_DRM, M_eb, C_eb, K_eb, ND_e, ND_b);
-  }
 
   // Check whether the initial time is small enough
   if (IStep == 0)

@@ -18,7 +18,6 @@ class solve_full_matrices_cls : public main_ns::Solver_ns::Solver_cls
   virtual void Matrix_Multiplication(double**& Matrix, double*& Temp, double*& UN);
 
   void Gaussian(int &NEqM, double *&UN, double **&K);
-  void LDLT(int &NEqM, double **&K);
   void Substitute(int &NEqM, double *&UN, double **&K);
  
 public:
