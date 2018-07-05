@@ -14,16 +14,6 @@ namespace main_ns
 namespace Solver_ns
 {
 
-  // This data type the result of the DRM load at each time step for each point
-  struct PointLoad 
-  {
-  double Time;       // Time instant that we want to calculate the DRM forces
-  double x;          // the location that we want to find the forces
-  double u;          // displacement at this node of the DRM
-  double v;          // velocity at this node of the DRM
-  double a;          // the acceleration at this node of the DRM
-  };
- 
 // This data type packages all the required data to compute the DRM load at a point
 struct InputLoad 
   {
@@ -33,6 +23,12 @@ struct InputLoad
   int Wave_Type;    // shear or pressure waves, even though in the 1D simulation, this really does not matter
   int Wave_Func;    // determine the shape of the incoming wave
 
+  double x;      // The coordinate
+  double u;      // Analytical displacement
+  double v;      // Analytical velocity
+  double a;      // Analytical acceleration
+
+  double Time;       // Time instant that we want to calculate the DRM forces
   double alpha1;     // the lower bound of the phase of the incoming wave
   double alpha2;     // the upper bound of the phase of the incoming wave
   double amplitude;  // amplitude of the incoming wave
@@ -56,9 +52,6 @@ class apply_seismic_loads_to_the_domain_cls
 
 private:
 
-
-
-  PointLoad Load;
   InputLoad LoadPackage;
 
   void DRM_PointValues(PointLoad);

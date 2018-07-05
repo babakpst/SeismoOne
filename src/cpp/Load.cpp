@@ -40,7 +40,7 @@ double main_ns::Solver_ns::apply_seismic_loads_to_the_domain_cls::
 
 
 
-///////////////////////////////////////////////////////
+
 /*
 ###################################################################################################
 Purpose: This function compuates the DRM point loads at each load.
@@ -56,8 +56,7 @@ V1.00: 06/27/2018 - Compiled successfully.
 ###################################################################################################
 */
 
-void main_ns::Solver_ns::apply_seismic_loads_to_the_domain_cls::
-    DRM_PointValues(PointLoad Load)
+void main_ns::Solver_ns::apply_seismic_loads_to_the_domain_cls::DRM_PointValues()
 {
 
   int TotalCycle;
@@ -79,49 +78,49 @@ void main_ns::Solver_ns::apply_seismic_loads_to_the_domain_cls::
 
   // phases
 
-  switch (Load.Wave_Func)
+  switch (LoadPackage.Wave_Func)
   {
   case 0: // sine function
 
     wr = 2.0 * pi * Load.omega; // characteristic central circular frequency
 
-    arg1 = Load.Time - Load.x / Load.c; // positive direction phase - incident wave
-    arg2 = Load.Time + Load.x / Load.c; // negative direction phase - reflected wave
+    arg1 = LoadPackage.Time - LoadPackage.x / LoadPackage.c; // positive direction phase - incident wave
+    arg2 = LoadPackage.Time + LoadPackage.x / LoadPackage.c; // negative direction phase - reflected wave
 
     arg1 *= wr;
     arg2 *= wr;
 
-    LowerLimit = Load.alpha1;
-    UpperLimit = Load.alpha2;
+    LowerLimit = LoadPackage.alpha1;
+    UpperLimit = LoadPackage.alpha2;
 
     if (LowerLimit <= arg1 && arg1 <= UpperLimit)
     {
-      Load.u +=           Load.amplitude * sin(arg1);
-      Load.v += wr *      Load.amplitude * cos(arg1);
-      Load.a -= wr * wr * Load.amplitude * sin(arg1);
+      LoadPackage.u +=           LoadPackage.amplitude * sin(arg1);
+      LoadPackage.v += wr *      LoadPackage.amplitude * cos(arg1);
+      LoadPackage.a -= wr * wr * LoadPackage.amplitude * sin(arg1);
     }
 
     if (LowerLimit <= arg2 && arg2 <= UpperLimit)
     {
-      Load.u +=           Load.amplitude * sin(arg2);
-      Load.v += wr *      Load.amplitude * cos(arg2);
-      Load.a -= wr * wr * Load.amplitude * sin(arg2);
+      LoadPackage.u +=           LoadPackage.amplitude * sin(arg2);
+      LoadPackage.v += wr *      LoadPackage.amplitude * cos(arg2);
+      LoadPackage.a -= wr * wr * LoadPackage.amplitude * sin(arg2);
     }
 
     break;
   case 1: // Ricker
 
-    TotalCycle = (int)(Load.alpha1);
-    Direction  = (int)(Load.alpha2);
+    TotalCycle = (int)(LoadPackage.alpha1);
+    Direction  = (int)(LoadPackage.alpha2);
 
-    fr = Load.omega;    // Central frequency of Ricker pulse
+    fr = LoadPackage.omega;    // Central frequency of Ricker pulse
     wr = 2.0 * pi * fr; // characteristic central circular frequency
 
     //arg1 = wr * Time - wr * x/c ; // positive direction phase - incident wave
     //arg2 = wr * Time + wr * x/c ; // negative direction phase - reflected wave
 
-    arg1 = Load.Time - Load.x / Load.c; // positive direction phase - incident wave
-    arg2 = Load.Time + Load.x / Load.c; // negative direction phase - reflected wave
+    arg1 = LoadPackage.Time - LoadPackage.x / LoadPackage.c; // positive direction phase - incident wave
+    arg2 = LoadPackage.Time + LoadPackage.x / LoadPackage.c; // negative direction phase - reflected wave
 
     //wr = omega ;           // characteristic central circular frequency
 
@@ -135,22 +134,22 @@ void main_ns::Solver_ns::apply_seismic_loads_to_the_domain_cls::
 
       ur = wr * arg1 - 3.0 * sqrt(6.0);
 
-      Load.u += Load.amplitude * ((0.25 * ur * ur - 0.5) * exp(-0.25 * ur * ur) - 13.0 * exp(-13.5)) / (0.5 + 13.0 * exp(-13.5));
-      Load.v += Load.amplitude * (wr * (0.75 * ur - 0.125 * pow(ur, 3.0)) * exp(-0.25 * ur * ur)) / (0.5 + 13.0 * exp(-13.5));
-      Load.a += Load.amplitude * (pow(wr, 2.0) * (0.75 - 0.75 * pow(ur, 2.0) + 0.0625 * pow(ur, 4.0)) * exp(-0.25 * ur * ur)) / (0.5 + 13.0 * exp(-13.5));
+      LoadPackage.u += LoadPackage.amplitude * ((0.25 * ur * ur - 0.5) * exp(-0.25 * ur * ur) - 13.0 * exp(-13.5)) / (0.5 + 13.0 * exp(-13.5));
+      LoadPackage.v += LoadPackage.amplitude * (wr * (0.75 * ur - 0.125 * pow(ur, 3.0)) * exp(-0.25 * ur * ur)) / (0.5 + 13.0 * exp(-13.5));
+      LoadPackage.a += LoadPackage.amplitude * (pow(wr, 2.0) * (0.75 - 0.75 * pow(ur, 2.0) + 0.0625 * pow(ur, 4.0)) * exp(-0.25 * ur * ur)) / (0.5 + 13.0 * exp(-13.5));
     }
     else
     {
       for (int j = 2; j <= TotalCycle; j++)
       {
-        arg1 = Load.Time - Load.x / Load.c - (j - 1) * t_max;
+        arg1 = LoadPackage.Time - LoadPackage.x / LoadPackage.c - (j - 1) * t_max;
         if (LowerLimit <= arg1 && arg1 <= UpperLimit)
         {
           ur = wr * arg1 - 3.0 * sqrt(6.0);
 
-          Load.u += (pow(Direction, (j - 1))) * Load.amplitude * ((0.25 * ur * ur - 0.5) * exp(-0.25 * ur * ur) - 13.0 * exp(-13.5)) / (0.5 + 13.0 * exp(-13.5));
-          Load.v += (pow(Direction, (j - 1))) * Load.amplitude * (wr * (0.75 * ur - 0.125 * pow(ur, 3.0)) * exp(-0.25 * ur * ur)) / (0.5 + 13.0 * exp(-13.5));
-          Load.a += (pow(Direction, (j - 1))) * Load.amplitude * (pow(wr, 2.0) * (0.75 - 0.75 * pow(ur, 2.0) + 0.0625 * pow(ur, 4.0)) * exp(-0.25 * ur * ur)) / (0.5 + 13.0 * exp(-13.5));
+          LoadPackage.u += (pow(Direction, (j - 1))) * LoadPackage.amplitude * ((0.25 * ur * ur - 0.5) * exp(-0.25 * ur * ur) - 13.0 * exp(-13.5)) / (0.5 + 13.0 * exp(-13.5));
+          LoadPackage.v += (pow(Direction, (j - 1))) * LoadPackage.amplitude * (wr * (0.75 * ur - 0.125 * pow(ur, 3.0)) * exp(-0.25 * ur * ur)) / (0.5 + 13.0 * exp(-13.5));
+          LoadPackage.a += (pow(Direction, (j - 1))) * LoadPackage.amplitude * (pow(wr, 2.0) * (0.75 - 0.75 * pow(ur, 2.0) + 0.0625 * pow(ur, 4.0)) * exp(-0.25 * ur * ur)) / (0.5 + 13.0 * exp(-13.5));
         }
       }
     }
@@ -160,22 +159,22 @@ void main_ns::Solver_ns::apply_seismic_loads_to_the_domain_cls::
 
       ur = wr * arg2 - 3.0 * sqrt(6.0);
 
-      Load.u += Load.amplitude * ((0.25 * ur * ur - 0.5) * exp(-0.25 * ur * ur) - 13.0 * exp(-13.5)) / (0.5 + 13.0 * exp(-13.5));
-      Load.v += Load.amplitude * (wr * (0.75 * ur - 0.125 * pow(ur, 3.0)) * exp(-0.25 * ur * ur)) / (0.5 + 13.0 * exp(-13.5));
-      Load.a += Load.amplitude * (pow(wr, 2.0) * (0.75 - 0.75 * pow(ur, 2.0) + 0.0625 * pow(ur, 4.0)) * exp(-0.25 * ur * ur)) / (0.5 + 13.0 * exp(-13.5));
+      LoadPackage.u += LoadPackage.amplitude * ((0.25 * ur * ur - 0.5) * exp(-0.25 * ur * ur) - 13.0 * exp(-13.5)) / (0.5 + 13.0 * exp(-13.5));
+      LoadPackage.v += LoadPackage.amplitude * (wr * (0.75 * ur - 0.125 * pow(ur, 3.0)) * exp(-0.25 * ur * ur)) / (0.5 + 13.0 * exp(-13.5));
+      LoadPackage.a += LoadPackage.amplitude * (pow(wr, 2.0) * (0.75 - 0.75 * pow(ur, 2.0) + 0.0625 * pow(ur, 4.0)) * exp(-0.25 * ur * ur)) / (0.5 + 13.0 * exp(-13.5));
     }
     else
     {
       for (int j = 2; j <= TotalCycle; j++)
       {
-        arg2 = Load.Time + Load.x / Load.c - (j - 1) * t_max;
+        arg2 = LoadPackage.Time + LoadPackage.x / LoadPackage.c - (j - 1) * t_max;
         if (LowerLimit <= arg2 && arg2 <= UpperLimit)
         {
           ur = wr * arg2 - 3.0 * sqrt(6.0);
 
-          Load.u += (pow(Direction, (j - 1))) * Load.amplitude * ((0.25 * ur * ur - 0.5) * exp(-0.25 * ur * ur) - 13.0 * exp(-13.5)) / (0.5 + 13.0 * exp(-13.5));
-          Load.v += (pow(Direction, (j - 1))) * Load.amplitude * (wr * (0.75 * ur - 0.125 * pow(ur, 3.0)) * exp(-0.25 * ur * ur)) / (0.5 + 13.0 * exp(-13.5));
-          Load.a += (pow(Direction, (j - 1))) * Load.amplitude * (pow(wr, 2.0) * (0.75 - 0.75 * pow(ur, 2.0) + 0.0625 * pow(ur, 4.0)) * exp(-0.25 * ur * ur)) / (0.5 + 13.0 * exp(-13.5));
+          LoadPackage.u += (pow(Direction, (j - 1))) * LoadPackage.amplitude * ((0.25 * ur * ur - 0.5) * exp(-0.25 * ur * ur) - 13.0 * exp(-13.5)) / (0.5 + 13.0 * exp(-13.5));
+          LoadPackage.v += (pow(Direction, (j - 1))) * LoadPackage.amplitude * (wr * (0.75 * ur - 0.125 * pow(ur, 3.0)) * exp(-0.25 * ur * ur)) / (0.5 + 13.0 * exp(-13.5));
+          LoadPackage.a += (pow(Direction, (j - 1))) * LoadPackage.amplitude * (pow(wr, 2.0) * (0.75 - 0.75 * pow(ur, 2.0) + 0.0625 * pow(ur, 4.0)) * exp(-0.25 * ur * ur)) / (0.5 + 13.0 * exp(-13.5));
         }
       }
     }
@@ -200,28 +199,21 @@ V1.00: 07/04/2018 - Compiled successfully.
 
 ###################################################################################################
 */
+
 void DRM_Loads_Implicit(const main_ns::Solver_ns::InputLoad* LoadPackage, 
                         const main_ns::Solver_ns::PointLoad* Load)
 {
+  double* U_b;   // holds the analytical acceleration at the boundary nodes. In this 1D problem, there is only one node.
+  double* Ud_b;  // holds the analytical velocity at the boundary nodes. In this 1D problem, there is only one node. (Not needed because we do not have damping in the system)
+  double* Udd_b; // holds the analytical acceleration at the boundary nodes. In this 1D problem, there is only one node.
+  double* F_b;   // holds the loads for the boundary nodes.
 
-  // = Local Variables ================================================================================================================================
-  double x; // The coordinate
-  double u; // Analytical displacement
-  double v; // Analytical velocity
-  double a; // Analytical acceleration
+  double* U_e;   // holds the analytical displacement at the boundary nodes. In this 1D problem, there is only one node.
+  double* Ud_e;  // holds the analytical acceleration at the boundary nodes. In this 1D problem, there is only one node.  (Not needed because we do not have damping in the system)
+  double* Udd_e; // holds the analytical acceleration at the boundary nodes. In this 1D problem, there is only one node.
+  double* F_e;   // holds the loads for the layer nodes.
 
-  double *U_b;   // The vector that holds the analytical acceleration at the boundary nodes. In this 1D problem, there is only one node.
-  double *Ud_b;  // The vector that holds the analytical velocity at the boundary nodes. In this 1D problem, there is only one node. (Not needed because we do not have damping in the system)
-  double *Udd_b; // The vector that holds the analytical acceleration at the boundary nodes. In this 1D problem, there is only one node.
-  double *F_b;   // The vector that holds the loads for the boundary nodes.
-
-  double *U_e;   // The vector that holds the analytical displacement at the boundary nodes. In this 1D problem, there is only one node.
-  double *Ud_e;  // The vector that holds the analytical acceleration at the boundary nodes. In this 1D problem, there is only one node.  (Not needed because we do not have damping in the system)
-  double *Udd_e; // The vector that holds the analytical acceleration at the boundary nodes. In this 1D problem, there is only one node.
-  double *F_e;   // The vector that holds the loads for the layer nodes.
-
-  // = Function =======================================================================================================================================
-  
+    
   // Defining the required vectors
   U_b   = new double[LoadPackage.NNBndry * LoadPackage.NDim];
   Ud_b  = new double[LoadPackage.NNBndry * LoadPackage.NDim];
@@ -229,18 +221,18 @@ void DRM_Loads_Implicit(const main_ns::Solver_ns::InputLoad* LoadPackage,
 
   F_e   = new double[LoadPackage.NNLayer * LoadPackage.NDim];
 
-  for (i = 0; i < LoadPackage.NNLayer * LoadPackage.NDim; i++)
+  for (int i = 0; i < LoadPackage.NNLayer * LoadPackage.NDim; i++)
   {
     F_e[i] = 0.0;
   }
 
   // Loop on the nodes on the DRM boundary to find out the analytical solution (In this case only one node)
-  for (int i = 0; i < NNBndry; i++)
+  for (int i = 0; i < LoadPackage.NNBndry; i++)
   {
-    for (int j = 0; j < NDim; j++)
+    for (int j = 0; j < LoadPackage.NDim; j++)
     {
-      x = LoadPackage.XYZ[ LoadPackage.NoBndry_DRM[i]][j]; // Coordinate of the node
-      u= v= a= 0.0;            // Initialize the values
+      LoadPackage.x = LoadPackage.XYZ[ LoadPackage.NoBndry_DRM[i]][j]; // Coordinate of the node
+      LoadPackage.u= LoadPackage.v= LoadPackage.a= 0.0;            // Initialize the values
       
       // Computing the analytical solution at this particular node
       // Remark: the one-dimensional wave-motion is identical for both SV and P waves.
@@ -248,15 +240,15 @@ void DRM_Loads_Implicit(const main_ns::Solver_ns::InputLoad* LoadPackage,
       // The point loads are identical for both shear and pressure waves. 
       // Just for the sake of clarity, we wrtie it as follows.
       if (LoadPackage.Wave_Type == 0) // SV wave
-        DRM_PointValues(Wave_Func, amplitude, Time, x, c, omega, alpha1, alpha2, u, v, a); 
+        DRM_PointValues(); 
       else if (LoadPackage.Wave_Type == 1) // P wave
-        DRM_PointValues(Wave_Func, amplitude, Time, x, c, omega, alpha1, alpha2, u, v, a); 
+        DRM_PointValues(); 
 
 
       // Filling the analytical solution vector
-      U_b  [i * LoadPackage.NNBndry * LoadPackage.NDim + j] = u;
-      Ud_b [i * LoadPackage.NNBndry * LoadPackage.NDim + j] = v;
-      Udd_b[i * LoadPackage.NNBndry * LoadPackage.NDim + j] = a;
+      U_b  [i * LoadPackage.NNBndry * LoadPackage.NDim + j] = LoadPackage.u;
+      Ud_b [i * LoadPackage.NNBndry * LoadPackage.NDim + j] = LoadPackage.v;
+      Udd_b[i * LoadPackage.NNBndry * LoadPackage.NDim + j] = LoadPackage.a;
     }
   }
 
@@ -280,53 +272,50 @@ void DRM_Loads_Implicit(const main_ns::Solver_ns::InputLoad* LoadPackage,
   delete Udd_b;
   delete F_e;
 
+  U_e   = new double[LoadPackage.NNLayer * LoadPackage.NDim];
+  Ud_e  = new double[LoadPackage.NNLayer * LoadPackage.NDim];
+  Udd_e = new double[LoadPackage.NNLayer * LoadPackage.NDim];
 
+  F_b   = new double[LoadPackage.NNBndry * LoadPackage.NDim];
 
-
-  U_e = new double[NNLayer * NDim];
-  Ud_e = new double[NNLayer * NDim];
-  Udd_e = new double[NNLayer * NDim];
-
-  F_b = new double[NNBndry * NDim];
-
-  for (i = 0; i < NNBndry * NDim; i++)
+  for (int i = 0; i < LoadPackage.NNBndry * LoadPackage.NDim; i++)
   {
     F_b[i] = 0.0;
   }
 
   // Loop on the nodes on the DRM layer to find out the analytical solution (In this case only two nodes)
-  for (i = 0; i < NNLayer; i++)
+  for (int i = 0; i < LoadPackage.NNLayer; i++)
   {
-    for (j = 0; j < NDim; j++)
+    for (int j = 0; j < LoadPackage.NDim; j++)
     {
-      x = XYZ[NoLayer_DRM[i]][j]; // Coordinate of the node
-      u = v = a = 0.0;            // Initialize the values
+      LoadPackage.x = LoadPackage.XYZ[LoadPackage.NoLayer_DRM[i]][j]; // Coordinate of the node
+      LoadPackage.u = LoadPackage.v = LoadPackage.a = 0.0;            // Initialize the values
       // Computing the analytical solution - Comment: the one-dimensional wave-motion is identical for both SV and P waves.
-      if (Wave_Type == 0)
-        DRM_PointValues(Wave_Func, amplitude, Time, x, c, omega, alpha1, alpha2, u, v, a); // SV wave
-      else if (Wave_Type == 1)
-        DRM_PointValues(Wave_Func, amplitude, Time, x, c, omega, alpha1, alpha2, u, v, a); // P wave
+      if (LoadPackage.Wave_Type == 0)      // SV wave
+        DRM_PointValues();
+      else if (LoadPackage.Wave_Type == 1) // P wave
+        DRM_PointValues(); 
 
       // Filling the analytical solution vector
-      U_e[i * NNBndry * NDim + j] = u;
-      Ud_e[i * NNBndry * NDim + j] = v;
-      Udd_e[i * NNBndry * NDim + j] = a;
+      U_e  [i * LoadPackage.NNBndry * LoadPackage.NDim + j] = LoadPackage.u;
+      Ud_e [i * LoadPackage.NNBndry * LoadPackage.NDim + j] = LoadPackage.v;
+      Udd_e[i * LoadPackage.NNBndry * LoadPackage.NDim + j] = LoadPackage.a;
     }
   }
 
   // Multiply the Mass, Damp, and Stiffness matrix by the vector
-  for (i = 0; i < NNBndry * NDim; i++)
+  for (int i = 0; i < LoadPackage.NNBndry * LoadPackage.NDim; i++)
   {
-    for (j = 0; j < NNLayer * NDim; j++)
+    for (int j = 0; j < LoadPackage.NNLayer * LoadPackage.NDim; j++)
     {
-      F_b[i] += -(M_eb[j][i] * Udd_e[j] + C_eb[j][i] * Ud_e[j] + K_eb[j][i] * U_e[j]);
+      F_b[i] +=-(LoadPackage.M_eb[j][i]*Udd_e[j] + LoadPackage.C_eb[j][i]*Ud_e[j] + LoadPackage.K_eb[j][i] * U_e[j]);
     }
   }
 
   // Assemble the load vector
-  for (i = 0; i < NNBndry * NDim; i++)
+  for (int i = 0; i < LoadPackage.NNBndry * LoadPackage.NDim; i++)
   {
-    UN[ND_b[i]] += F_b[i];
+    UN[LoadPackage.ND_b[i]] += F_b[i];
   }
 
   delete U_e;
@@ -335,7 +324,7 @@ void DRM_Loads_Implicit(const main_ns::Solver_ns::InputLoad* LoadPackage,
   delete F_b;
 }
 
-
+/////////////////////////////////////////
 /*
 ###################################################################################################
 Purpose: This function computes ????.
