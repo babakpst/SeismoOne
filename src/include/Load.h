@@ -54,7 +54,7 @@ private:
 
   InputLoad LoadPackage;
 
-  void DRM_PointValues(PointLoad);
+  void DRM_PointValues();
 
 public:
   double LoadFactor; // We use this apply pressure loads
@@ -62,7 +62,7 @@ public:
 
   apply_seismic_loads_to_the_domain_cls();
   double LoadFunction(const double, const double, const double);
-  void DRM_Loads_Implicit(double &alpha1, double &alpha2, double &Time, int NDim, int NNBndry, int NNLayer, int &Wave_Type, int &Wave_Func, double &amplitude, double &c, double *&UN, double **&XYZ, int *&NoBndry_DRM, int *&NoLayer_DRM, double **&M_eb, double **&C_eb, double **&K_eb, int *&ND_e, int *&ND_b);
+  void DRM_Loads_Implicit(const main_ns::Solver_ns::InputLoad*);
  
   
   

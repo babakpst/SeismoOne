@@ -31,16 +31,6 @@ double main_ns::Solver_ns::apply_seismic_loads_to_the_domain_cls::
   return (LoadFactor);
 }
 
-
-
-
-
-
-
-
-
-
-
 /*
 ###################################################################################################
 Purpose: This function compuates the DRM point loads at each load.
@@ -82,7 +72,7 @@ void main_ns::Solver_ns::apply_seismic_loads_to_the_domain_cls::DRM_PointValues(
   {
   case 0: // sine function
 
-    wr = 2.0 * pi * Load.omega; // characteristic central circular frequency
+    wr = 2.0 * pi * LoadPackage.omega; // characteristic central circular frequency
 
     arg1 = LoadPackage.Time - LoadPackage.x / LoadPackage.c; // positive direction phase - incident wave
     arg2 = LoadPackage.Time + LoadPackage.x / LoadPackage.c; // negative direction phase - reflected wave
@@ -200,8 +190,7 @@ V1.00: 07/04/2018 - Compiled successfully.
 ###################################################################################################
 */
 
-void DRM_Loads_Implicit(const main_ns::Solver_ns::InputLoad* LoadPackage, 
-                        const main_ns::Solver_ns::PointLoad* Load)
+void DRM_Loads_Implicit(const main_ns::Solver_ns::InputLoad* LoadPackage)
 {
   double* U_b;   // holds the analytical acceleration at the boundary nodes. In this 1D problem, there is only one node.
   double* Ud_b;  // holds the analytical velocity at the boundary nodes. In this 1D problem, there is only one node. (Not needed because we do not have damping in the system)
@@ -323,6 +312,9 @@ void DRM_Loads_Implicit(const main_ns::Solver_ns::InputLoad* LoadPackage,
   delete Udd_e;
   delete F_b;
 }
+
+
+
 
 /////////////////////////////////////////
 /*

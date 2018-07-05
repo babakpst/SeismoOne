@@ -60,6 +60,10 @@ void main_ns::Solver_ns::Solver_cls::solve_the_system_using_implicit_newmark_met
     F[i]   = 0.0;
   }
 
+  // fill the load package
+  LoadPackage.NDim = Model->NDim;
+  LoadPackage.NNBndry = 
+
   // effective force
   Compute_the_effective_matrix();
 
@@ -121,8 +125,10 @@ void main_ns::Solver_ns::Solver_cls::solve_the_system_using_implicit_newmark_met
     else if (Model->LoadType == 1) //        DRM_Load ();
     { 
       F[0] = 0;
+      // fill the load package
+      LoadPackage.?;
 
-      DRM_Loads_Implicit(alpha1, alpha2, Time, NDim, NNBndry, NNLayer, Wave_Type, Wave_Func, amplitude, c, UN, XYZ, NoBndry_DRM, NoLayer_DRM, M_eb, C_eb, K_eb, ND_e, ND_b);
+      DRM_Loads_Implicit(LoadPackage);
     }
 
 
