@@ -13,7 +13,7 @@ namespace main_ns
 
 namespace Solver_ns
 {
-
+ 
 // This data type packages all the required data to compute the DRM load at a point
 struct InputLoad 
   {
@@ -45,7 +45,7 @@ struct InputLoad
   double **&M_eb;
   double **&C_eb;
   double **&K_eb;
-  }
+  };
 
 class apply_seismic_loads_to_the_domain_cls
 {
@@ -67,8 +67,8 @@ public:
   
   
 
-  void DRM_PointValues_Freq(double &amplitude, double &x, double &c, double &omega, double &u_R, double &u_I);
-  void HistorySolution(int &NJ, double &TIME, double &Alpha, double &P, double &E, double &Rho, double &A, double *&U_EX, double **&XYZ);
+  //void DRM_PointValues_Freq(double &amplitude, double &x, double &c, double &omega, double &u_R, double &u_I);
+  //void HistorySolution(int &NJ, double &TIME, double &Alpha, double &P, double &E, double &Rho, double &A, double *&U_EX, double **&XYZ);
 
 } // load class
 } // namespace Solver_ns

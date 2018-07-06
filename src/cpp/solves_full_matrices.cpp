@@ -109,58 +109,6 @@ void main_ns::Solver_ns::solve_full_matrices_cls::Matrix_Multiplication(double *
   }
 }
 
-///////////////////////////////////////////
-/*
-###################################################################################################
-Purpose: This function solves the AX=B using Gaussian-Elemination method.
-
-Developed by: Babak Poursartip
- 
-The Institute for Computational Engineering and Sciences (ICES)
-The University of Texas at Austin	
-================================= V E R S I O N ===================================================
-V0.00: 06/28/2018 - Subroutine initiated.
-V0.01: 06/28/2018 - Initiated: Compiled without error for the first time.
-
-###################################################################################################
-*/
-void main_ns::Solver_ns::solve_full_matrices_cls::Gaussian(int &NEqM, double *&UN, double **&K)
-{
-
-  int k, l;
-  double Fac;
-  double sum;
-
-  // Uppertriangular
-  std::cout << "Upper" << std::endl;
-  for (int j = 0; j < NEqM - 1; j++)
-  {
-    for (int i = j + 1; i < NEqM - 1; i++)
-    {
-      Fac = -K[i][j] / K[j][j];
-      for (k = j; k < NEqM; k++)
-      {
-        K[i][k] += Fac * K[j][k];
-      }
-      UN[i] += Fac * UN[j];
-    }
-  }
-
-  //Backwardsubstitution
-  std::cout << "Backward" << std::endl;
-  for (int i = 0; i < NEqM; i++)
-  {
-    k = NEqM - i - 1;
-    sum = 0.0;
-    for (int j = 0; j < i; j++)
-    {
-      l = NEqM - j - 1;
-      sum += K[k][l] * UN[l];
-    }
-    UN[k] = (UN[k] - sum) / K[k][k];
-  }
-}
-
 /*
 ###################################################################################################
 Purpose: This function solves the AX=B using LDLT method.
@@ -171,110 +119,56 @@ The Institute for Computational Engineering and Sciences (ICES)
 The University of Texas at Austin	
 ================================= V E R S I O N ===================================================
 V0.00: 06/28/2018 - Subroutine initiated.
-V0.01: 06/28/2018 - Initiated: Compiled without error for the first time.
+V0.01: 07/06/2018 - Initiated: Compiled without error for the first time.
 
 ###################################################################################################
 */
 
-void main_ns::Solver_ns::solve_full_matrices_cls::Substitute(int &NEqM, double *&UN, double **&K)
+void main_ns::Solver_ns::solve_full_matrices_cls::
+                              Solve_the_system_for_this_RHS_using_Gaussina_Elimination(double *&UN)
 {
 
-  int k, l; // Loop index
+  int k, l; // temporary variables
+  
   double temp;
+  
   double *L;
 
-  L = new double[NEqM]; // Identifications
+  L = new double[Model->NEqM]; // Identifications
 
   //cout << "Forward" << endl;
-  for (int i = 0; i < NEqM; i++)
+  for (int i = 0; i < Model->NEqM; i++)
   {
     temp = 0.0;
     for (int j = 0; j < i; j++)
     {
-      temp += K[i][j] * UN[j];
+      temp += Matrix->K[i][j] * UN[j];
     }
     UN[i] = UN[i] - temp;
   }
 
-  for (int i = 0; i < NEqM; i++)
+  for (int i = 0; i < Model->NEqM; i++)
   {
-    UN[i] = UN[i] / K[i][i];
+    UN[i] = UN[i] / Matrix->K[i][i];
   }
 
   //cout << "Backward" << endl;
-  for (int i = 0; i < NEqM; i++)
+  for (int i = 0; i < Model->NEqM; i++)
   {
 
-    k = NEqM - i - 1;
+    k = Model->NEqM - i - 1;
     temp = 0.0;
     for (int j = 0; j < i; j++)
     {
-      l = NEqM - j - 1;
+      l = Model->NEqM - j - 1;
       temp += K[l][k] * L[l];
     }
     L[k] = (UN[k] - temp);
   }
 
-  for (int i = 0; i < NEqM; i++)
+  for (int i = 0; i < Model->NEqM; i++)
   {
     UN[i] = L[i];
   }
 }
 
-//// delete
-/*
-###################################################################################################
-Purpose: This function solves the AX=B using LDLT method.
-
-Developed by: Babak Poursartip
- 
-The Institute for Computational Engineering and Sciences (ICES)
-The University of Texas at Austin	
-================================= V E R S I O N ===================================================
-V0.00: 06/28/2018 - Subroutine initiated.
-V0.01: 06/28/2018 - Initiated: Compiled without error for the first time.
-
-###################################################################################################
-*/
-void main_ns::Solver_ns::solve_full_matrices_cls::solve_the_system_using_implicit_newmark_method()
-{
-
-  // Check whether the initial time is small enough
-  if (IStep == 0)
-  {
-    for (int i = 0; i < NEqM; i++)
-    {
-      if (UN[i] != 0)
-      {
-        InitialTime = true;
-        break;
-      }
-    }
-    if (InitialTime == true)
-    {
-      std::cout << "WARNING: REDUCE THE INITIAL TIME" << std::endl;
-      return;
-    }
-  }
-
-  // SOLVE
-  //Gauss_El_Full ( NEqM, UN, K);
-  //Gaussian ( NEqM, UN, K);
-  Substitute(NEqM, UN, K);
-
-  // time history of the solution at some particular nodes
-  History << setw(6) << Total_Time;
-  for (int i = 0; i < Dis_History; i++)
-  {
-    History << setw(20) << UN[Nodal_History[i]];
-  }
-  History << std::endl;
-
-  //FullSol << "Time= " << Time << endl;
-  for (int i = 0; i < NEqM; i++)
-  {
-    FullSol << UN[i] << setw(20);
-  }
-  FullSol << std::endl;
-}
-}

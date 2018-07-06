@@ -77,6 +77,8 @@ void main_ns::Matrices_ns::Matrices_cls::allocating_local_matrices_fn()
     M_eb[i] = new double[Model->NDim * Model->NNBndry];
   }
 
+  ND = new int[NEqEl];
+
 }
 
 /*
@@ -150,8 +152,8 @@ void main_ns::Matrices_ns::Matrices_cls::assembling_local_matrices_into_global_m
 
     // Material Property of this element
     MType = DiscretizedModel->MTel[iel]; // Material property type
-    E = Model->PMat[MType][0];           // Elastic modulus of this material
-    Rho = Model->PMat[MType][1];         // Density of this material
+    E     = Model->PMat[MType][0];       // Elastic modulus of this material
+    Rho   = Model->PMat[MType][1];       // Density of this material
 
     compute_elemental_matrices_fn(iel, Rho, E);
 

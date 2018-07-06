@@ -16,9 +16,7 @@ class solve_full_matrices_cls : public main_ns::Solver_ns::Solver_cls
   virtual void Compute_the_effective_matrix();
   virtual void Reduce_the_effective_forece();
   virtual void Matrix_Multiplication(double**& Matrix, double*& Temp, double*& UN);
-
-  void Gaussian(int &NEqM, double *&UN, double **&K);
-  void Substitute(int &NEqM, double *&UN, double **&K);
+  virtual void Solve_the_system_for_this_RHS_using_Gaussina_Elimination(double*& UN);
  
 public:
   solve_full_matrices_cls();

@@ -15,12 +15,11 @@ class solve_Skyline_matrices_cls : public main_ns::Solver_ns::Solver_cls
   virtual void Compute_the_effective_matrix();
   virtual void Reduce_the_effective_forece();
   virtual void Matrix_Multiplication(double*&Matrix, double*& Temp, double*& UN);
-
-  void Skyline(int &NEqM, int &NEl, int &NNode, int &NDOF, int *&NTK, int **&INod, int **&ID, int *&JD);
-  void Gauss_El_Skyline(int *&NTK, int *&JD, int &NEqM, double *&UN, double *&K);
+  virtual void Solve_the_system_for_this_RHS_using_Gaussina_Elimination(double*& UN);
   
 public:
   solve_Skyline_matrices_cls();
+ 
 
 }
 } // namespace Solver_ns

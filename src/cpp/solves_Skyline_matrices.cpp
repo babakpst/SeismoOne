@@ -98,7 +98,8 @@ V0.01: 07/02/2018 - Initiated: Compiled without error for the first time.
 ###################################################################################################
 */
 
-void main_ns::Solver_ns::solve_Skyline_matrices_cls::Matrix_Multiplication(double *&Matrix, double *&Temp, double *&UN)
+void main_ns::Solver_ns::solve_Skyline_matrices_cls::
+                                 Matrix_Multiplication(double *&Matrix, double *&Temp, double *&UN)
 {
 
   int I, J, K, IJ;
@@ -123,11 +124,9 @@ void main_ns::Solver_ns::solve_Skyline_matrices_cls::Matrix_Multiplication(doubl
   }
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////////////
 /*
 ###################################################################################################
-Purpose: This function reduces of the effective stiffness matrix to a triangular one for 
-         Gauss-Elimination method using the skyline method
+Purpose: This function solver the system for each RHS at each time step.
 
 Developed by: Babak Poursartip
  
@@ -135,108 +134,34 @@ The Institute for Computational Engineering and Sciences (ICES)
 The University of Texas at Austin	
 ================================= V E R S I O N ===================================================
 V0.00: 06/28/2018 - Subroutine initiated.
-V0.01: 06/28/2018 - Initiated: Compiled without error for the first time.
+V0.01: 07//2018 - Initiated: Compiled without error for the first time.
 
 ###################################################################################################
 */
-
-void main_ns::Solver_ns::solve_Skyline_matrices_cls::Skyline(int &NEqM, int &NEl, int &NNode, int &NDOF, int *&NTK, int **&INod, int **&ID, int *&JD)
+void main_ns::Solver_ns::solve_Skyline_matrices_cls::
+                              Solve_the_system_for_this_RHS_using_Gaussina_Elimination(double *&UN)
 {
-
-  int NEqEl;
-
-  int *ND; // element constraints
-
-  NEqEl = NDOF * NNode;
-  ND = new int[NEqEl];
-
-  for (int i = 0; i < NEqEl; i++)
-  {
-    ND[i] = 0.0;
-  }
-
-  for (int i = 0; i < NEqM; i++)
-  {
-    NTK[i] = i;
-  }
-
-  {
-    int i, j, k;
-    for (int iel = 0; iel < NEl; iel++)
-    {
-      for (int i = 0; i < NNode; i++)
-      {
-
-        k = INod[i][iel];
-        for (int j = 0; j < NDOF; j++)
-        {
-          ND[j * NNode + i] = ID[k][j];
-        }
-      }
-
-      for (int l = 0; l < NEqEl; l++)
-      {
-        for (int k = 0; k < NEqEl; k++)
-        {
-          i = ND[l];
-          j = ND[k];
-          //if ((i==0) ||  (j==0)) continue;
-          if (i > j)
-            continue;
-          if (i < NTK[j])
-            NTK[j] = i;
-        }
-      }
-    }
-  }
-
-  JD[0] = 0;
-
-  for (int i = 1; i < NEqM; i++)
-  {
-    JD[i] = JD[i - 1] + i + 1 - NTK[i];
-  }
-
-  std::cout << "End function skyline" << std::endl;
-}
-
-/*
-###################################################################################################
-Purpose: This function reduces of the effective stiffness matrix to a triangular one for 
-         Gauss-Elimination method using the skyline method
-
-Developed by: Babak Poursartip
- 
-The Institute for Computational Engineering and Sciences (ICES)
-The University of Texas at Austin	
-================================= V E R S I O N ===================================================
-V0.00: 06/28/2018 - Subroutine initiated.
-V0.01: 06/28/2018 - Initiated: Compiled without error for the first time.
-
-###################################################################################################
-*/
-void main_ns::Solver_ns::solve_Skyline_matrices_cls::Gauss_El_Skyline(int *&NTK, int *&JD, int &NEqM, double *&UN, double *&K)
-{
-
-  N = NEqM;
-  N1 = N - 1;
 
   int k, KJ, N, N1, KK, K1, NN; // temporary variables
+  
+  N = Model->NEqM;
+  N1 = N - 1;
+ 
   for (int k = 0; k < N1; k++)
   {
     K1 = k + 1;
     for (int j = K1; j < N; j++)
     {
-      if (k < NTK[j])
+      if (k < Matrix->NTK[j])
         continue;
-      KJ = JD[j] + k - j;
-      KK = JD[k];
-      UN[j] = UN[j] - UN[k] * K[KJ] / K[KK];
+      KJ = Matrix->JD[j] + k - j;
+      KK = Matrix->JD[k];
+      UN[j] = UN[j] - UN[k] * Matrix->K[KJ] / Matrix->K[KK];
     }
   }
 
-  NN = JD[N];
-  UN[N] = UN[N] / K[NN];
+  NN = Matrix->JD[N];
+  UN[N] = UN[N] / Matrix->K[NN];
 
   for (int i = 0; i < N1; i++)
   {
@@ -244,13 +169,13 @@ void main_ns::Solver_ns::solve_Skyline_matrices_cls::Gauss_El_Skyline(int *&NTK,
     K1 = k + 1;
     for (int j = K1; j < N; j++)
     {
-      if (k >= NTK[j])
+      if (k >= Matrix->NTK[j])
       {
-        KJ = JD[j] + k - j;
-        UN[k] = UN[k] - K[KJ] * UN[j];
+        KJ = Matrix->JD[j] + k - j;
+        UN[k] = UN[k] - Matrix->K[KJ] * UN[j];
       }
     }
-    KK = JD[k];
-    UN[k] = UN[k] / K[KK];
+    KK = Matrix->JD[k];
+    UN[k] = UN[k] / Matrix->K[KK];
   }
 }

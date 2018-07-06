@@ -331,7 +331,7 @@ V1.00: 07/04/2018 - Compiled successfully.
 
 ###################################################################################################
 */
-
+/*
 void HistorySolution(int &NJ, double &Time, double &Alpha, double &P, double &E, double &Rho, double &A, double *&U_EX, double **&XYZ)
 {
 
@@ -354,7 +354,7 @@ void HistorySolution(int &NJ, double &Time, double &Alpha, double &P, double &E,
       U_EX[ij] = U_EX[ij] - fac * (1 - cos(Alpha * (Time - x / c - 2 * pi / Alpha)));
   }
 }
-
+*/
 
 
 /*
@@ -372,6 +372,7 @@ V1.00: 07/04/2018 - Compiled successfully.
 ###################################################################################################
 */
 
+/*
 void DRM_PointValues_Freq(double &amplitude, double &x, double &c, double &omega, double &u_R, double &u_I)
 {
 
@@ -384,3 +385,4 @@ void DRM_PointValues_Freq(double &amplitude, double &x, double &c, double &omega
   u_R = 2 * amplitude * cos(k * x); // The real part of the analytical solution in the frequency domain
   u_I = 0.0;                        // The imaginary part of the analytical solution in the frequency domain
 }
+*/

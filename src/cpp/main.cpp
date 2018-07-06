@@ -1,5 +1,4 @@
 
-
 /*
 ===================================================================================================
 
@@ -86,7 +85,6 @@ int main()
     break;
   case 1: // solving the system using skyline mathod
     Matrix = new main_ns::Matrices_ns::Matrices_Skyline_cls(&discretized_model, &model);
-    //Skyline ( NEqM, NEl, NNode, NDOF, NTK, INod, ID, JD ); // this should create the skyline matrices
     break;
   case 2: // Transfer functions in the frequency domain
     Matrix = new main_ns::Matrices_ns::Matrices_Full_cls(&discretized_model, &model);
@@ -116,70 +114,9 @@ switch (model.Solver)
     std::cout << "The input solver type is not available. Solver should be either 0 for full matrices or 1 for skyline method" << std::endl;
   }
 
-
   /*
 // Solving
   switch (Solver) {
-    case 0:   // Time domain anaylsis using full matrices
-      {
-
-      // Open output files for the time domain simulations 
-      ofstream FullSol;
-      FullSol.open (FullFile_Dir.c_str(), ios::out );
-
-      ofstream History;
-      History.open (HistoryFile_Dir.c_str(), ios::out );
-
-      // - Newmark algorithm for marchin in time -------------------------------------------------------------------------------------------------------
-      Newmark_Full ( L, Wave_Type, Wave_Func, NStep, NEqM, LoadType, Gama, Beta, DT, Alpha, M, C, K, F, PMat, XYZ, FullSol, History, ND_e, ND_b, Nodal_History ) ;
-
-        for(int i=0;i<NEqM;i++){
-          delete []K[i];
-        }
-      delete []K;
-
-        for(int i=0;i<NEqM;i++){
-          delete []C[i];
-        }
-      delete []C;
-
-        for(int i=0;i<NEqM;i++){
-          delete []M[i];
-        }
-      delete []M;
-
-      // Close output files 
-      FullSol.close();
-      History.close();
-      info.close();
-
-      break;
-    }
-
-
-    case 1:   // Time domain analysis using skyline method
-      {
-
-      // Open output files for the time domain simulations 
-      ofstream FullSol;
-      FullSol.open (FullFile_Dir.c_str(), ios::out );
-
-      ofstream History;
-      History.open (HistoryFile_Dir.c_str(), ios::out );
-
-      // - Newmark algorithm for marchin in time -------------------------------------------------------------------------------------------------------
-      Newmark_Skyline ( L, Wave_Type, Wave_Func, NStep, NEqM, LoadType, Gama, Beta, DT, Alpha, M_S, C_S, K_S, F, PMat, XYZ, FullSol, History, ND_e, ND_b, Nodal_History, JD, NTK, info );
-
-      // Close output files 
-      FullSol.close();
-      History.close();
-      info.close();
-
-      break;
-    }
-
-
-
     case 2:   // Computing transfer functions in the frequency domain anaylsis using full matrices
       {
       // Open output files for the transfer function output
@@ -188,68 +125,17 @@ switch (model.Solver)
 
       // - Computing the transfer functions in the frequency domain ------------------------------------------------------------------------------------
       Transfer_Full ( alpha1, alpha2, Wave_Type, NEqM, M, C, K, PMat, XYZ, ND_e, ND_b, TransferFunc );
-        for(int i=0;i<NEqM;i++){
-          delete []K[i];
-        }
-      delete []K;
-
-        for(int i=0;i<NEqM;i++){
-          delete []C[i];
-        }
-      delete []C;
-
-        for(int i=0;i<NEqM;i++){
-          delete []M[i];
-        }
-      delete []M;
 
       // Close output files 
       TransferFunc.close();
       info.close();
-
       break;
     }
-    default:
-      cout << "Solver type is not available. Solver should be either 0 for full matrices or 1 for skyline method"<< endl;
   }
-
-
-// Information file
-ofstream info;
-info.open (Info_Dir.c_str(), ios::out );
-
-// Write information
-info << "Number of elements :" << NEl << endl; 
-info << "Number of nodes    :" << NJ << endl; 
-
-
-
-// = DeAllocating Arrays ============================================================================================================================
-// DeAllocating 1D arrays
-delete MTel;
-
-// DeAllocating 2D arrays
-  for(int i=0; i<NNode; i++){
-   delete []INod[i];
-  }
-delete []INod;
-
-  for (int i=0;i<NJ;i++){
-   delete []ID[i];
-  }
-delete []ID;
-
-  for(int i=0;i<NJ;i++){
-   delete []XYZ[i];
-  }
-delete []XYZ;
-
-// terminating the code
-  cout << "End of the code \n";
-  cout << "Press 'Enter' to end \n";
-//  getline (cin , TempS) ;
-
 */
 
+// terminating the code
+  std::cout << "End of the code! " << std::endl;
+  std::cout << "Press 'Enter' to end! "  << std::endl;
   return 0;
 }

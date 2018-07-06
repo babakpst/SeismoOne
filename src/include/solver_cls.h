@@ -1,8 +1,8 @@
 
-
 #include <iostream>
 #include <string>
 #include <sstream>
+#include <fstream>
 
 #include "../include/Load.h"
 #include "../include/discretize_the_domain_cls.h"
@@ -54,16 +54,20 @@ class Solver_cls: public main_ns::Solver_ns::apply_seismic_loads_to_the_domain_c
   virtual void Compute_the_effective_matrix(void)=0;
   virtual void Reduce_the_effective_forece(void)=0;
   virtual void Matrix_Multiplication(void) =0;
+  virtual void Solve_the_system_for_this_RHS_using_Gaussina_Elimination(void)=0;
+
 
 protected:
 public:
   main_ns::discretization_ns::discretization_cls* DiscretizedModel;
   main_ns::model_ns::model_cls* Model;
   main_ns::Matrices_ns::Matrices_cls* Matrices;
+  main_ns::address_ns::address_cls* Addresses
 
   Solver_cls(main_ns::discretization_ns::discretization_cls*, main_ns::model_ns::model_cls*,
              main_ns::Matrices_ns::Matrices_cls*,
-             main_ns::Solver_ns::apply_seismic_loads_to_the_domain_cls*);
+             main_ns::Solver_ns::apply_seismic_loads_to_the_domain_cls*,
+             main_ns::address_ns::address_cls*);
 
   void solve_the_system_using_implicit_newmark_method(); //either using the skyline or full system
   
