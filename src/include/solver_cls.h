@@ -62,7 +62,7 @@ public:
   main_ns::discretization_ns::discretization_cls* DiscretizedModel;
   main_ns::model_ns::model_cls* Model;
   main_ns::Matrices_ns::Matrices_cls* Matrices;
-  main_ns::address_ns::address_cls* Addresses
+  main_ns::address_ns::address_cls* Addresses;
 
   Solver_cls(main_ns::discretization_ns::discretization_cls*, main_ns::model_ns::model_cls*,
              main_ns::Matrices_ns::Matrices_cls*,

@@ -1,5 +1,5 @@
 
-#include "../include/solve_Skyline_matrices.h"
+#include "../include/solves_Skyline_matrices.h"
 
 /*
 ###################################################################################################
@@ -22,9 +22,9 @@ void main_ns::Solver_ns::solve_Skyline_matrices_cls::Compute_the_effective_matri
   std::cout << " Obtaining the effective matrix ..." << std::endl;
   Compute_the_effective_matrix();
 
-  for (int i = 0; i < Matrix->JD[DiscretizedModel->NEqM - 1]; i++)
+  for (int i = 0; i < Matrices->JD[DiscretizedModel->NEqM - 1]; i++)
   {
-    Matrix->K[i] = Matrix->K[i] + A0 * Matrix->M[i] + A1 * Matrix->C[i];
+    Matrices->K[i] = Matrices->K[i] + A0 * Matrices->M[i] + A1 * Matrices->C[i];
   }
 }
 

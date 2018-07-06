@@ -21,7 +21,7 @@ public:
   solve_Skyline_matrices_cls();
  
 
-}
+};
 } // namespace Solver_ns
 
 } // namespace main_ns

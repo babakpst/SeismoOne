@@ -70,7 +70,7 @@ public:
   //void DRM_PointValues_Freq(double &amplitude, double &x, double &c, double &omega, double &u_R, double &u_I);
   //void HistorySolution(int &NJ, double &TIME, double &Alpha, double &P, double &E, double &Rho, double &A, double *&U_EX, double **&XYZ);
 
-} // load class
+}; // load class
 } // namespace Solver_ns
 } // namespace main_ns
 
