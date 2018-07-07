@@ -25,7 +25,7 @@ namespace model_ns
       
       const main_ns::address_ns::address_cls* input;
 
- 		public:
+    public:
 
       // variables
       int NDim;             // number of Dimension

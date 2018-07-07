@@ -62,7 +62,7 @@ public:
 
   apply_seismic_loads_to_the_domain_cls();
   double LoadFunction(const double, const double, const double);
-  void DRM_Loads_Implicit(const main_ns::Solver_ns::InputLoad*);
+  void DRM_Loads_Implicit(main_ns::Solver_ns::InputLoad*);
  
   
   

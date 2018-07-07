@@ -26,7 +26,7 @@ void main_ns::Solver_ns::solve_full_matrices_cls::Compute_the_effective_matrix()
   {
     for (int j = 0; j < DiscretizedModel->NEqM; j++)
     {
-      Matrix->K[i][j] = Matrix->K[i][j] + A0 * Matrix->M[i][j] + A1 * Matrix->C[i][j];
+      Matrices->K[i][j] = Matrices->K[i][j] + A0 * Matrices->M[i][j] + A1 * Matrices->C[i][j];
     }
   }
 }
@@ -64,18 +64,18 @@ void main_ns::Solver_ns::solve_full_matrices_cls::Reduce_the_effective_forece()
 
     for (int i = j + 1; i < tempI; i++)
     {
-      L[i] = Matrix->K[i][j] / Matrix->K[j][j];
+      L[i] = Matrices->K[i][j] / Matrices->K[j][j];
     }
     for (int k = j + 1; k < tempI; k++)
     {
       for (int l = j + 1; l < DiscretizedModel->NEqM; l++)
       {
-        Matrix->K[k][l] = Matrix->K[k][l] - L[k] * Matrix->K[j][l];
+        Matrices->K[k][l] = Matrices->K[k][l] - L[k] * Matrices->K[j][l];
       }
     }
     for (int i = j + 1; i < tempI; i++)
     {
-      Matrix->K[i][j] = L[i];
+      Matrices->K[i][j] = L[i];
     }
   }
 }
@@ -134,39 +134,39 @@ void main_ns::Solver_ns::solve_full_matrices_cls::
   
   double *L;
 
-  L = new double[Model->NEqM]; // Identifications
+  L = new double[DiscretizedModel->NEqM]; // Identifications
 
   //cout << "Forward" << endl;
-  for (int i = 0; i < Model->NEqM; i++)
+  for (int i = 0; i < DiscretizedModel->NEqM; i++)
   {
     temp = 0.0;
     for (int j = 0; j < i; j++)
     {
-      temp += Matrix->K[i][j] * UN[j];
+      temp += Matrices->K[i][j] * UN[j];
     }
     UN[i] = UN[i] - temp;
   }
 
-  for (int i = 0; i < Model->NEqM; i++)
+  for (int i = 0; i < DiscretizedModel->NEqM; i++)
   {
-    UN[i] = UN[i] / Matrix->K[i][i];
+    UN[i] = UN[i] / Matrices->K[i][i];
   }
 
   //cout << "Backward" << endl;
-  for (int i = 0; i < Model->NEqM; i++)
+  for (int i = 0; i < DiscretizedModel->NEqM; i++)
   {
 
-    k = Model->NEqM - i - 1;
+    k = DiscretizedModel->NEqM - i - 1;
     temp = 0.0;
     for (int j = 0; j < i; j++)
     {
-      l = Model->NEqM - j - 1;
+      l = DiscretizedModel->NEqM - j - 1;
       temp += K[l][k] * L[l];
     }
     L[k] = (UN[k] - temp);
   }
 
-  for (int i = 0; i < Model->NEqM; i++)
+  for (int i = 0; i < DiscretizedModel->NEqM; i++)
   {
     UN[i] = L[i];
   }

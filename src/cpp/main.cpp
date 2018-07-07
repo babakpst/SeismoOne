@@ -76,7 +76,6 @@ int main()
   // = matrices ===================================================================================
   // creating global matrices
   main_ns::Matrices_ns::Matrices_cls* Matrix;
-  main_ns::Solver_ns::Solver_cls* Solver;
 
   switch (model.Solver)
   {
@@ -96,15 +95,18 @@ int main()
   Matrix->assembling_local_matrices_into_global_matrices_fn();
   Matrix->create_DRM_matrices_fn();
 
-// Solver:
+
+
+// = solver =====================================================================================
+main_ns::Solver_ns::Solver_cls* Solver;
 switch (model.Solver)
   {
   case 0: // solving the system using full matrices
-    Solver = new main_ns::Solver_ns::solve_full_matrices_cls();
+    Solver = new main_ns::Solver_ns::solve_full_matrices_cls(&input, &model, &discretized_model, &Matrix);
     Solver.solve_the_system_using_implicit_newmark_method();
     break;
   case 1: // solving the system using skyline mathod
-    Solver = new main_ns::Solver_ns::solve_Skyline_matrices_cls();
+    Solver = new main_ns::Solver_ns::solve_Skyline_matrices_cls(&input, &model, &discretized_model, &Matrix);
     Solver.solve_the_system_using_implicit_newmark_method();
     break;
   case 2: // Transfer functions in the frequency domain

@@ -54,7 +54,7 @@ void main_ns::Solver_ns::solve_Skyline_matrices_cls::Reduce_the_effective_forece
 
   int N, N1; // temp var to follow the algorithm
 
-  N = Model->NEqM;
+  N = DiscretizedModel->NEqM;
   N1 = N - 1;
 
   for (int K = 0; K < N1; K++)
@@ -62,21 +62,21 @@ void main_ns::Solver_ns::solve_Skyline_matrices_cls::Reduce_the_effective_forece
     K1 = K + 1;
     for (int J = K1; J <= N; J++)
     {
-      if (K < (Matrix->NTK[J]))
+      if (K < (Matrices->NTK[J]))
         continue;
-      KJ = Matrix->JD[J] + K - J;
-      KK = Matrix->JD[K];
+      KJ = Matrices->JD[J] + K - J;
+      KK = Matrices->JD[K];
       I1 = K1;
-      if (K1 < (Matrix->NTK[J]))
-        I1 = Matrix->NTK[J];
+      if (K1 < (Matrices->NTK[J]))
+        I1 = Matrices->NTK[J];
       for (int I = I1; I <= J; I++)
       {
-        if (K > (Matrix->NTK[I]))
+        if (K > (Matrices->NTK[I]))
         {
-          KI = Matrix->JD[I] + K - I;
-          Fac = Matrix->K[KI] / K[KK];
-          IJ = Matrix->JD[J] + I - J;
-          Matrix->K[IJ] = Matrix->K[IJ] - Matrix->K[KJ] * Fac;
+          KI = Matrices->JD[I] + K - I;
+          Fac = Matrices->K[KI] / K[KK];
+          IJ = Matrices->JD[J] + I - J;
+          Matrices->K[IJ] = Matrices->K[IJ] - Matrices->K[KJ] * Fac;
         }
       }
     }
@@ -144,7 +144,7 @@ void main_ns::Solver_ns::solve_Skyline_matrices_cls::
 
   int k, KJ, N, N1, KK, K1, NN; // temporary variables
   
-  N = Model->NEqM;
+  N = DiscretizedModel->NEqM;
   N1 = N - 1;
  
   for (int k = 0; k < N1; k++)
@@ -152,16 +152,16 @@ void main_ns::Solver_ns::solve_Skyline_matrices_cls::
     K1 = k + 1;
     for (int j = K1; j < N; j++)
     {
-      if (k < Matrix->NTK[j])
+      if (k < Matrices->NTK[j])
         continue;
-      KJ = Matrix->JD[j] + k - j;
-      KK = Matrix->JD[k];
-      UN[j] = UN[j] - UN[k] * Matrix->K[KJ] / Matrix->K[KK];
+      KJ = Matrices->JD[j] + k - j;
+      KK = Matrices->JD[k];
+      UN[j] = UN[j] - UN[k] * Matrices->K[KJ] / Matrices->K[KK];
     }
   }
 
-  NN = Matrix->JD[N];
-  UN[N] = UN[N] / Matrix->K[NN];
+  NN = Matrices->JD[N];
+  UN[N] = UN[N] / Matrices->K[NN];
 
   for (int i = 0; i < N1; i++)
   {
@@ -169,13 +169,13 @@ void main_ns::Solver_ns::solve_Skyline_matrices_cls::
     K1 = k + 1;
     for (int j = K1; j < N; j++)
     {
-      if (k >= Matrix->NTK[j])
+      if (k >= Matrices->NTK[j])
       {
-        KJ = Matrix->JD[j] + k - j;
-        UN[k] = UN[k] - Matrix->K[KJ] * UN[j];
+        KJ = Matrices->JD[j] + k - j;
+        UN[k] = UN[k] - Matrices->K[KJ] * UN[j];
       }
     }
-    KK = Matrix->JD[k];
-    UN[k] = UN[k] / Matrix->K[KK];
+    KK = Matrices->JD[k];
+    UN[k] = UN[k] / Matrices->K[KK];
   }
 }
