@@ -1,6 +1,14 @@
 
 #include "../include/solves_Skyline_matrices.h"
 
+main_ns::Solver_ns::solve_Skyline_matrices_cls::solve_Skyline_matrices_cls(main_ns::address_ns::address_cls* aAddresses, 
+                             main_ns::model_ns::model_cls* aModel,
+                             main_ns::discretization_ns::discretization_cls* aDiscretization,
+                             main_ns::Matrices_ns::Matrices_Skyline_cls* aMatrices)
+                             : main_ns::Solver_ns::Solver_cls(aAddresses, aModel, aDiscretization),
+                             Matrices(aMatrices){}
+
+
 /*
 ###################################################################################################
 Purpose: This function computes the effective matrix based on the Newmark algorithm.

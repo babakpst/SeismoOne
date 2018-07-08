@@ -109,9 +109,6 @@ switch (model.Solver)
     Solver = new main_ns::Solver_ns::solve_Skyline_matrices_cls(&input, &model, &discretized_model, &Matrix);
     Solver.solve_the_system_using_implicit_newmark_method();
     break;
-  case 2: // Transfer functions in the frequency domain
-    //Solver = new ;
-    break;
   default:
     std::cout << "The input solver type is not available. Solver should be either 0 for full matrices or 1 for skyline method" << std::endl;
   }
@@ -124,6 +121,8 @@ switch (model.Solver)
       // Open output files for the transfer function output
       ofstream TransferFunc;
       TransferFunc.open (TransferFunction_Dir.c_str(), ios::out );
+    //Solver = new ;
+    break;
 
       // - Computing the transfer functions in the frequency domain ------------------------------------------------------------------------------------
       Transfer_Full ( alpha1, alpha2, Wave_Type, NEqM, M, C, K, PMat, XYZ, ND_e, ND_b, TransferFunc );
