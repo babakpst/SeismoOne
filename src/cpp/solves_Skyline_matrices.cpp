@@ -8,6 +8,12 @@ main_ns::Solver_ns::solve_Skyline_matrices_cls::solve_Skyline_matrices_cls(main_
                              : main_ns::Solver_ns::Solver_cls(aAddresses, aModel, aDiscretization),
                              Matrices(aMatrices){}
 
+main_ns::Solver_ns::solve_Skyline_matrices_cls::~solve_Skyline_matrices_cls()
+{
+  delete[] Matrices->K;
+  delete[] Matrices->C;
+  delete[] Matrices->M;
+}
 
 /*
 ###################################################################################################
@@ -107,7 +113,7 @@ V0.01: 07/02/2018 - Initiated: Compiled without error for the first time.
 */
 
 void main_ns::Solver_ns::solve_Skyline_matrices_cls::
-                                 Matrix_Multiplication(double *&Matrix, double *&Temp, double *&UN)
+                                 Matrix_Multiplication(double*& Matrix, double*& Temp, double*& UN)
 {
 
   int I, J, K, IJ;
@@ -147,7 +153,7 @@ V0.01: 07//2018 - Initiated: Compiled without error for the first time.
 ###################################################################################################
 */
 void main_ns::Solver_ns::solve_Skyline_matrices_cls::
-                              Solve_the_system_for_this_RHS_using_Gaussina_Elimination(double *&UN)
+                              Solve_the_system_for_this_RHS_using_Gaussina_Elimination(double*& UN)
 {
 
   int k, KJ, N, N1, KK, K1, NN; // temporary variables

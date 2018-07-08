@@ -5,41 +5,20 @@ main_ns::Solver_ns::Solver_cls::Solver_cls(
     main_ns::address_ns::address_cls* aAddresses,
     main_ns::model_ns::model_cls* aModel,
     main_ns::discretization_ns::discretization_cls* aDiscretization)
-    : DiscretizedModel(aDiscretization), Model(aModel), Addresses(aAddresses)
+    : Addresses(aAddresses), Model(aModel), DiscretizedModel(aDiscretization)
 {
 
   // Information file
-  ofstream info;
-  info.open(Addresses->Info_Dir.c_str(), ios::out);
+  info.open(Addresses->Info_Dir.c_str(), std::ios::out);
 
   // Open output files for the time domain simulations
-  ofstream FullSol;
-  FullSol.open(Addresses->FullFile_Dir.c_str(), ios::out);
+  FullSol.open(Addresses->FullFile_Dir.c_str(), std::ios::out);
 
-  ofstream History;
-  History.open(Addresses->HistoryFile_Dir.c_str(), ios::out);
+  History.open(Addresses->HistoryFile_Dir.c_str(), std::ios::out);
 }
 
 main_ns::Solver_ns::Solver_cls::~Solver_cls()
 {
-  for (int i = 0; i < Model->NEqM; i++)
-  {
-    delete[] Matrix->K[i];
-  }
-  delete[] Matrix->K;
-
-  for (int i = 0; i < Model->NEqM; i++)
-  {
-    delete[] Matrix->C[i];
-  }
-  delete[] Matrix->C;
-
-  for (int i = 0; i < Model->NEqM; i++)
-  {
-    delete[] Matrix->M[i];
-  }
-  delete[] Matrix->M;
-
   // Close output files
   FullSol.close();
   History.close();
@@ -130,6 +109,16 @@ void main_ns::Solver_ns::Solver_cls::solve_the_system_using_implicit_newmark_met
   LoadPackage.amplitude = Model->amplitude;
   LoadPackage.c = c;
   LoadPackage.omega = Model->omega;
+  LoadPackage.NoBndry_DRM = DiscretizedModel->NoBndry_DRM;
+  LoadPackage.NoLayer_DRM = DiscretizedModel->NoLayer_DRM;
+  LoadPackage.ND_e = Matrices->ND_e;
+  LoadPackage.ND_b = Matrices->ND_b;
+
+  LoadPackage.XYZ = DiscretizedModel->XYZ;
+  LoadPackage.M_eb = Matrices->M_eb;
+  LoadPackage.C_eb = Matrices->C_eb;
+  LoadPackage.K_eb = Matrices->K_eb;
+  LoadPackage.UN   = UN;
 
   // effective force
   Compute_the_effective_matrix();
@@ -170,14 +159,14 @@ void main_ns::Solver_ns::Solver_cls::solve_the_system_using_implicit_newmark_met
 
     // up to here
     // Multiply the mass matrix by the load vector
-    Matrix_Multiplication(Matrices->M, Temp, UN);
+    Matrix_Multiplication(Matrices->M, &Temp, &UN);
 
     for (int i = 0; i < DiscretizedModel->NEqM; i++)
     {
       Temp[i] = A1 * U[i] + A4 * UD[i] + A5 * UDD[i];
     }
 
-    Matrix_Multiplication(Matrices->C, Temp, UN);
+    Matrix_Multiplication(Matrices->C, &Temp, &UN);
 
     // Adding loads at this time step
     if (Model->LoadType == 0) // Pressure load
@@ -193,14 +182,14 @@ void main_ns::Solver_ns::Solver_cls::solve_the_system_using_implicit_newmark_met
       F[0] = 0;
       // fill the load package
 
-      DRM_Loads_Implicit(LoadPackage);
+      DRM_Loads_Implicit(&LoadPackage);
     }
 
     // Check whether the initial time is small enough, otherwise we are missing part of the
     // motion
     if (IStep == 0)
     {
-      for (int i = 0; i < Model->NEqM; i++)
+      for (int i = 0; i < DiscretizedModel->NEqM; i++)
       {
         if (UN[i] != 0)
         {
@@ -219,18 +208,18 @@ void main_ns::Solver_ns::Solver_cls::solve_the_system_using_implicit_newmark_met
     Solve_the_system_for_this_RHS_using_Gaussina_Elimination(UN);
 
     // writing down the time history of the solution at some particular nodes
-    History << setw(6) << Time;
-    for (int i = 0; i < DiscretizedModel->Dis_History; i++)
+    History << std::setw(6) << Time;
+    for (int i = 0; i < Model->Dis_History; i++)
     {
-      History << setw(20) << UN[DiscretizedModel->Nodal_History[i]];
+      History << std::setw(20) << UN[DiscretizedModel->Nodal_History[i]];
     }
     History << std::endl;
 
     //FullSol << "Time= " << Time << endl;
     // writing down the full results in the entier doamin, for visualization purposes
-    for (int i = 0; i < Model->NEqM; i++)
+    for (int i = 0; i < DiscretizedModel->NEqM; i++)
     {
-      FullSol << UN[i] << setw(20);
+      FullSol << UN[i] << std::setw(20);
     }
     FullSol << std::endl;
   }

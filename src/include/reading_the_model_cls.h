@@ -57,13 +57,13 @@ namespace model_ns
       double amplitude;     // Amplitude of the incident wave
       double omega;         // central cyclic frequency in the Ricker pulse wave
 
-      int *Element_Layer;  // Number of elements in each layer
-      int *Layer_Depth;    // Depth of each layer
+      int* Element_Layer;  // Number of elements in each layer
+      int* Layer_Depth;    // Depth of each layer
 
-      double *Length;      // global force vector
-      double *Loc_History; // holds required locations to store the time history of displacement
+      double* Length;      // global force vector
+      double* Loc_History; // holds required locations to store the time history of displacement
 
-      double **PMat;       // properties of materials
+      double** PMat;       // properties of materials
 
       // functions
     	explicit model_cls(const main_ns::address_ns::address_cls*);

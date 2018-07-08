@@ -4,7 +4,7 @@
 
 // constructor
 main_ns::discretization_ns::discretization_cls::
-    discretization_cls(const main_ns::model_ns::model_cls *InputModel) : model(InputModel)
+    discretization_cls(const main_ns::model_ns::model_cls* InputModel) : model(InputModel)
 {
 
   std::cout << " -allocating arrays for discretization ..." << std::endl;

@@ -10,6 +10,30 @@ main_ns::Solver_ns::solve_full_matrices_cls::
                              Matrices(aMatrices)
 {} 
 
+main_ns::Solver_ns::solve_full_matrices_cls::~solve_full_matrices_cls()
+{
+  for (int i = 0; i < DiscretizedModel->NEqM; i++)
+  {
+    delete[] Matrices->K[i];
+  }
+  delete[] Matrices->K;
+
+  for (int i = 0; i < DiscretizedModel->NEqM; i++)
+  {
+    delete[] Matrices->C[i];
+  }
+  delete[] Matrices->C;
+
+  for (int i = 0; i < DiscretizedModel->NEqM; i++)
+  {
+    delete[] Matrices->M[i];
+  }
+  delete[] Matrices->M;
+}
+
+
+
+
 /*
 ###################################################################################################
 Purpose: This function computes the effective matrix based on the Newmark algorithm.
@@ -133,7 +157,7 @@ V0.01: 07/06/2018 - Initiated: Compiled without error for the first time.
 */
 
 void main_ns::Solver_ns::solve_full_matrices_cls::
-                              Solve_the_system_for_this_RHS_using_Gaussina_Elimination(double *&UN)
+                              Solve_the_system_for_this_RHS_using_Gaussina_Elimination(double*& UN)
 {
 
   int k, l; // temporary variables
