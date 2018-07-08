@@ -82,7 +82,7 @@ void main_ns::Solver_ns::solve_Skyline_matrices_cls::Reduce_the_effective_forece
         if (K > (Matrices->NTK[I]))
         {
           KI = Matrices->JD[I] + K - I;
-          Fac = Matrices->K[KI] / K[KK];
+          Fac = Matrices->K[KI] / Matrices->K[KK];
           IJ = Matrices->JD[J] + I - J;
           Matrices->K[IJ] = Matrices->K[IJ] - Matrices->K[KJ] * Fac;
         }
@@ -124,9 +124,9 @@ void main_ns::Solver_ns::solve_Skyline_matrices_cls::
         I = J;
         J = K;
       }
-      if (I < NTK[J])
+      if (I < Matrices->NTK[J])
         continue;
-      IJ = JD[J] + I - J;
+      IJ = Matrices->JD[J] + I - J;
       UN[II] += Matrix[IJ] * Temp[JJ];
     }
   }

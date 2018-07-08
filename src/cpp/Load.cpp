@@ -3,7 +3,7 @@
 #include "../include/Load.h"
 
 main_ns::Solver_ns::apply_seismic_loads_to_the_domain_cls::
-    apply_seismic_loads_to_the_domain_cls(){};
+    apply_seismic_loads_to_the_domain_cls() {}
 
 /*
 ###################################################################################################
@@ -46,7 +46,8 @@ V1.00: 06/27/2018 - Compiled successfully.
 ###################################################################################################
 */
 
-void main_ns::Solver_ns::apply_seismic_loads_to_the_domain_cls::DRM_PointValues()
+void main_ns::Solver_ns::apply_seismic_loads_to_the_domain_cls::
+ DRM_PointValues(main_ns::Solver_ns::apply_seismic_loads_to_the_domain_cls::InputLoad* LoadPackage)
 {
 
   int TotalCycle;
@@ -85,15 +86,15 @@ void main_ns::Solver_ns::apply_seismic_loads_to_the_domain_cls::DRM_PointValues(
 
     if (LowerLimit <= arg1 && arg1 <= UpperLimit)
     {
-      LoadPackage->u +=           LoadPackage->amplitude * sin(arg1);
-      LoadPackage->v += wr *      LoadPackage->amplitude * cos(arg1);
+      LoadPackage->u += LoadPackage->amplitude * sin(arg1);
+      LoadPackage->v += wr * LoadPackage->amplitude * cos(arg1);
       LoadPackage->a -= wr * wr * LoadPackage->amplitude * sin(arg1);
     }
 
     if (LowerLimit <= arg2 && arg2 <= UpperLimit)
     {
-      LoadPackage->u +=           LoadPackage->amplitude * sin(arg2);
-      LoadPackage->v += wr *      LoadPackage->amplitude * cos(arg2);
+      LoadPackage->u += LoadPackage->amplitude * sin(arg2);
+      LoadPackage->v += wr * LoadPackage->amplitude * cos(arg2);
       LoadPackage->a -= wr * wr * LoadPackage->amplitude * sin(arg2);
     }
 
@@ -101,10 +102,10 @@ void main_ns::Solver_ns::apply_seismic_loads_to_the_domain_cls::DRM_PointValues(
   case 1: // Ricker
 
     TotalCycle = (int)(LoadPackage->alpha1);
-    Direction  = (int)(LoadPackage->alpha2);
+    Direction = (int)(LoadPackage->alpha2);
 
-    fr = LoadPackage->omega;    // Central frequency of Ricker pulse
-    wr = 2.0 * pi * fr; // characteristic central circular frequency
+    fr = LoadPackage->omega; // Central frequency of Ricker pulse
+    wr = 2.0 * pi * fr;      // characteristic central circular frequency
 
     //arg1 = wr * Time - wr * x/c ; // positive direction phase - incident wave
     //arg2 = wr * Time + wr * x/c ; // negative direction phase - reflected wave
@@ -191,25 +192,24 @@ V1.00: 07/04/2018 - Compiled successfully.
 */
 
 void main_ns::Solver_ns::apply_seismic_loads_to_the_domain_cls::
-                                     DRM_Loads_Implicit(main_ns::Solver_ns::InputLoad* LoadPackage)
+    DRM_Loads_Implicit(main_ns::Solver_ns::apply_seismic_loads_to_the_domain_cls::InputLoad* LoadPackage)
 {
-  double* U_b;   // holds the analytical acceleration at the boundary nodes. In this 1D problem, there is only one node.
-  double* Ud_b;  // holds the analytical velocity at the boundary nodes. In this 1D problem, there is only one node. (Not needed because we do not have damping in the system)
-  double* Udd_b; // holds the analytical acceleration at the boundary nodes. In this 1D problem, there is only one node.
-  double* F_b;   // holds the loads for the boundary nodes.
+  double *U_b;   // holds the analytical acceleration at the boundary nodes. In this 1D problem, there is only one node.
+  double *Ud_b;  // holds the analytical velocity at the boundary nodes. In this 1D problem, there is only one node. (Not needed because we do not have damping in the system)
+  double *Udd_b; // holds the analytical acceleration at the boundary nodes. In this 1D problem, there is only one node.
+  double *F_b;   // holds the loads for the boundary nodes.
 
-  double* U_e;   // holds the analytical displacement at the boundary nodes. In this 1D problem, there is only one node.
-  double* Ud_e;  // holds the analytical acceleration at the boundary nodes. In this 1D problem, there is only one node.  (Not needed because we do not have damping in the system)
-  double* Udd_e; // holds the analytical acceleration at the boundary nodes. In this 1D problem, there is only one node.
-  double* F_e;   // holds the loads for the layer nodes.
+  double *U_e;   // holds the analytical displacement at the boundary nodes. In this 1D problem, there is only one node.
+  double *Ud_e;  // holds the analytical acceleration at the boundary nodes. In this 1D problem, there is only one node.  (Not needed because we do not have damping in the system)
+  double *Udd_e; // holds the analytical acceleration at the boundary nodes. In this 1D problem, there is only one node.
+  double *F_e;   // holds the loads for the layer nodes.
 
-    
   // Defining the required vectors
-  U_b   = new double[LoadPackage->NNBndry * LoadPackage->NDim];
-  Ud_b  = new double[LoadPackage->NNBndry * LoadPackage->NDim];
+  U_b = new double[LoadPackage->NNBndry * LoadPackage->NDim];
+  Ud_b = new double[LoadPackage->NNBndry * LoadPackage->NDim];
   Udd_b = new double[LoadPackage->NNBndry * LoadPackage->NDim];
 
-  F_e   = new double[LoadPackage->NNLayer * LoadPackage->NDim];
+  F_e = new double[LoadPackage->NNLayer * LoadPackage->NDim];
 
   for (int i = 0; i < LoadPackage->NNLayer * LoadPackage->NDim; i++)
   {
@@ -221,23 +221,22 @@ void main_ns::Solver_ns::apply_seismic_loads_to_the_domain_cls::
   {
     for (int j = 0; j < LoadPackage->NDim; j++)
     {
-      LoadPackage->x = LoadPackage->XYZ[ LoadPackage->NoBndry_DRM[i]][j]; // Coordinate of the node
-      LoadPackage->u= LoadPackage->v= LoadPackage->a= 0.0;            // Initialize the values
-      
+      LoadPackage->x = LoadPackage->XYZ[LoadPackage->NoBndry_DRM[i]][j]; // Coordinate of the node
+      LoadPackage->u = LoadPackage->v = LoadPackage->a = 0.0;            // Initialize the values
+
       // Computing the analytical solution at this particular node
       // Remark: the one-dimensional wave-motion is identical for both SV and P waves.
 
-      // The point loads are identical for both shear and pressure waves. 
+      // The point loads are identical for both shear and pressure waves.
       // Just for the sake of clarity, we wrtie it as follows.
       if (LoadPackage->Wave_Type == 0) // SV wave
-        DRM_PointValues(); 
+        DRM_PointValues(LoadPackage);
       else if (LoadPackage->Wave_Type == 1) // P wave
-        DRM_PointValues(); 
-
+        DRM_PointValues(LoadPackage);
 
       // Filling the analytical solution vector
-      U_b  [i * LoadPackage->NNBndry * LoadPackage->NDim + j] = LoadPackage->u;
-      Ud_b [i * LoadPackage->NNBndry * LoadPackage->NDim + j] = LoadPackage->v;
+      U_b[i * LoadPackage->NNBndry * LoadPackage->NDim + j] = LoadPackage->u;
+      Ud_b[i * LoadPackage->NNBndry * LoadPackage->NDim + j] = LoadPackage->v;
       Udd_b[i * LoadPackage->NNBndry * LoadPackage->NDim + j] = LoadPackage->a;
     }
   }
@@ -254,7 +253,7 @@ void main_ns::Solver_ns::apply_seismic_loads_to_the_domain_cls::
   // Assemble the load vector
   for (int i = 0; i < LoadPackage->NNLayer * LoadPackage->NDim; i++)
   {
-    LoadPackage->UN[ND_e[i]] += F_e[i];
+    LoadPackage->UN[LoadPackage->ND_e[i]] += F_e[i];
   }
 
   delete U_b;
@@ -262,11 +261,11 @@ void main_ns::Solver_ns::apply_seismic_loads_to_the_domain_cls::
   delete Udd_b;
   delete F_e;
 
-  U_e   = new double[LoadPackage->NNLayer * LoadPackage->NDim];
-  Ud_e  = new double[LoadPackage->NNLayer * LoadPackage->NDim];
+  U_e = new double[LoadPackage->NNLayer * LoadPackage->NDim];
+  Ud_e = new double[LoadPackage->NNLayer * LoadPackage->NDim];
   Udd_e = new double[LoadPackage->NNLayer * LoadPackage->NDim];
 
-  F_b   = new double[LoadPackage->NNBndry * LoadPackage->NDim];
+  F_b = new double[LoadPackage->NNBndry * LoadPackage->NDim];
 
   for (int i = 0; i < LoadPackage->NNBndry * LoadPackage->NDim; i++)
   {
@@ -281,14 +280,14 @@ void main_ns::Solver_ns::apply_seismic_loads_to_the_domain_cls::
       LoadPackage->x = LoadPackage->XYZ[LoadPackage->NoLayer_DRM[i]][j]; // Coordinate of the node
       LoadPackage->u = LoadPackage->v = LoadPackage->a = 0.0;            // Initialize the values
       // Computing the analytical solution - Comment: the one-dimensional wave-motion is identical for both SV and P waves.
-      if (LoadPackage->Wave_Type == 0)      // SV wave
-        DRM_PointValues();
+      if (LoadPackage->Wave_Type == 0) // SV wave
+        DRM_PointValues(LoadPackage);
       else if (LoadPackage->Wave_Type == 1) // P wave
-        DRM_PointValues(); 
+        DRM_PointValues(LoadPackage);
 
       // Filling the analytical solution vector
-      U_e  [i * LoadPackage->NNBndry * LoadPackage->NDim + j] = LoadPackage->u;
-      Ud_e [i * LoadPackage->NNBndry * LoadPackage->NDim + j] = LoadPackage->v;
+      U_e[i * LoadPackage->NNBndry * LoadPackage->NDim + j] = LoadPackage->u;
+      Ud_e[i * LoadPackage->NNBndry * LoadPackage->NDim + j] = LoadPackage->v;
       Udd_e[i * LoadPackage->NNBndry * LoadPackage->NDim + j] = LoadPackage->a;
     }
   }
@@ -298,14 +297,14 @@ void main_ns::Solver_ns::apply_seismic_loads_to_the_domain_cls::
   {
     for (int j = 0; j < LoadPackage->NNLayer * LoadPackage->NDim; j++)
     {
-      F_b[i] +=-(LoadPackage->M_eb[j][i]*Udd_e[j] + LoadPackage->C_eb[j][i]*Ud_e[j] + LoadPackage->K_eb[j][i] * U_e[j]);
+      F_b[i] += -(LoadPackage->M_eb[j][i] * Udd_e[j] + LoadPackage->C_eb[j][i] * Ud_e[j] + LoadPackage->K_eb[j][i] * U_e[j]);
     }
   }
 
   // Assemble the load vector
   for (int i = 0; i < LoadPackage->NNBndry * LoadPackage->NDim; i++)
   {
-    UN[LoadPackage->ND_b[i]] += F_b[i];
+    LoadPackage->UN[LoadPackage->ND_b[i]] += F_b[i];
   }
 
   delete U_e;
@@ -313,9 +312,6 @@ void main_ns::Solver_ns::apply_seismic_loads_to_the_domain_cls::
   delete Udd_e;
   delete F_b;
 }
-
-
-
 
 /////////////////////////////////////////
 /*
@@ -356,7 +352,6 @@ void HistorySolution(int &NJ, double &Time, double &Alpha, double &P, double &E,
   }
 }
 */
-
 
 /*
 ###################################################################################################

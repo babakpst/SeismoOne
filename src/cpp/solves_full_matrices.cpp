@@ -7,7 +7,7 @@ main_ns::Solver_ns::solve_full_matrices_cls::
                              main_ns::discretization_ns::discretization_cls* aDiscretization,
                              main_ns::Matrices_ns::Matrices_Full_cls* aMatrices)
                              : main_ns::Solver_ns::Solver_cls(aAddresses, aModel, aDiscretization),
-                             Matrices(aMatrices))
+                             Matrices(aMatrices)
 {} 
 
 /*
@@ -169,7 +169,7 @@ void main_ns::Solver_ns::solve_full_matrices_cls::
     for (int j = 0; j < i; j++)
     {
       l = DiscretizedModel->NEqM - j - 1;
-      temp += K[l][k] * L[l];
+      temp += Matrices->K[l][k] * L[l];
     }
     L[k] = (UN[k] - temp);
   }

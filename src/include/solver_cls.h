@@ -61,7 +61,8 @@ public:
   main_ns::address_ns::address_cls* Addresses;
   main_ns::model_ns::model_cls* Model;
   main_ns::discretization_ns::discretization_cls* DiscretizedModel;
-  //main_ns::Matrices_ns::Matrices_cls* Matrices;
+
+  main_ns::Solver_ns::apply_seismic_loads_to_the_domain_cls::InputLoad LoadPackage;
 
   Solver_cls(main_ns::address_ns::address_cls*, main_ns::model_ns::model_cls*,
              main_ns::discretization_ns::discretization_cls*);

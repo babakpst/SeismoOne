@@ -2,7 +2,7 @@
 #include "../include/solver_cls.h"
 
 main_ns::Solver_ns::Solver_cls::Solver_cls(
-    main_ns::address_ns::address_cls* aAddress,
+    main_ns::address_ns::address_cls* aAddresses,
     main_ns::model_ns::model_cls* aModel,
     main_ns::discretization_ns::discretization_cls* aDiscretization)
     : DiscretizedModel(aDiscretization), Model(aModel), Addresses(aAddresses)
