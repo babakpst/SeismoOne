@@ -27,6 +27,7 @@ class Matrices_cls
   void compute_elemental_matrices_fn(int, double, double);
 
 protected:
+public:
   int NEqEl; // Number of equations of each element
 
   double **K_eb; // global stiffness matrix
@@ -56,7 +57,7 @@ protected:
   void allocate_matrices_for_assembling_fn();
 
 
-public:
+
   main_ns::discretization_ns::discretization_cls *DiscretizedModel;
   main_ns::model_ns::model_cls *Model;
 

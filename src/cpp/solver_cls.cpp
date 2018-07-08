@@ -4,8 +4,9 @@
 main_ns::Solver_ns::Solver_cls::Solver_cls(
     main_ns::address_ns::address_cls* aAddresses,
     main_ns::model_ns::model_cls* aModel,
-    main_ns::discretization_ns::discretization_cls* aDiscretization)
-    : Addresses(aAddresses), Model(aModel), DiscretizedModel(aDiscretization)
+    main_ns::discretization_ns::discretization_cls* aDiscretization,
+    main_ns::Matrices_ns::Matrices_cls* aMatrices)
+    : Addresses(aAddresses), Model(aModel), DiscretizedModel(aDiscretization), Matrices(aMatrices)
 {
 
   // Information file
@@ -151,6 +152,10 @@ void main_ns::Solver_ns::Solver_cls::solve_the_system_using_implicit_newmark_met
       UN[i] = 0.0;
     }
 
+    
+    Effective_forces_fn(UN);
+    
+    /*
     // Effective force - stored in UN
     for (int i = 0; i < DiscretizedModel->NEqM; i++)
     { // find the coefficient of the M matrix
@@ -168,6 +173,14 @@ void main_ns::Solver_ns::Solver_cls::solve_the_system_using_implicit_newmark_met
 
     Matrix_Multiplication(Matrices->C, &Temp, &UN);
 
+    */
+    
+    
+    
+    
+    
+    
+    
     // Adding loads at this time step
     if (Model->LoadType == 0) // Pressure load
     {

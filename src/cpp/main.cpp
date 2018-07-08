@@ -75,6 +75,7 @@ int main()
 
   // = matrices ===================================================================================
   // creating global matrices
+
   main_ns::Matrices_ns::Matrices_cls* Matrix;
 
   switch (model.Solver)
@@ -96,22 +97,20 @@ int main()
   Matrix->create_DRM_matrices_fn();
 
 
-
 // = solver =====================================================================================
 main_ns::Solver_ns::Solver_cls* Solver;
 switch (model.Solver)
   {
   case 0: // solving the system using full matrices
     Solver = new main_ns::Solver_ns::solve_full_matrices_cls(&input, &model, &discretized_model, Matrix);
-    Solver->solve_the_system_using_implicit_newmark_method();
     break;
   case 1: // solving the system using skyline mathod
     Solver = new main_ns::Solver_ns::solve_Skyline_matrices_cls(&input, &model, &discretized_model, Matrix);
-    Solver->solve_the_system_using_implicit_newmark_method();
     break;
   default:
     std::cout << "The input solver type is not available. Solver should be either 0 for full matrices or 1 for skyline method" << std::endl;
   }
+  Solver->solve_the_system_using_implicit_newmark_method();
 
   /*
 // Solving
