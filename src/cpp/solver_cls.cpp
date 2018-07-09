@@ -139,7 +139,7 @@ void main_ns::Solver_ns::Solver_cls::solve_the_system_using_implicit_newmark_met
     Elapsed_Time = IStep * Model->DT;
     Time = Initial_Time + IStep * Model->DT; // Time STEP
     LoadPackage.Time = Time;
-    std::cout << "Time Step:  " << IStep << "  Time: " << Time << "  Total time:" << Elapsed_Time << std::endl;
+    std::cout << std::showpoint << "Time Step:  " << std::setw(5) << IStep << "  Time: " << std::setw(8) << std::left << Time << "  Total time: " << Elapsed_Time << std::endl;
 
     // Update displacements, velocity and acceleration
     for (int i = 0; i < DiscretizedModel->NEqM; i++)
@@ -154,32 +154,6 @@ void main_ns::Solver_ns::Solver_cls::solve_the_system_using_implicit_newmark_met
 
     
     Effective_forces_fn(UN);
-    
-    /*
-    // Effective force - stored in UN
-    for (int i = 0; i < DiscretizedModel->NEqM; i++)
-    { // find the coefficient of the M matrix
-      Temp[i] = A0 * U[i] + A2 * UD[i] + A3 * UDD[i];
-    }
-
-    // up to here
-    // Multiply the mass matrix by the load vector
-    Matrix_Multiplication(Matrices->M, &Temp, &UN);
-
-    for (int i = 0; i < DiscretizedModel->NEqM; i++)
-    {
-      Temp[i] = A1 * U[i] + A4 * UD[i] + A5 * UDD[i];
-    }
-
-    Matrix_Multiplication(Matrices->C, &Temp, &UN);
-
-    */
-    
-    
-    
-    
-    
-    
     
     // Adding loads at this time step
     if (Model->LoadType == 0) // Pressure load
@@ -221,10 +195,10 @@ void main_ns::Solver_ns::Solver_cls::solve_the_system_using_implicit_newmark_met
     Solve_the_system_for_this_RHS_using_Gaussina_Elimination(UN);
 
     // writing down the time history of the solution at some particular nodes
-    History << std::setw(6) << Time;
+    History << std::showpoint << std::left << std::setw(12) << Time;
     for (int i = 0; i < Model->Dis_History; i++)
     {
-      History << std::setw(20) << UN[DiscretizedModel->Nodal_History[i]];
+      History << std::showpoint << std::showpos << std::left << std::setw(25) << UN[DiscretizedModel->Nodal_History[i]];
     }
     History << std::endl;
 
@@ -232,7 +206,7 @@ void main_ns::Solver_ns::Solver_cls::solve_the_system_using_implicit_newmark_met
     // writing down the full results in the entier doamin, for visualization purposes
     for (int i = 0; i < DiscretizedModel->NEqM; i++)
     {
-      FullSol << UN[i] << std::setw(20);
+      FullSol << std::showpoint << std::showpos << std::left << std::setw(25)<< UN[i] ;
     }
     FullSol << std::endl;
   }

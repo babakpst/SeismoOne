@@ -49,23 +49,22 @@ public:
 
     int *ND; // element constraints
 
-
-  void allocating_local_matrices_fn();
-
-  virtual void allocating_global_matrices_fn(void) = 0;
-  virtual void assemble_local_to_global_fn(void) = 0;
-  void allocate_matrices_for_assembling_fn();
-
-
-
   main_ns::discretization_ns::discretization_cls *DiscretizedModel;
   main_ns::model_ns::model_cls *Model;
 
   main_ns::ShapeFunctions_ns::ShapeFunctions_cls *SF;
 
   Matrices_cls(main_ns::discretization_ns::discretization_cls *, main_ns::model_ns::model_cls *);
+
+  void allocating_local_matrices_fn();
+
+  virtual void allocating_global_matrices_fn(void) = 0;
+  virtual void assemble_local_to_global_fn(void) = 0;
+  void allocate_matrices_for_assembling_fn();
   void assembling_local_matrices_into_global_matrices_fn();
+
   virtual void create_DRM_matrices_fn(void) = 0;
+
   virtual ~Matrices_cls();
 };
 

@@ -91,6 +91,7 @@ int main()
     break;
   default:
     std::cout << "The input solver type is not available. Solver should be either 0 for full matrices or 1 for skyline method" << std::endl;
+    Matrix = NULL;
   }
 
   Matrix->assembling_local_matrices_into_global_matrices_fn();
@@ -109,6 +110,7 @@ switch (model.Solver)
     break;
   default:
     std::cout << "The input solver type is not available. Solver should be either 0 for full matrices or 1 for skyline method" << std::endl;
+    Solver = NULL;
   }
   Solver->solve_the_system_using_implicit_newmark_method();
 
