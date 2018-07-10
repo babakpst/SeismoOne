@@ -313,6 +313,38 @@ void main_ns::Solver_ns::apply_seismic_loads_to_the_domain_cls::
   delete F_b;
 }
 
+
+/*
+###################################################################################################
+Purpose: This function computes the point loads in the frequency domain
+
+Developed by: Babak Poursartip
+ 
+The Institute for Computational Engineering and Sciences (ICES)
+The University of Texas at Austin	
+================================= V E R S I O N ===================================================
+V0.00: 07/04/2018 - Subroutine initiated.
+V1.00: 07/10/2018 - Compiled successfully.
+
+###################################################################################################
+*/
+
+
+void DRM_PointValues_for_frequency_domain(double &amplitude, double &x, double &c, double &omega, double &u_R, double &u_I)
+{
+
+  double k; // wavenumber
+
+  // The analytical solution is u (x,t) = u_i (exp(i k x) + exp (-i k x)) = 2 u_i cos(kx)
+
+  k = omega / c; // wavenumber
+
+  u_R = 2 * amplitude * cos(k * x); // The real part of the analytical solution in the frequency domain
+  u_I = 0.0;                        // The imaginary part of the analytical solution in the frequency domain
+}
+
+
+
 /////////////////////////////////////////
 /*
 ###################################################################################################
@@ -353,32 +385,3 @@ void HistorySolution(int &NJ, double &Time, double &Alpha, double &P, double &E,
 }
 */
 
-/*
-###################################################################################################
-Purpose: This function computes 
-
-Developed by: Babak Poursartip
- 
-The Institute for Computational Engineering and Sciences (ICES)
-The University of Texas at Austin	
-================================= V E R S I O N ===================================================
-V0.00: 07/04/2018 - Subroutine initiated.
-V1.00: 07/04/2018 - Compiled successfully.
-
-###################################################################################################
-*/
-
-/*
-void DRM_PointValues_Freq(double &amplitude, double &x, double &c, double &omega, double &u_R, double &u_I)
-{
-
-  double k; // wavenumber
-
-  // The analytical solution is u (x,t) = u_i (exp(i k x) + exp (-i k x)) = 2 u_i cos(kx)
-
-  k = omega / c; // wavenumber
-
-  u_R = 2 * amplitude * cos(k * x); // The real part of the analytical solution in the frequency domain
-  u_I = 0.0;                        // The imaginary part of the analytical solution in the frequency domain
-}
-*/

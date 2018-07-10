@@ -61,7 +61,9 @@ public:
   double LoadFunction(const double, const double, const double);
   void DRM_Loads_Implicit(main_ns::Solver_ns::apply_seismic_loads_to_the_domain_cls::InputLoad*);
   void DRM_PointValues(main_ns::Solver_ns::apply_seismic_loads_to_the_domain_cls::InputLoad*);
-  //void DRM_PointValues_Freq(double &amplitude, double &x, double &c, double &omega, double &u_R, double &u_I);
+  void DRM_PointValues_for_frequency_domain  
+                  (double &amplitude, double &x, double &c, double &omega, double &u_R, double &u_I);
+  
   //void HistorySolution(int &NJ, double &TIME, double &Alpha, double &P, double &E, double &Rho, double &A, double *&U_EX, double **&XYZ);
 
 }; // load class

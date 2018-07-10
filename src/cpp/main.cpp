@@ -21,7 +21,7 @@ version 2.0        March 30, 2018    Check
 version 2.1        April 08, 2018    Some minor modifications
 version 2.2        May 30, 2018      Transforming the code to an OOP
 
-Last Update:       June 2, 2018
+Last Update:       July 10, 2018
 
 Comments:
 - This code solves the one-dimensional equation, in several domains. The boundary condition at the
