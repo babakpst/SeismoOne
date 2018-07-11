@@ -62,9 +62,8 @@ void main_ns::Solver_ns::solve_full_matrices_cls::Reduce_the_effective_forece()
 main_ns::Matrices_ns::Matrices_Full_cls* fullMatrices = static_cast<main_ns::Matrices_ns::Matrices_Full_cls*> (this->Matrices);
   std::cout << "Reduce effective matrix ..." << std::endl;
   int tempI;
-  double *L;
-
-  L = new double[DiscretizedModel->NEqM]; // Identifications
+  
+  double *L= new double[DiscretizedModel->NEqM]; // Identifications
 
   for (int j = 0; j < DiscretizedModel->NEqM; j++)
   {
