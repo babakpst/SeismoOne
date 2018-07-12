@@ -177,13 +177,10 @@ void main_ns::Solver_ns::solve_full_matrices_cls::
                               Solve_the_system_for_this_RHS_using_Gaussina_Elimination(double*& UN)
 {
 main_ns::Matrices_ns::Matrices_Full_cls* fullMatrices = static_cast<main_ns::Matrices_ns::Matrices_Full_cls*> (this->Matrices);
-  int k, l; // temporary variables
-  
-  double temp;
-  
-  double *L;
 
-  L = new double[DiscretizedModel->NEqM]; // Identifications
+  int k, l; // temporary variables
+  double temp;
+  double *L = new double[DiscretizedModel->NEqM]; // Identifications
 
   //cout << "Forward" << endl;
   for (int i = 0; i < DiscretizedModel->NEqM; i++)

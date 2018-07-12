@@ -2,6 +2,17 @@
 
 #include "../include/frequency_domain_full_matrices.h"
 
+main_ns::Solver_ns::frequency_domain_analysis::
+     frequency_domain_analysis(main_ns::address_ns::address_cls* aAddresses, 
+                             main_ns::model_ns::model_cls* aModel,
+                             main_ns::discretization_ns::discretization_cls* aDiscretization,
+                             main_ns::Matrices_ns::Matrices_cls * aMatrices)
+                             : Addresses(aAddresses), Model(aModel), DiscretizedModel(aDiscretization), Matrices(aMatrices)
+{
+} 
+
+
+
 /*
 ###################################################################################################
 Purpose: This function reduces the stiffness matrix using the LDLT method.
@@ -11,8 +22,8 @@ Developed by: Babak Poursartip
 The Institute for Computational Engineering and Sciences (ICES)
 The University of Texas at Austin	
 ================================= V E R S I O N ===================================================
-V0.00: 06/28/2018 - Subroutine initiated.
-V0.01: 06/29/2018 - Initiated: Compiled without error for the first time.
+V0.00: 07/11/2018 - Subroutine initiated.
+V0.01: 07/11/2018 - Initiated: Compiled without error for the first time.
 
 ###################################################################################################
 */
@@ -21,7 +32,7 @@ void Reduce_the_effective_forece_in_the_freq_domain(double **&K_Eff)
 
   std::cout << " Factorization of the matrices ... " << std::endl;
   double *L = new double[2 * DiscretizedModel->NEqM]; // Identifications
-
+                             
   for (int j = 0; j < (2 * DiscretizedModel->NEqM); j++)
   {
     std::cout << j << " reduces out of " << 2 * DiscretizedModel->NEqM << std::endl;
@@ -102,22 +113,82 @@ void Substitute_Freq(int &NEqM, double *&RHS, double **&K_Eff)
   }
 }
 
-//***************************************************************************************************************************************************
-// Calculating the transfer functions
-//***************************************************************************************************************************************************
-void Transfer_Full(double &alpha1, double &alpha2, int &Wave_Type, int &NEqM, double **&M, double **&C, double **&K, double **&PMat, double **&XYZ, int *&ND_e, int *&ND_b, ofstream &TransferFunc)
+/*
+###################################################################################################
+Purpose: This function reduces the stiffness matrix using the LDLT method.
+
+Developed by: Babak Poursartip
+ 
+The Institute for Computational Engineering and Sciences (ICES)
+The University of Texas at Austin	
+================================= V E R S I O N ===================================================
+V0.00: 07/11/2018 - Subroutine initiated.
+V0.01: 07/11/2018 - Initiated: Compiled without error for the first time.
+
+###################################################################################################
+*/
+void main_ns::Solver_ns::frequency_domain_analysis::Compute_the_transfer_functions_in_the_frequency_domain()
+  int *&ND_e, int *&ND_b, ofstream &TransferFunc)
 {
 
-  int NStep; // total number of frequency sweep
-  int iStep; // loop index
+  std::cout << "<<<<   Computing the Transfer functions for this domain >>>>" << std::endl;
 
-  double df;   // cyclic frequency increment
-  double minf; // min cyclic frequency
-  double maxf; // max cyclic frequency
+  // Define arrays
+  std::cout << " Create arrays ..." << std::endl;
 
-  double E;     // Elastic Modulus
-  double Rho;   // density
-  double c;     // wave velocity in the domain where the DRM boundary is
+  // Solution in for each frequency- The first half of the vector is the real part and the second half is the imaginary part
+  double *U = new double[2 * DiscretizedModel->NEqM];
+
+  // Right Hand Side of the equation (load vector) - The first half of the vector is the real part and the second half is the imaginary part
+  double *RHS = new double[2 * DiscretizedModel->NEqM];
+
+  double **K_Eff;    // complex Effective stiffness (real + imaginary) - See notes
+  K_Eff = new double *[2 * DiscretizedModel->NEqM]; // Effective stiffness
+  for (int i = 0; i < (2 * DiscretizedModel->NEqM); i++)
+  {
+    K_Eff[i] = new double[2 * DiscretizedModel->NEqM];
+  }
+
+  double **K_Eff_eb; // The effective striffness DRM matrix
+  K_Eff_eb = new double *[ Model->NDim * Model->NNLayer]; // The effective striffness DRM matrix
+  for (int i = 0; i < (Model->NDim * Model->NNLayer); i++)
+  {
+    K_Eff_eb[i] = new double[Model->NDim * Model->NNBndry];
+  }
+
+  double **C_Eff_eb; // The effective damping DRM matrix
+  C_Eff_eb = new double *[Model->NDim * Model->NNLayer]; // The effective striffness DRM matrix
+  for (int i = 0; i < (Model->NDim * Model->NNLayer); i++)
+  {
+    C_Eff_eb[i] = new double[Model->NDim * Model->NNBndry];
+  }
+
+  // Defining the required vectors
+  double *U_b_R = new double[Model->NNBndry * Model->NDim]; // The real part of the analytical solution on the boundary
+  double *U_b_I = new double[Model->NNBndry * Model->NDim]; // The imaginary part of the analytical solution on the boundary
+
+  double *F_e_R = new double[Model->NNLayer * Model->NDim]; // The real part of the DRM load on the DRM layer
+  double *F_e_I = new double[Model->NNLayer * Model->NDim]; // The imaginary part of the DRM load on the DRM layer
+
+  // Defining the required vectors
+  double *U_e_R = new double[Model->NNLayer * Model->NDim]; // The real part of the analytical solution on the layer
+  double *U_e_I = new double[Model->NNLayer * Model->NDim]; // The imaginary part of the analytical solution on the boundary
+
+  double *F_b_R = new double[Model->NNBndry * Model->NDim]; // The real part of the DRM load on the DRM boundary
+  double *F_b_I = new double[Model->NNBndry * Model->NDim]; // The imaginary part of the DRM load on the DRM boundary
+
+  // Define frequencies
+  double minf = 0.0;  // min cyclic frequency
+  double maxf = Model->alpha1; // max cyclic frequency
+  double df   = Model->alpha2; // cyclic frequency increment
+
+  // material properties of the domain where the DRM boundary is
+  double E   = Model->PMat[0][0];    // Elastic Modulus
+  double Rho = Model->PMat[0][1];  // density
+  double c   = sqrt(E / Rho); // wave velocity in the domain where the DRM boundary is
+
+  const double pi = 3.14159265358979323846;
+
   double freq;  // cyclicfrequency increments
   double omega; // circular frequency increments
 
@@ -129,107 +200,40 @@ void Transfer_Full(double &alpha1, double &alpha2, int &Wave_Type, int &NEqM, do
   double Result_I; // Transfer functions on the sruface - imaginary part
   double Result;   // Transfer functions on the sruface - Total motion
 
-  const double pi = 3.14159265358979323846;
-
-  double *U_b_R; // The real part of the analytical solution on the boundary
-  double *U_b_I; // The imaginary part of the analytical solution on the boundary
-  double *U_e_R; // The real part of the analytical solution on the layer
-  double *U_e_I; // The imaginary part of the analytical solution on the boundary
-
-  double *F_b_R; // The real part of the DRM load on the DRM boundary
-  double *F_b_I; // The imaginary part of the DRM load on the DRM boundary
-  double *F_e_R; // The real part of the DRM load on the DRM layer
-  double *F_e_I; // The imaginary part of the DRM load on the DRM layer
-
-  double **K_Eff;    // complex Effective stiffness (real + imaginary) - See notes
-  double **K_Eff_eb; // The effective striffness DRM matrix
-  double **C_Eff_eb; // The effective damping DRM matrix
-
-  std::cout << "<<<<   Computing the Transfer functions for this domain >>>>" << std::endl;
-
-  // Define arrays
-  std::cout << " Create arrays ..." << std::endl;
-
-  // Solution in for each frequency- The first half of the vector is the real part and the second half is the imaginary part
-  double *U;
-  U = new double[2 * NEqM];
-
-  // Right Hand Side of the equation (load vector) - The first half of the vector is the real part and the second half is the imaginary part
-  double *RHS;
-  RHS = new double[2 * NEqM];
-
-  K_Eff = new double *[2 * NEqM]; // Effective stiffness
-  for (int i = 0; i < (2 * NEqM); i++)
-  {
-    K_Eff[i] = new double[2 * NEqM];
-  }
-
-  K_Eff_eb = new double *[NDim * NNLayer]; // The effective striffness DRM matrix
-  for (int i = 0; i < (NDim * NNLayer); i++)
-  {
-    K_Eff_eb[i] = new double[NDim * NNBndry];
-  }
-
-  C_Eff_eb = new double *[NDim * NNLayer]; // The effective striffness DRM matrix
-  for (int i = 0; i < (NDim * NNLayer); i++)
-  {
-    C_Eff_eb[i] = new double[NDim * NNBndry];
-  }
-
-  // Defining the required vectors
-  U_b_R = new double[NNBndry * NDim];
-  U_b_I = new double[NNBndry * NDim];
-
-  F_e_R = new double[NNLayer * NDim];
-  F_e_I = new double[NNLayer * NDim];
-
-  // Defining the required vectors
-  U_e_R = new double[NNLayer * NDim];
-  U_e_I = new double[NNLayer * NDim];
-
-  F_b_R = new double[NNBndry * NDim];
-  F_b_I = new double[NNBndry * NDim];
-
-  // Define frequencies
-  minf = 0.0;
-  maxf = alpha1;
-  df = alpha2;
-
-  // material properties of the domain where the DRM boundary is
-  E = PMat[0][0];
-  Rho = PMat[0][1];
-  c = sqrt(E / Rho);
-
   // NSteps
-  NStep = (int)((maxf - minf) / df); // Total number of steps to cover the frequency range
+  int NStep = (int)((maxf - minf) / df); // Total number of steps to cover the frequency range
 
-  for (iStep = 1; iStep <= NStep; iStep++)
+  for (int iStep = 1; iStep <= NStep; iStep++)
   {
 
     freq = minf + iStep * df;
     omega = 2 * pi * freq;
-    std::cout << "Step: " << iStep << " Frequency: " << freq << endl;
+    std::cout << "Step: " << iStep << " Frequency: " << freq << std::endl;
 
     // Effective stiffness matrix for this frequency
     //std::cout << "Effective stiffness ..." << endl;
-    for (int i = 0; i < NEqM; i++)
+    for (int i = 0; i < DiscretizedModel->NEqM; i++)
     {
-      for (int j = 0; j < NEqM; j++)
+      for (int j = 0; j < DiscretizedModel->NEqM; j++)
       {
-        K_Eff[i][j] = -omega * omega * M[i][j] + K[i][j];
+        K_Eff[i][j] = -omega * omega * Matrices->M[i][j] + Matrices->K[i][j];
 
-        K_Eff[i + NEqM][j] = -omega * C[i][j];
+        K_Eff[i + DiscretizedModel->NEqM][j] = -omega * Matrices->C[i][j];
 
-        K_Eff[i][j + NEqM] = -omega * C[i][j];
+        K_Eff[i][j + DiscretizedModel->NEqM] = -omega * Matrices->C[i][j];
 
-        K_Eff[i + NEqM][j + NEqM] = +omega * omega * M[i][j] - K[i][j];
+        K_Eff[i + DiscretizedModel->NEqM][j + DiscretizedModel->NEqM] = +omega * omega * Matrices->M[i][j] - Matrices->K[i][j];
       }
     }
 
+
+
+
+
     // Coefficient matrices for DRM loads for this frequency
-    for (int i = 0; i < (NDim * NNLayer); i++)
+    for (int i = 0; i < (Model->NDim * Model->NNLayer); i++)
     {
-      for (int j = 0; j < (NDim * NNBndry); j++)
+      for (int j = 0; j < (Model->NDim * Model->NNBndry); j++)
       {
         K_Eff_eb[i][j] = +omega * omega * M_eb[i][j] - K_eb[i][j];
         C_Eff_eb[i][j] = +omega * C_eb[i][j];

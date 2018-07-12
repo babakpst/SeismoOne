@@ -2,10 +2,10 @@
 #include "../include/solver_cls.h"
 
 main_ns::Solver_ns::Solver_cls::Solver_cls(
-    main_ns::address_ns::address_cls* aAddresses,
-    main_ns::model_ns::model_cls* aModel,
-    main_ns::discretization_ns::discretization_cls* aDiscretization,
-    main_ns::Matrices_ns::Matrices_cls* aMatrices)
+    main_ns::address_ns::address_cls *aAddresses,
+    main_ns::model_ns::model_cls *aModel,
+    main_ns::discretization_ns::discretization_cls *aDiscretization,
+    main_ns::Matrices_ns::Matrices_cls *aMatrices)
     : Addresses(aAddresses), Model(aModel), DiscretizedModel(aDiscretization), Matrices(aMatrices)
 {
 
@@ -119,7 +119,7 @@ void main_ns::Solver_ns::Solver_cls::solve_the_system_using_implicit_newmark_met
   LoadPackage.M_eb = Matrices->M_eb;
   LoadPackage.C_eb = Matrices->C_eb;
   LoadPackage.K_eb = Matrices->K_eb;
-  LoadPackage.UN   = UN;
+  LoadPackage.UN = UN;
 
   // effective force
   Compute_the_effective_matrix();
@@ -152,9 +152,8 @@ void main_ns::Solver_ns::Solver_cls::solve_the_system_using_implicit_newmark_met
       UN[i] = 0.0;
     }
 
-    
     Effective_forces_fn(UN);
-    
+
     // Adding loads at this time step
     if (Model->LoadType == 0) // Pressure load
     {
@@ -206,7 +205,7 @@ void main_ns::Solver_ns::Solver_cls::solve_the_system_using_implicit_newmark_met
     // writing down the full results in the entier doamin, for visualization purposes
     for (int i = 0; i < DiscretizedModel->NEqM; i++)
     {
-      FullSol << std::showpoint << std::showpos << std::left << std::setw(25)<< UN[i] ;
+      FullSol << std::showpoint << std::showpos << std::left << std::setw(25) << UN[i];
     }
     FullSol << std::endl;
   }
