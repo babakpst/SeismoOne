@@ -20,11 +20,12 @@ namespace Solver_ns
 
 class frequency_domain_analysis 
 {
+// members
+private:
+  std::ofstream TransferFunc;
 
-
-  void Reduce_the_effective_forece_in_the_freq_domain(double **&K_Eff);
-
-  void Substitute_Freq(int &NEqM, double *&RHS, double **&K_Eff);
+  double **K_Eff;    // complex Effective stiffness (real + imaginary) - See notes
+  double *RHS;
 
 public:
   main_ns::discretization_ns::discretization_cls *DiscretizedModel;
@@ -34,8 +35,12 @@ public:
   main_ns::discretization_ns::discretization_cls* DiscretizedModel;
   main_ns::Matrices_ns::Matrices_cls* Matrices;  
 
-  std::ofstream TransferFunc;
+// methods
+private:
+  void Reduce_the_effective_forece_in_the_freq_domain(double **&K_Eff);
+  void Substitute_Freq(int &NEqM, double *&RHS, double **&K_Eff);
 
+public:
   frequency_domain_analysis(main_ns::address_ns::address_cls *, main_ns::model_ns::model_cls *,
                             main_ns::discretization_ns::discretization_cls *,
                             main_ns::Matrices_ns::Matrices_cls *);

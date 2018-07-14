@@ -12,7 +12,6 @@ main_ns::Solver_ns::frequency_domain_analysis::
 } 
 
 
-
 /*
 ###################################################################################################
 Purpose: This function reduces the stiffness matrix using the LDLT method.
@@ -23,11 +22,12 @@ The Institute for Computational Engineering and Sciences (ICES)
 The University of Texas at Austin	
 ================================= V E R S I O N ===================================================
 V0.00: 07/11/2018 - Subroutine initiated.
-V0.01: 07/11/2018 - Initiated: Compiled without error for the first time.
+V1.01: 07/14/2018 - Initiated: Compiled without error for the first time.
 
 ###################################################################################################
 */
-void Reduce_the_effective_forece_in_the_freq_domain(double **&K_Eff)
+
+void main_ns::Solver_ns::Reduce_the_effective_forece_in_the_freq_domain()
 {
 
   std::cout << " Factorization of the matrices ... " << std::endl;
@@ -61,10 +61,21 @@ void Reduce_the_effective_forece_in_the_freq_domain(double **&K_Eff)
   }
 }
 
-//***************************************************************************************************************************************************
-// Solver: Substitution
-//***************************************************************************************************************************************************
-void Substitute_Freq(int &NEqM, double *&RHS, double **&K_Eff)
+/*
+###################################################################################################
+Purpose: This function reduces the stiffness matrix using the LDLT method.
+
+Developed by: Babak Poursartip
+ 
+The Institute for Computational Engineering and Sciences (ICES)
+The University of Texas at Austin	
+================================= V E R S I O N ===================================================
+V0.00: 07/11/2018 - Subroutine initiated.
+V1.01: 07/14/2018 - Initiated: Compiled without error for the first time.
+
+###################################################################################################
+*/
+void main_ns::Solver_ns:: Substitute_Freq(double *&RHS)
 {
 
   // = Local Variables ================================================================================================================================
@@ -123,7 +134,7 @@ The Institute for Computational Engineering and Sciences (ICES)
 The University of Texas at Austin	
 ================================= V E R S I O N ===================================================
 V0.00: 07/11/2018 - Subroutine initiated.
-V0.01: 07/11/2018 - Initiated: Compiled without error for the first time.
+V1.01: 07/11/2018 - Initiated: Compiled without error for the first time.
 
 ###################################################################################################
 */
@@ -142,9 +153,8 @@ void main_ns::Solver_ns::frequency_domain_analysis::Compute_the_transfer_functio
   double *U = new double[2 * DiscretizedModel->NEqM];
 
   // Right Hand Side of the equation (load vector) - The first half of the vector is the real part and the second half is the imaginary part
-  double *RHS = new double[2 * DiscretizedModel->NEqM];
+  RHS = new double[2 * DiscretizedModel->NEqM];
 
-  double **K_Eff;    // complex Effective stiffness (real + imaginary) - See notes
   K_Eff = new double *[2 * DiscretizedModel->NEqM]; // Effective stiffness
   for (int i = 0; i < (2 * DiscretizedModel->NEqM); i++)
   {
@@ -266,7 +276,7 @@ void main_ns::Solver_ns::frequency_domain_analysis::Compute_the_transfer_functio
     {
       for (int j = 0; j < Model->NDim; j++)
       {
-        x = DiscretizeModel->XYZ[NoBndry_DRM[i]][j]; // Coordinate of the node
+        x = DiscretizedModel->XYZ[DiscretizedModel->NoBndry_DRM[i]][j]; // Coordinate of the node
         u_R = 0.0;                  // Initialize the values - Not really necessary
         u_I = 0.0;                  // Initialize the values - Not really necessary
         
@@ -297,8 +307,8 @@ void main_ns::Solver_ns::frequency_domain_analysis::Compute_the_transfer_functio
     // Assemble the load vector
     for (int i = 0; i < Model->NNLayer * Model->NDim; i++)
     {
-      RHS[ND_e[i]] += +F_e_R[i];
-      RHS[ND_e[i] + DiscretizedModel->NEqM] += -F_e_I[i];
+      RHS[fullMatrices->ND_e[i]] += +F_e_R[i];
+      RHS[fullMatrices->ND_e[i] + DiscretizedModel->NEqM] += -F_e_I[i];
     }
 
     // ------- Working on F_b -----------------------------
@@ -319,7 +329,7 @@ void main_ns::Solver_ns::frequency_domain_analysis::Compute_the_transfer_functio
     {
       for (int j = 0; j < Model->NDim; j++)
       {
-        x = DiscretizedModel->XYZ[ NoLayer_DRM[i]][j]; // Coordinate of the node
+        x = DiscretizedModel->XYZ[ DiscretizedModel->NoLayer_DRM[i]][j]; // Coordinate of the node
         u_R = 0.0;                  // Initialize the values - Not really necessary
         u_I = 0.0;                  // Initialize the values - Not really necessary
         // Computing the analytical solution - Comment: the one-dimensional wave-motion is identical for both SV and P waves.
@@ -347,8 +357,8 @@ void main_ns::Solver_ns::frequency_domain_analysis::Compute_the_transfer_functio
     // Assemble the load vector
     for (int i = 0; i < Model->NNBndry * Model->NDim; i++)
     {
-      RHS[ND_b[i]] += +F_b_R[i];
-      RHS[ND_b[i] + DiscretizedModel->NEqM] += -F_b_I[i];
+      RHS[fullMatrices->ND_b[i]] += +F_b_R[i];
+      RHS[fullMatrices->ND_b[i] + DiscretizedModel->NEqM] += -F_b_I[i];
     }
 
     // Reduction the coefficient matrix ( Effective Stiffness Matrix )
@@ -358,11 +368,11 @@ void main_ns::Solver_ns::frequency_domain_analysis::Compute_the_transfer_functio
     // SOLVE
     //Gauss_El_Full ( NEqM, UN, K);
     //Gaussian ( NEqM, UN, K);
-    Substitute_Freq(DiscretizeModel->NEqM, RHS, K_Eff);
+    Substitute_Freq(DiscretizedModel->NEqM, RHS, K_Eff);
 
     // time history of the solution at some particular nodes
-    Result_R = RHS[DiscretizeModel->NEqM - 1];
-    Result_I = RHS[DiscretizeModel->NEqM * 2 - 1];
+    Result_R = RHS[DiscretizedModel->NEqM - 1];
+    Result_I = RHS[DiscretizedModel->NEqM * 2 - 1];
     Result = sqrt(Result_R * Result_R + Result_I * Result_I);
 
     TransferFunc << std::setw(20) << freq << std::setw(20) << Result_R << std::setw(20) << Result_I << std::setw(20) << Result << std::endl;
