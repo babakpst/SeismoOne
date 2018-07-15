@@ -42,7 +42,7 @@ public:
 // methods
 private:
   void Reduce_the_effective_forece_in_the_freq_domain();
-  void substitute_the_RHS_and_solver();
+  void substitute_the_RHS_and_solve();
 
 public:
   frequency_domain_analysis(main_ns::address_ns::address_cls *, main_ns::model_ns::model_cls *,

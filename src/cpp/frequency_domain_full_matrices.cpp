@@ -7,10 +7,10 @@ main_ns::Solver_ns::frequency_domain_analysis::
                              main_ns::model_ns::model_cls* aModel,
                              main_ns::discretization_ns::discretization_cls* aDiscretization,
                              main_ns::Matrices_ns::Matrices_cls * aMatrices)
-                             : Addresses(aAddresses), Model(aModel), DiscretizedModel(aDiscretization), Matrices(aMatrices)
+                             : Addresses(aAddresses), Model(aModel), 
+					   DiscretizedModel(aDiscretization), Matrices(aMatrices)
 {
 } 
-
 
 /*
 ###################################################################################################
@@ -75,7 +75,7 @@ V1.01: 07/14/2018 - Initiated: Compiled without error for the first time.
 
 ###################################################################################################
 */
-void main_ns::Solver_ns::substitute_the_RHS_and_solver(double *&RHS)
+void main_ns::Solver_ns::substitute_the_RHS_and_solve(double *&RHS)
 {
 
 
@@ -233,11 +233,8 @@ void main_ns::Solver_ns::frequency_domain_analysis::Compute_the_transfer_functio
       for (int j = 0; j < DiscretizedModel->NEqM; j++)
       {
         K_Eff[i][j] = -omega * omega * fullMatrices->M[i][j] + fullMatrices->K[i][j];
-
         K_Eff[i + DiscretizedModel->NEqM][j] = -omega * fullMatrices->C[i][j];
-
         K_Eff[i][j + DiscretizedModel->NEqM] = -omega * fullMatrices->C[i][j];
-
         K_Eff[i + DiscretizedModel->NEqM][j + DiscretizedModel->NEqM] = +omega * omega * fullMatrices->M[i][j] - fullMatrices->K[i][j];
       }
     }
@@ -278,11 +275,9 @@ void main_ns::Solver_ns::frequency_domain_analysis::Compute_the_transfer_functio
       for (int j = 0; j < Model->NDim; j++)
       {
         LoadPackage.x = DiscretizedModel->XYZ[DiscretizedModel->NoBndry_DRM[i]][j]; // Coordinate of the node
-        u_R = 0.0;                  // Initialize the values - Not really necessary
-        u_I = 0.0;                  // Initialize the values - Not really necessary
-        
-        
-        //// up to here
+        LoadPackage.u_R = 0.0;                  // Initialize the values - Not really necessary
+        LoadPackage.u_I = 0.0;                  // Initialize the values - Not really necessary
+                
         // Computing the analytical solution - Comment: the one-dimensional wave-motion is identical for both SV and P waves.
         if (Model->Wave_Type == 0)
           DRM_PointValues_for_frequency_domain(&LoadPackage); // SV wave
@@ -290,12 +285,11 @@ void main_ns::Solver_ns::frequency_domain_analysis::Compute_the_transfer_functio
           DRM_PointValues_for_frequency_domain(&LoadPackage); // P wave - Basically, the same as the SV wave in the one-dimensional simulation
 
         // Filling the analytical solution vector
-        U_b_R[i * Model->NNBndry * Model->NDim + j] = u_R;
-        U_b_I[i * Model->NNBndry * Model->NDim + j] = u_I;
+        U_b_R[i * Model->NNBndry * Model->NDim + j] = LoadPackage.u_R;
+        U_b_I[i * Model->NNBndry * Model->NDim + j] = LoadPackage.u_I;
       }
     }
 
-    //
     for (int i = 0; i < Model->NNLayer * Model->NDim; i++)
     {
       for (int j = 0; j < Model->NNBndry * Model->NDim; j++)
@@ -331,8 +325,8 @@ void main_ns::Solver_ns::frequency_domain_analysis::Compute_the_transfer_functio
       for (int j = 0; j < Model->NDim; j++)
       {
         LoadPackage.x = DiscretizedModel->XYZ[ DiscretizedModel->NoLayer_DRM[i]][j]; // Coordinate of the node
-        u_R = 0.0;                  // Initialize the values - Not really necessary
-        u_I = 0.0;                  // Initialize the values - Not really necessary
+        LoadPackage.u_R = 0.0;                  // Initialize the values - Not really necessary
+        LoadPackage.u_I = 0.0;                  // Initialize the values - Not really necessary
         // Computing the analytical solution - Comment: the one-dimensional wave-motion is identical for both SV and P waves.
         if (Model->Wave_Type == 0)
           DRM_PointValues_for_frequency_domain(&LoadPackage); // SV wave
@@ -340,8 +334,8 @@ void main_ns::Solver_ns::frequency_domain_analysis::Compute_the_transfer_functio
           DRM_PointValues_for_frequency_domain(&LoadPackage); // P wave - Basically, the same as the SV wave in the one-dimensional simulation
 
         // Filling the analytical solution vector
-        U_e_R[i * Model->NNBndry * Model->NDim + j] = u_R;
-        U_e_I[i * Model->NNBndry * Model->NDim + j] = u_I;
+        U_e_R[i * Model->NNBndry * Model->NDim + j] = LoadPackage.u_R;
+        U_e_I[i * Model->NNBndry * Model->NDim + j] = LoadPackage.u_I;
       }
     }
 
@@ -367,7 +361,7 @@ void main_ns::Solver_ns::frequency_domain_analysis::Compute_the_transfer_functio
     Reduce_the_effective_forece_in_the_freq_domain();
 
     // SOLVE
-    substitute_the_RHS_and_solver();
+    substitute_the_RHS_and_solve();
 
     // time history of the solution at some particular nodes
     Result_R = RHS[DiscretizedModel->NEqM - 1];
