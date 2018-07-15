@@ -62,7 +62,7 @@ public:
 
   double* F;   // global force vector
 
-  main_ns::Solver_ns::apply_seismic_loads_to_the_domain_cls* Loads;
+  //main_ns::Solver_ns::apply_seismic_loads_to_the_domain_cls* Loads;
 
   main_ns::address_ns::address_cls* Addresses;
   main_ns::model_ns::model_cls* Model;

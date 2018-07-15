@@ -313,7 +313,6 @@ void main_ns::Solver_ns::apply_seismic_loads_to_the_domain_cls::
   delete F_b;
 }
 
-
 /*
 ###################################################################################################
 Purpose: This function computes the point loads in the frequency domain
@@ -330,22 +329,22 @@ V1.00: 07/10/2018 - Compiled successfully.
 */
 
 
-void DRM_PointValues_for_frequency_domain(double &amplitude, double &x, double &c, double &omega, double &u_R, double &u_I)
+void main_ns::Solver_ns::apply_seismic_loads_to_the_domain_cls::DRM_PointValues_for_frequency_domain(main_ns::Solver_ns::apply_seismic_loads_to_the_domain_cls::InputLoad* LoadPackage)
 {
 
   double k; // wavenumber
 
   // The analytical solution is u (x,t) = u_i (exp(i k x) + exp (-i k x)) = 2 u_i cos(kx)
 
-  k = omega / c; // wavenumber
+  k = LoadPackage->omega / LoadPackage->c; // wavenumber
 
-  u_R = 2 * amplitude * cos(k * x); // The real part of the analytical solution in the frequency domain
+  u_R = 2.0 * LoadPackage->amplitude * cos(k * LoadPackage->x); // The real part of the analytical solution in the frequency domain
   u_I = 0.0;                        // The imaginary part of the analytical solution in the frequency domain
 }
 
 
 
-/////////////////////////////////////////
+
 /*
 ###################################################################################################
 Purpose: This function computes ????.

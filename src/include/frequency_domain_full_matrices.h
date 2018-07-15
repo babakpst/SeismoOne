@@ -18,14 +18,18 @@ namespace main_ns
 namespace Solver_ns
 {
 
-class frequency_domain_analysis 
+class frequency_domain_analysis: public main_ns::Solver_ns::apply_seismic_loads_to_the_domain_cls
 {
+
 // members
 private:
   std::ofstream TransferFunc;
 
   double **K_Eff;    // complex Effective stiffness (real + imaginary) - See notes
   double *RHS;
+  main_ns::Solver_ns::apply_seismic_loads_to_the_domain_cls::InputLoad_frequency_domain
+ LoadPackage;
+
 
 public:
   main_ns::discretization_ns::discretization_cls *DiscretizedModel;
@@ -37,8 +41,8 @@ public:
 
 // methods
 private:
-  void Reduce_the_effective_forece_in_the_freq_domain(double **&K_Eff);
-  void Substitute_Freq(int &NEqM, double *&RHS, double **&K_Eff);
+  void Reduce_the_effective_forece_in_the_freq_domain();
+  void substitute_the_RHS_and_solver();
 
 public:
   frequency_domain_analysis(main_ns::address_ns::address_cls *, main_ns::model_ns::model_cls *,

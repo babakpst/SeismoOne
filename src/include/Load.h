@@ -57,12 +57,24 @@ public:
     double** K_eb;
   };
 
+  struct InputLoad_frequency_domain
+  {
+    double amplitude; // amplitude of the incoming wave
+    double c;         // the speed of wave
+    double omega;     // the frequency of the incoming wave
+
+    double x; // The coordinate
+    double u_R; // Analytical displacement - real part
+    double u_I; // Analytical displacement - imaginary part
+  };
+
+
+
   apply_seismic_loads_to_the_domain_cls();
   double LoadFunction(const double, const double, const double);
   void DRM_Loads_Implicit(main_ns::Solver_ns::apply_seismic_loads_to_the_domain_cls::InputLoad*);
   void DRM_PointValues(main_ns::Solver_ns::apply_seismic_loads_to_the_domain_cls::InputLoad*);
-  void DRM_PointValues_for_frequency_domain  
-                  (double &amplitude, double &x, double &c, double &omega, double &u_R, double &u_I);
+  void DRM_PointValues_for_frequency_domain(main_ns::Solver_ns::apply_seismic_loads_to_the_domain_cls::InputLoad_frequency_domain*);  
   
   //void HistorySolution(int &NJ, double &TIME, double &Alpha, double &P, double &E, double &Rho, double &A, double *&U_EX, double **&XYZ);
 
