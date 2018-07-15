@@ -27,7 +27,7 @@ V1.01: 07/14/2018 - Initiated: Compiled without error for the first time.
 ###################################################################################################
 */
 
-void main_ns::Solver_ns::Reduce_the_effective_forece_in_the_freq_domain()
+void main_ns::Solver_ns::frequency_domain_analysis::Reduce_the_effective_forece_in_the_freq_domain()
 {
 
   std::cout << " Factorization of the matrices ... " << std::endl;
@@ -75,15 +75,14 @@ V1.01: 07/14/2018 - Initiated: Compiled without error for the first time.
 
 ###################################################################################################
 */
-void main_ns::Solver_ns::substitute_the_RHS_and_solve(double *&RHS)
+void main_ns::Solver_ns::frequency_domain_analysis::substitute_the_RHS_and_solve()
 {
 
-
   double temp;
-  double *L = new double[2 * DiscretizedMdoel->NEqM]; // Identifications- temp vector
+  double *L = new double[2 * DiscretizedModel->NEqM]; // Identifications- temp vector
 
   // Forward substitution
-  for (int i = 0; i < (2 * DiscretizedMdoel->NEqM); i++)
+  for (int i = 0; i < (2 * DiscretizedModel->NEqM); i++)
   {
     temp = 0.0;
     for (int j = 0; j < i; j++)
@@ -93,7 +92,7 @@ void main_ns::Solver_ns::substitute_the_RHS_and_solve(double *&RHS)
     RHS[i] = RHS[i] - temp;
   }
 
-  for (int i = 0; i < (2 * DiscretizedMdoel->NEqM); i++)
+  for (int i = 0; i < (2 * DiscretizedModel->NEqM); i++)
   {
     RHS[i] = RHS[i] / K_Eff[i][i];
   }
@@ -101,20 +100,20 @@ void main_ns::Solver_ns::substitute_the_RHS_and_solve(double *&RHS)
   int k, l; // temporary indices 
 
   // Backward substitution
-  for (int i = 0; i < (2 * DiscretizedMdoel->NEqM); i++)
+  for (int i = 0; i < (2 * DiscretizedModel->NEqM); i++)
   {
 
-    k = (2 * DiscretizedMdoel->NEqM) - i - 1;
+    k = (2 * DiscretizedModel->NEqM) - i - 1;
     temp = 0.0;
     for (int j = 0; j < i; j++)
     {
-      l = (2 * DiscretizedMdoel->NEqM) - j - 1;
+      l = (2 * DiscretizedModel->NEqM) - j - 1;
       temp += K_Eff[l][k] * L[l];
     }
     L[k] = (RHS[k] - temp);
   }
 
-  for (int i = 0; i < (2 * DiscretizedMdoel->NEqM); i++)
+  for (int i = 0; i < (2 * DiscretizedModel->NEqM); i++)
   {
     RHS[i] = L[i];
   }
@@ -135,7 +134,6 @@ V1.01: 07/14/2018 - Initiated: Compiled without error for the first time.
 ###################################################################################################
 */
 void main_ns::Solver_ns::frequency_domain_analysis::Compute_the_transfer_functions_in_the_frequency_domain()
-
 {
 
   std::cout << "<<<<   Computing the Transfer functions for this domain >>>>" << std::endl;
@@ -199,10 +197,6 @@ void main_ns::Solver_ns::frequency_domain_analysis::Compute_the_transfer_functio
 
   double freq;  // cyclicfrequency increments
   double omega; // circular frequency increments
-
-  double x;   // Coordinate of the node
-  double u_R; // Initialize the values - Not really necessary
-  double u_I; // Initialize the values - Not really necessary
 
   double Result_R; // Transfer functions on the sruface - real part
   double Result_I; // Transfer functions on the sruface - imaginary part

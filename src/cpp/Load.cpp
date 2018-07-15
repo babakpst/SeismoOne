@@ -329,7 +329,7 @@ V1.00: 07/10/2018 - Compiled successfully.
 */
 
 
-void main_ns::Solver_ns::apply_seismic_loads_to_the_domain_cls::DRM_PointValues_for_frequency_domain(main_ns::Solver_ns::apply_seismic_loads_to_the_domain_cls::InputLoad* LoadPackage)
+void main_ns::Solver_ns::apply_seismic_loads_to_the_domain_cls::DRM_PointValues_for_frequency_domain(main_ns::Solver_ns::apply_seismic_loads_to_the_domain_cls::InputLoad_frequency_domain* LoadPackage)
 {
 
   double k; // wavenumber
@@ -338,8 +338,8 @@ void main_ns::Solver_ns::apply_seismic_loads_to_the_domain_cls::DRM_PointValues_
 
   k = LoadPackage->omega / LoadPackage->c; // wavenumber
 
-  u_R = 2.0 * LoadPackage->amplitude * cos(k * LoadPackage->x); // The real part of the analytical solution in the frequency domain
-  u_I = 0.0;                        // The imaginary part of the analytical solution in the frequency domain
+  LoadPackage->u_R = 2.0 * LoadPackage->amplitude * cos(k * LoadPackage->x); // The real part of the analytical solution in the frequency domain
+  LoadPackage->u_I = 0.0;                        // The imaginary part of the analytical solution in the frequency domain
 }
 
 
