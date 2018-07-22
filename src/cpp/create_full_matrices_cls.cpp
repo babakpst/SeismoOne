@@ -3,9 +3,8 @@
 
 // Constructor: we also create and allocate matrices
 main_ns::Matrices_ns::Matrices_Full_cls::Matrices_Full_cls(
-                                   main_ns::discretization_ns::discretization_cls *aDiscretization, 
-                                   main_ns::model_ns::model_cls *aModel) : 
-                                   main_ns::Matrices_ns::Matrices_cls(aDiscretization, aModel)
+    main_ns::discretization_ns::discretization_cls *aDiscretization,
+    main_ns::model_ns::model_cls *aModel) : main_ns::Matrices_ns::Matrices_cls(aDiscretization, aModel)
 {
   main_ns::Matrices_ns::Matrices_Full_cls::allocating_global_matrices_fn();
   main_ns::Matrices_ns::Matrices_Full_cls::allocating_local_matrices_fn();
@@ -67,7 +66,6 @@ void main_ns::Matrices_ns::Matrices_Full_cls::allocating_global_matrices_fn()
   std::cout << " Done with allocation, successfully." << std::endl;
 }
 
-
 /*
 ###################################################################################################
 Purpose: This function allocates the required matrices for assembling. 
@@ -107,7 +105,6 @@ void main_ns::Matrices_ns::Matrices_Full_cls::assemble_local_to_global_fn()
   //cin.get();
 }
 
-
 /*
 ###################################################################################################
 Purpose: This function extracts the DRM matrices from the full matrices.
@@ -124,17 +121,16 @@ V1.00: 06/24/2018 -
 ###################################################################################################
 */
 
-void main_ns::Matrices_ns::Matrices_Full_cls::create_DRM_matrices_fn() 
+void main_ns::Matrices_ns::Matrices_Full_cls::create_DRM_matrices_fn()
 {
 
-  for (int i = 0; i < Model->NNLayer * Model->NDim; i++) {
-    for (int j = 0; j < Model->NNBndry * Model->NDim; j++) {
-      K_eb[i][j] = K[ ND_e[i] ][ ND_b[j] ];
-      C_eb[i][j] = C[ ND_e[i] ][ ND_b[j] ];
-      M_eb[i][j] = M[ ND_e[i] ][ ND_b[j] ];
+  for (int i = 0; i < Model->NNLayer * Model->NDim; i++)
+  {
+    for (int j = 0; j < Model->NNBndry * Model->NDim; j++)
+    {
+      K_eb[i][j] = K[ND_e[i]][ND_b[j]];
+      C_eb[i][j] = C[ND_e[i]][ND_b[j]];
+      M_eb[i][j] = M[ND_e[i]][ND_b[j]];
     }
   }
-
-
-
 }

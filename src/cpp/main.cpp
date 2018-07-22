@@ -20,8 +20,9 @@ version 2.0        Sept 22, 2016     Transfer functions (frequency domain)
 version 2.0        March 30, 2018    Check
 version 2.1        April 08, 2018    Some minor modifications
 version 2.2        May 30, 2018      Transforming the code to an OOP
+version 2.3        July 22, 2018     adding vectors
 
-Last Update:       July 15, 2018
+Last Update:       July 22, 2018
 
 Comments:
 - This code solves the one-dimensional equation, in several domains. The boundary condition at the

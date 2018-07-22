@@ -139,7 +139,8 @@ void main_ns::Solver_ns::Solver_cls::solve_the_system_using_implicit_newmark_met
     Elapsed_Time = IStep * Model->DT;
     Time = Initial_Time + IStep * Model->DT; // Time STEP
     LoadPackage.Time = Time;
-    std::cout << std::showpoint << "Time Step:  " << std::setw(5) << IStep << "  Time: " << std::setw(8) << std::left << Time << "  Total time: " << Elapsed_Time << std::endl;
+    std::cout << std::showpoint << "Time Step:  " << std::setw(5) << IStep << "  Time: "
+              << std::setw(8) << std::left << Time << " Total time: " << Elapsed_Time << std::endl;
 
     // Update displacements, velocity and acceleration
     for (int i = 0; i < DiscretizedModel->NEqM; i++)
@@ -197,7 +198,8 @@ void main_ns::Solver_ns::Solver_cls::solve_the_system_using_implicit_newmark_met
     History << std::showpoint << std::left << std::setw(12) << Time;
     for (int i = 0; i < Model->Dis_History; i++)
     {
-      History << std::showpoint << std::showpos << std::left << std::setw(25) << UN[DiscretizedModel->Nodal_History[i]];
+      History << std::showpoint << std::showpos << std::left << std::setw(25)
+              << UN[DiscretizedModel->Nodal_History[i]];
     }
     History << std::endl;
 

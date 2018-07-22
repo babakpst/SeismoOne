@@ -4,7 +4,7 @@
 
 // constructor
 main_ns::discretization_ns::discretization_cls::
-    discretization_cls(const main_ns::model_ns::model_cls* InputModel) : model(InputModel)
+    discretization_cls(const main_ns::model_ns::model_cls *InputModel) : model(InputModel)
 {
 
   std::cout << " -allocating arrays for discretization ..." << std::endl;
@@ -35,7 +35,7 @@ main_ns::discretization_ns::discretization_cls::
   NoBndry_DRM = new int[model->NNBndry]; // vector that holds the node numbers on the DRM boundary-
                                          // There is only one node on the DRM boundary
   NoLayer_DRM = new int[model->NNLayer]; // vector that holds the node numbers on the DRM layer.
-                                         // There are only two nodes in the layer in a 1D wave motion.
+                                         // There are only 2 nodes in the layer in a 1D wave motion
 }
 
 /*
@@ -55,9 +55,9 @@ V0.01: 05/21/2018 - Initiated: Compiled without error for the first time.
 void main_ns::discretization_ns::discretization_cls::Discretization()
 {
 
-  // = Variables ====================================================================================
+  // = Variables ==================================================================================
 
-  // - Integer variables ----------------------------------------------------------------------------
+  // - Integer variables --------------------------------------------------------------------------
   int i, j, ij;  // loop variable
   int iel;       // loop variable
   int Mat_index; // material counter
@@ -65,16 +65,16 @@ void main_ns::discretization_ns::discretization_cls::Discretization()
   int NJ_Layer;  // number of joints in the layer
   int NEl_Layer; // number of elements in the layer
 
-  // - Real variables -------------------------------------------------------------------------------
+  // - Real variables -----------------------------------------------------------------------------
   double h;          // element size
   double Coordinate; // Holds the coordinate of the node
   double Level;      //
   double tol;
 
-  // - Strings --------------------------------------------------------------------------------------
+  // - Strings ------------------------------------------------------------------------------------
   std::string TempS; // Temporary variable for reading strings from input files
 
-  // ==================== Code ======================================================================
+  // ==================== Code ====================================================================
   std::cout << " -discretization ..." << std::endl;
 
   // create the coordinates of nodes
@@ -106,7 +106,8 @@ void main_ns::discretization_ns::discretization_cls::Discretization()
   if ((model->NJ - 1) != NJ_Count)
   {
     std::cout << " Fatal Error: refer to the discretization function." << std::endl;
-    std::cout << " Number of joints should be: " << model->NJ - 1 << " but it is: " << NJ_Count << std::endl;
+    std::cout << " Number of joints should be: " << model->NJ - 1 << " but it is: "
+              << NJ_Count << std::endl;
     return;
   }
 
@@ -144,7 +145,8 @@ void main_ns::discretization_ns::discretization_cls::Discretization()
     for (j = 0; j < model->NDOF; j++)
     {
       NEqM++;
-      ID[i][j] = NEqM; // We already know that no node has been fixed. Equation number then starts from zero.
+      ID[i][j] = NEqM;
+      // We already know that no node has been fixed. Equation number then starts from zero.
     }
   }
   NEqM++;

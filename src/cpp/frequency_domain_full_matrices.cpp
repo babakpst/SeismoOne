@@ -3,14 +3,14 @@
 #include "../include/frequency_domain_full_matrices.h"
 
 main_ns::Solver_ns::frequency_domain_analysis::
-     frequency_domain_analysis(main_ns::address_ns::address_cls* aAddresses, 
-                             main_ns::model_ns::model_cls* aModel,
-                             main_ns::discretization_ns::discretization_cls* aDiscretization,
-                             main_ns::Matrices_ns::Matrices_cls * aMatrices)
-                             : Addresses(aAddresses), Model(aModel), 
-					   DiscretizedModel(aDiscretization), Matrices(aMatrices)
+    frequency_domain_analysis(main_ns::address_ns::address_cls *aAddresses,
+                              main_ns::model_ns::model_cls *aModel,
+                              main_ns::discretization_ns::discretization_cls *aDiscretization,
+                              main_ns::Matrices_ns::Matrices_cls *aMatrices)
+    : Addresses(aAddresses), Model(aModel),
+      DiscretizedModel(aDiscretization), Matrices(aMatrices)
 {
-} 
+}
 
 /*
 ###################################################################################################
@@ -27,12 +27,13 @@ V1.01: 07/14/2018 - Initiated: Compiled without error for the first time.
 ###################################################################################################
 */
 
-void main_ns::Solver_ns::frequency_domain_analysis::Reduce_the_effective_forece_in_the_freq_domain()
+void main_ns::Solver_ns::frequency_domain_analysis::
+    Reduce_the_effective_forece_in_the_freq_domain()
 {
 
   std::cout << " Factorization of the matrices ... " << std::endl;
   double *L = new double[2 * DiscretizedModel->NEqM]; // Identifications
-                             
+
   for (int j = 0; j < (2 * DiscretizedModel->NEqM); j++)
   {
     std::cout << j << " reduces out of " << 2 * DiscretizedModel->NEqM << std::endl;
@@ -97,7 +98,7 @@ void main_ns::Solver_ns::frequency_domain_analysis::substitute_the_RHS_and_solve
     RHS[i] = RHS[i] / K_Eff[i][i];
   }
 
-  int k, l; // temporary indices 
+  int k, l; // temporary indices
 
   // Backward substitution
   for (int i = 0; i < (2 * DiscretizedModel->NEqM); i++)
@@ -133,20 +134,24 @@ V1.01: 07/14/2018 - Initiated: Compiled without error for the first time.
 
 ###################################################################################################
 */
-void main_ns::Solver_ns::frequency_domain_analysis::Compute_the_transfer_functions_in_the_frequency_domain()
+void main_ns::Solver_ns::frequency_domain_analysis::
+    Compute_the_transfer_functions_in_the_frequency_domain()
 {
 
   std::cout << "<<<<   Computing the Transfer functions for this domain >>>>" << std::endl;
 
-  main_ns::Matrices_ns::Matrices_Full_cls* fullMatrices = static_cast<main_ns::Matrices_ns::Matrices_Full_cls*> (this->Matrices);
+  main_ns::Matrices_ns::Matrices_Full_cls *fullMatrices =
+      static_cast<main_ns::Matrices_ns::Matrices_Full_cls *>(this->Matrices);
 
   // Define arrays
   std::cout << " Create arrays ..." << std::endl;
 
-  // Solution in for each frequency- The first half of the vector is the real part and the second half is the imaginary part
+  // Solution in for each frequency- The first half of the vector is the real part and the
+  // second half is the imaginary part
   double *U = new double[2 * DiscretizedModel->NEqM];
 
-  // Right Hand Side of the equation (load vector) - The first half of the vector is the real part and the second half is the imaginary part
+  // Right Hand Side of the equation (load vector) - The first half of the vector is the real
+  // part and the second half is the imaginary part
   RHS = new double[2 * DiscretizedModel->NEqM];
 
   K_Eff = new double *[2 * DiscretizedModel->NEqM]; // Effective stiffness
@@ -155,43 +160,51 @@ void main_ns::Solver_ns::frequency_domain_analysis::Compute_the_transfer_functio
     K_Eff[i] = new double[2 * DiscretizedModel->NEqM];
   }
 
-  double **K_Eff_eb; // The effective striffness DRM matrix
-  K_Eff_eb = new double *[ Model->NDim * Model->NNLayer]; // The effective striffness DRM matrix
+  double **K_Eff_eb;                                     // The effective striffness DRM matrix
+  K_Eff_eb = new double *[Model->NDim * Model->NNLayer]; // The effective striffness DRM matrix
   for (int i = 0; i < (Model->NDim * Model->NNLayer); i++)
   {
     K_Eff_eb[i] = new double[Model->NDim * Model->NNBndry];
   }
 
-  double **C_Eff_eb; // The effective damping DRM matrix
+  double **C_Eff_eb;                                     // The effective damping DRM matrix
   C_Eff_eb = new double *[Model->NDim * Model->NNLayer]; // The effective striffness DRM matrix
   for (int i = 0; i < (Model->NDim * Model->NNLayer); i++)
   {
     C_Eff_eb[i] = new double[Model->NDim * Model->NNBndry];
   }
 
-  // Defining the required vectors
-  double *U_b_R = new double[Model->NNBndry * Model->NDim]; // The real part of the analytical solution on the boundary
-  double *U_b_I = new double[Model->NNBndry * Model->NDim]; // The imaginary part of the analytical solution on the boundary
+  // Defining the required vectors:
+  // The real part of the analytical solution on the boundary
+  double *U_b_R = new double[Model->NNBndry * Model->NDim];
+  // The imaginary part of the analytical solution on the boundary
+  double *U_b_I = new double[Model->NNBndry * Model->NDim];
 
-  double *F_e_R = new double[Model->NNLayer * Model->NDim]; // The real part of the DRM load on the DRM layer
-  double *F_e_I = new double[Model->NNLayer * Model->NDim]; // The imaginary part of the DRM load on the DRM layer
+  // The real part of the DRM load on the DRM layer
+  double *F_e_R = new double[Model->NNLayer * Model->NDim];
+  // The imaginary part of the DRM load on the DRM layer
+  double *F_e_I = new double[Model->NNLayer * Model->NDim];
 
-  // Defining the required vectors
-  double *U_e_R = new double[Model->NNLayer * Model->NDim]; // The real part of the analytical solution on the layer
-  double *U_e_I = new double[Model->NNLayer * Model->NDim]; // The imaginary part of the analytical solution on the boundary
+  // Defining the required vectors:
+  // The real part of the analytical solution on the layer
+  double *U_e_R = new double[Model->NNLayer * Model->NDim];
+  // The imaginary part of the analytical solution on the boundary
+  double *U_e_I = new double[Model->NNLayer * Model->NDim];
 
-  double *F_b_R = new double[Model->NNBndry * Model->NDim]; // The real part of the DRM load on the DRM boundary
-  double *F_b_I = new double[Model->NNBndry * Model->NDim]; // The imaginary part of the DRM load on the DRM boundary
+  // The real part of the DRM load on the DRM boundary
+  double *F_b_R = new double[Model->NNBndry * Model->NDim];
+  // The imaginary part of the DRM load on the DRM boundary
+  double *F_b_I = new double[Model->NNBndry * Model->NDim];
 
   // Define frequencies
-  double minf = 0.0;  // min cyclic frequency
+  double minf = 0.0;           // min cyclic frequency
   double maxf = Model->alpha1; // max cyclic frequency
-  double df   = Model->alpha2; // cyclic frequency increment
+  double df = Model->alpha2;   // cyclic frequency increment
 
   // material properties of the domain where the DRM boundary is
-  double E   = Model->PMat[0][0];    // Elastic Modulus
-  double Rho = Model->PMat[0][1];  // density
-  double c   = sqrt(E / Rho); // wave velocity in the domain where the DRM boundary is
+  double E = Model->PMat[0][0];   // Elastic Modulus
+  double Rho = Model->PMat[0][1]; // density
+  double c = sqrt(E / Rho);       // wave velocity in the domain where the DRM boundary is
 
   const double pi = 3.14159265358979323846;
 
@@ -211,7 +224,7 @@ void main_ns::Solver_ns::frequency_domain_analysis::Compute_the_transfer_functio
   LoadPackage.omega = Model->omega;
 
   // Open output files for the transfer function output
-  TransferFunc.open (Addresses->TransferFunction_Dir.c_str(), std::ios::out );
+  TransferFunc.open(Addresses->TransferFunction_Dir.c_str(), std::ios::out);
 
   for (int iStep = 1; iStep <= NStep; iStep++)
   {
@@ -229,7 +242,8 @@ void main_ns::Solver_ns::frequency_domain_analysis::Compute_the_transfer_functio
         K_Eff[i][j] = -omega * omega * fullMatrices->M[i][j] + fullMatrices->K[i][j];
         K_Eff[i + DiscretizedModel->NEqM][j] = -omega * fullMatrices->C[i][j];
         K_Eff[i][j + DiscretizedModel->NEqM] = -omega * fullMatrices->C[i][j];
-        K_Eff[i + DiscretizedModel->NEqM][j + DiscretizedModel->NEqM] = +omega * omega * fullMatrices->M[i][j] - fullMatrices->K[i][j];
+        K_Eff[i + DiscretizedModel->NEqM][j + DiscretizedModel->NEqM] =
+            +omega * omega * fullMatrices->M[i][j] - fullMatrices->K[i][j];
       }
     }
 
@@ -250,7 +264,7 @@ void main_ns::Solver_ns::frequency_domain_analysis::Compute_the_transfer_functio
       RHS[i] = 0.0;
     }
 
-    // Working on F_e 
+    // Working on F_e
     for (int i = 0; i < Model->NNBndry * Model->NDim; i++)
     {
       U_b_R[i] = 0.0;
@@ -263,20 +277,24 @@ void main_ns::Solver_ns::frequency_domain_analysis::Compute_the_transfer_functio
       F_e_I[i] = 0.0;
     }
 
-    // Computing the analytical solution at the DRM boundary and the DRM layer nodes (Flat homogeneous domain)
+    // Computing the analytical solution at the DRM boundary and the DRM layer nodes
+    // (Flat homogeneous domain)
     for (int i = 0; i < Model->NNBndry; i++)
     {
       for (int j = 0; j < Model->NDim; j++)
       {
-        LoadPackage.x = DiscretizedModel->XYZ[DiscretizedModel->NoBndry_DRM[i]][j]; // Coordinate of the node
-        LoadPackage.u_R = 0.0;                  // Initialize the values - Not really necessary
-        LoadPackage.u_I = 0.0;                  // Initialize the values - Not really necessary
-                
-        // Computing the analytical solution - Comment: the one-dimensional wave-motion is identical for both SV and P waves.
+        // Coordinate of the node
+        LoadPackage.x = DiscretizedModel->XYZ[DiscretizedModel->NoBndry_DRM[i]][j];
+
+        LoadPackage.u_R = 0.0; // Initialize the values - Not really necessary
+        LoadPackage.u_I = 0.0; // Initialize the values - Not really necessary
+
+        // Computing the analytical solution - Comment: the one-dimensional wave-motion is
+        // identical for both SV and P waves. (not really required to separate the two waves)
         if (Model->Wave_Type == 0)
           DRM_PointValues_for_frequency_domain(&LoadPackage); // SV wave
         else if (Model->Wave_Type == 1)
-          DRM_PointValues_for_frequency_domain(&LoadPackage); // P wave - Basically, the same as the SV wave in the one-dimensional simulation
+          DRM_PointValues_for_frequency_domain(&LoadPackage); // P wave
 
         // Filling the analytical solution vector
         U_b_R[i * Model->NNBndry * Model->NDim + j] = LoadPackage.u_R;
@@ -300,7 +318,7 @@ void main_ns::Solver_ns::frequency_domain_analysis::Compute_the_transfer_functio
       RHS[fullMatrices->ND_e[i] + DiscretizedModel->NEqM] += -F_e_I[i];
     }
 
-    // Working on F_b 
+    // Working on F_b
     for (int i = 0; i < Model->NNLayer * Model->NDim; i++)
     {
       U_e_R[i] = 0.0;
@@ -313,19 +331,24 @@ void main_ns::Solver_ns::frequency_domain_analysis::Compute_the_transfer_functio
       F_b_I[i] = 0.0;
     }
 
-    // Loop on the nodes on the DRM layer to find out the analytical solution (In this case only two nodes)
+    // Loop on the nodes on the DRM layer to find out the analytical solution
+    // (In this case there are only two nodes.)
     for (int i = 0; i < Model->NNLayer; i++)
     {
       for (int j = 0; j < Model->NDim; j++)
       {
-        LoadPackage.x = DiscretizedModel->XYZ[ DiscretizedModel->NoLayer_DRM[i]][j]; // Coordinate of the node
-        LoadPackage.u_R = 0.0;                  // Initialize the values - Not really necessary
-        LoadPackage.u_I = 0.0;                  // Initialize the values - Not really necessary
-        // Computing the analytical solution - Comment: the one-dimensional wave-motion is identical for both SV and P waves.
+        // Coordinate of the node
+        LoadPackage.x = DiscretizedModel->XYZ[DiscretizedModel->NoLayer_DRM[i]][j];
+
+        LoadPackage.u_R = 0.0; // Initialize the values - Not really necessary
+        LoadPackage.u_I = 0.0; // Initialize the values - Not really necessary
+
+        // Computing the analytical solution
+        // Comment: the one-dimensional wave-motion is identical for both SV and P waves.
         if (Model->Wave_Type == 0)
           DRM_PointValues_for_frequency_domain(&LoadPackage); // SV wave
         else if (Model->Wave_Type == 1)
-          DRM_PointValues_for_frequency_domain(&LoadPackage); // P wave - Basically, the same as the SV wave in the one-dimensional simulation
+          DRM_PointValues_for_frequency_domain(&LoadPackage); // P wave
 
         // Filling the analytical solution vector
         U_e_R[i * Model->NNBndry * Model->NDim + j] = LoadPackage.u_R;
@@ -363,7 +386,8 @@ void main_ns::Solver_ns::frequency_domain_analysis::Compute_the_transfer_functio
     Result = sqrt(Result_R * Result_R + Result_I * Result_I);
 
     // Recording the results in the output file
-    TransferFunc << std::setw(20) << freq << std::setw(20) << Result_R << std::setw(20) << Result_I << std::setw(20) << Result << std::endl;
+    TransferFunc << std::setw(20) << freq << std::setw(20) << Result_R << std::setw(20)
+                 << Result_I << std::setw(20) << Result << std::endl;
   }
 
   // Close the output file

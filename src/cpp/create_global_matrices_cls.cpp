@@ -1,14 +1,15 @@
 
 #include "../include/create_global_matrices_cls.h"
 
-main_ns::Matrices_ns::Matrices_cls::Matrices_cls
-                                  (main_ns::discretization_ns::discretization_cls *aDiscretization,
-                                   main_ns::model_ns::model_cls *aModel)
-                                   : DiscretizedModel(aDiscretization), Model(aModel)
+main_ns::Matrices_ns::Matrices_cls::Matrices_cls(main_ns::discretization_ns::discretization_cls *aDiscretization,
+                                                 main_ns::model_ns::model_cls *aModel)
+    : DiscretizedModel(aDiscretization), Model(aModel)
 {
 }
 
-main_ns::Matrices_ns::Matrices_cls::~Matrices_cls(){}
+main_ns::Matrices_ns::Matrices_cls::~Matrices_cls()
+{
+}
 
 /*
 ###################################################################################################
@@ -57,7 +58,7 @@ void main_ns::Matrices_ns::Matrices_cls::allocating_local_matrices_fn()
   }
 
   Fe = new double[NEqEl];
-  
+
   std::cout << " -allocating DRM matrices ..." << std::endl;
   K_eb = new double *[Model->NDim * Model->NNLayer]; //
   for (int i = 0; i < (Model->NDim * Model->NNLayer); i++)
@@ -78,7 +79,6 @@ void main_ns::Matrices_ns::Matrices_cls::allocating_local_matrices_fn()
   }
 
   ND = new int[NEqEl];
-
 }
 
 /*
@@ -152,8 +152,8 @@ void main_ns::Matrices_ns::Matrices_cls::assembling_local_matrices_into_global_m
 
     // Material Property of this element
     MType = DiscretizedModel->MTel[iel]; // Material property type
-    E     = Model->PMat[MType][0];       // Elastic modulus of this material
-    Rho   = Model->PMat[MType][1];       // Density of this material
+    E = Model->PMat[MType][0];           // Elastic modulus of this material
+    Rho = Model->PMat[MType][1];         // Density of this material
 
     compute_elemental_matrices_fn(iel, Rho, E);
 
@@ -215,7 +215,8 @@ V0.01: 06/02/2018 - Initiated: Compiled without error for the first time.
 ###################################################################################################
 */
 
-void main_ns::Matrices_ns::Matrices_cls::compute_elemental_matrices_fn(int iel, double Rho, double E)
+void main_ns::Matrices_ns::Matrices_cls::
+    compute_elemental_matrices_fn(int iel, double Rho, double E)
 {
 
   double WX;   // weight in Gauss integration scheme - in the x coordinate
@@ -359,5 +360,4 @@ void main_ns::Matrices_ns::Matrices_cls::allocate_matrices_for_assembling_fn()
       ND_b[j * Model->NNBndry + i] = DiscretizedModel->ID[DiscretizedModel->NoBndry_DRM[i]][j];
     }
   }
-
 }

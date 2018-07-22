@@ -1,15 +1,14 @@
 
 #include "../include/solves_full_matrices.h"
 
-main_ns::Solver_ns::solve_full_matrices_cls::
-     solve_full_matrices_cls(main_ns::address_ns::address_cls* aAddresses, 
-                             main_ns::model_ns::model_cls* aModel,
-                             main_ns::discretization_ns::discretization_cls* aDiscretization,
-                             main_ns::Matrices_ns::Matrices_cls * aMatrices)
-                             : main_ns::Solver_ns::Solver_cls(aAddresses, aModel, aDiscretization, aMatrices)
+main_ns::Solver_ns::solve_full_matrices_cls::solve_full_matrices_cls(
+    main_ns::address_ns::address_cls *aAddresses,
+    main_ns::model_ns::model_cls *aModel,
+    main_ns::discretization_ns::discretization_cls *aDiscretization,
+    main_ns::Matrices_ns::Matrices_cls *aMatrices)
+    : main_ns::Solver_ns::Solver_cls(aAddresses, aModel, aDiscretization, aMatrices)
 {
-} 
-
+}
 
 /*
 ###################################################################################################
@@ -29,7 +28,8 @@ V0.01: 06/29/2018 - Initiated: Compiled without error for the first time.
 void main_ns::Solver_ns::solve_full_matrices_cls::Compute_the_effective_matrix()
 {
 
-main_ns::Matrices_ns::Matrices_Full_cls* fullMatrices = static_cast<main_ns::Matrices_ns::Matrices_Full_cls*> (this->Matrices);
+  main_ns::Matrices_ns::Matrices_Full_cls *fullMatrices =
+      static_cast<main_ns::Matrices_ns::Matrices_Full_cls *>(this->Matrices);
 
   // Effective stiffness matrix
   std::cout << " Obtaining the effective matrix ..." << std::endl;
@@ -37,7 +37,8 @@ main_ns::Matrices_ns::Matrices_Full_cls* fullMatrices = static_cast<main_ns::Mat
   {
     for (int j = 0; j < DiscretizedModel->NEqM; j++)
     {
-      fullMatrices->K[i][j] = fullMatrices->K[i][j] + A0 * fullMatrices->M[i][j] + A1 * fullMatrices->C[i][j];
+      fullMatrices->K[i][j] =
+          fullMatrices->K[i][j] + A0 * fullMatrices->M[i][j] + A1 * fullMatrices->C[i][j];
     }
   }
 }
@@ -59,11 +60,13 @@ V0.01: 06/29/2018 - Initiated: Compiled without error for the first time.
 void main_ns::Solver_ns::solve_full_matrices_cls::Reduce_the_effective_forece()
 {
 
-main_ns::Matrices_ns::Matrices_Full_cls* fullMatrices = static_cast<main_ns::Matrices_ns::Matrices_Full_cls*> (this->Matrices);
+  main_ns::Matrices_ns::Matrices_Full_cls *fullMatrices =
+      static_cast<main_ns::Matrices_ns::Matrices_Full_cls *>(this->Matrices);
+
   std::cout << "Reduce effective matrix ..." << std::endl;
   int tempI;
-  
-  double *L= new double[DiscretizedModel->NEqM]; // Identifications
+
+  double *L = new double[DiscretizedModel->NEqM]; // Identifications
 
   for (int j = 0; j < DiscretizedModel->NEqM; j++)
   {
@@ -106,28 +109,27 @@ V0.01: 07/02/2018 - Initiated: Compiled without error for the first time.
 ###################################################################################################
 */
 
-void main_ns::Solver_ns::solve_full_matrices_cls::Effective_forces_fn(double *& UN)
+void main_ns::Solver_ns::solve_full_matrices_cls::Effective_forces_fn(double *&UN)
 {
-main_ns::Matrices_ns::Matrices_Full_cls* fullMatrices = static_cast<main_ns::Matrices_ns::Matrices_Full_cls*> (this->Matrices);
+  main_ns::Matrices_ns::Matrices_Full_cls *fullMatrices =
+      static_cast<main_ns::Matrices_ns::Matrices_Full_cls *>(this->Matrices);
 
+  // Effective force - stored in UN
+  for (int i = 0; i < DiscretizedModel->NEqM; i++)
+  { // find the coefficient of the M matrix
+    Temp[i] = A0 * U[i] + A2 * UD[i] + A3 * UDD[i];
+  };
 
-    // Effective force - stored in UN
-    for (int i = 0; i < DiscretizedModel->NEqM; i++)
-    { // find the coefficient of the M matrix
-      Temp[i] = A0 * U[i] + A2 * UD[i] + A3 * UDD[i];
-    };
+  // Multiply the mass matrix by the load vector
+  Matrix_Multiplication(fullMatrices->M, Temp, UN);
 
-    // Multiply the mass matrix by the load vector
-    Matrix_Multiplication(fullMatrices->M, Temp, UN);
+  for (int i = 0; i < DiscretizedModel->NEqM; i++)
+  {
+    Temp[i] = A1 * U[i] + A4 * UD[i] + A5 * UDD[i];
+  }
 
-    for (int i = 0; i < DiscretizedModel->NEqM; i++)
-    {
-      Temp[i] = A1 * U[i] + A4 * UD[i] + A5 * UDD[i];
-    }
-
-    Matrix_Multiplication(fullMatrices->C, Temp, UN);
+  Matrix_Multiplication(fullMatrices->C, Temp, UN);
 }
-
 
 /*
 ###################################################################################################
@@ -144,7 +146,8 @@ V0.01: 07/02/2018 - Initiated: Compiled without error for the first time.
 ###################################################################################################
 */
 
-void main_ns::Solver_ns::solve_full_matrices_cls::Matrix_Multiplication(double **&Matrix, double *&Temp, double *&UN)
+void main_ns::Solver_ns::solve_full_matrices_cls::Matrix_Multiplication(
+    double **&Matrix, double *&Temp, double *&UN)
 {
   double TempVar;
   for (int i = 0; i < DiscretizedModel->NEqM; i++)
@@ -174,9 +177,10 @@ V0.01: 07/06/2018 - Initiated: Compiled without error for the first time.
 */
 
 void main_ns::Solver_ns::solve_full_matrices_cls::
-                              Solve_the_system_for_this_RHS_using_Gaussina_Elimination(double*& UN)
+    Solve_the_system_for_this_RHS_using_Gaussina_Elimination(double *&UN)
 {
-main_ns::Matrices_ns::Matrices_Full_cls* fullMatrices = static_cast<main_ns::Matrices_ns::Matrices_Full_cls*> (this->Matrices);
+  main_ns::Matrices_ns::Matrices_Full_cls *fullMatrices = 
+  static_cast<main_ns::Matrices_ns::Matrices_Full_cls *>(this->Matrices);
 
   int k, l; // temporary variables
   double temp;
@@ -217,4 +221,3 @@ main_ns::Matrices_ns::Matrices_Full_cls* fullMatrices = static_cast<main_ns::Mat
     UN[i] = L[i];
   }
 }
-

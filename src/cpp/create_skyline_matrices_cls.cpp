@@ -3,8 +3,8 @@
 
 // Constructor: we also create and allocate matrices
 main_ns::Matrices_ns::Matrices_Skyline_cls::
-                      Matrices_Skyline_cls(main_ns::discretization_ns::discretization_cls *aDiscretization,
-                      main_ns::model_ns::model_cls *aModel)
+    Matrices_Skyline_cls(main_ns::discretization_ns::discretization_cls *aDiscretization,
+                         main_ns::model_ns::model_cls *aModel)
     : main_ns::Matrices_ns::Matrices_cls(aDiscretization, aModel)
 {
   main_ns::Matrices_ns::Matrices_Skyline_cls::allocating_global_matrices_fn();

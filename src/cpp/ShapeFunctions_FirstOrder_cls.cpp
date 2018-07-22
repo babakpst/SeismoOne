@@ -3,9 +3,11 @@
 #include "../include/ShapeFunctions_FirstOrder_cls.h"
 #include "../include/ShapeFunctions_cls.h"
 
-main_ns::ShapeFunctions_ns::ShapeFunctions_FirstOrder_cls::ShapeFunctions_FirstOrder_cls(int aNInt, int aNNode):
-main_ns::ShapeFunctions_ns::ShapeFunctions_cls(aNInt, aNNode){}
-
+main_ns::ShapeFunctions_ns::ShapeFunctions_FirstOrder_cls::
+    ShapeFunctions_FirstOrder_cls(int aNInt, int aNNode)
+    : main_ns::ShapeFunctions_ns::ShapeFunctions_cls(aNInt, aNNode)
+{
+}
 
 /*
 ###################################################################################################
@@ -24,11 +26,11 @@ V0.01: 06/02/2018 - Initiated: Compiled without error for the first time.
 ###################################################################################################
 */
 
-void main_ns::ShapeFunctions_ns::ShapeFunctions_FirstOrder_cls::ShapeFunctions (){ //ShapeFunc_1D_2N
-Fn[0] = 0.5 * (1 - x1);
-Fn[1] = 0.5 * (1 + x1);
+void main_ns::ShapeFunctions_ns::ShapeFunctions_FirstOrder_cls::ShapeFunctions()
+{ //ShapeFunc_1D_2N
+  Fn[0] = 0.5 * (1 - x1);
+  Fn[1] = 0.5 * (1 + x1);
 }
-
 
 /*
 ###################################################################################################
@@ -46,9 +48,8 @@ V0.01: 06/02/2018 - Initiated: Compiled without error for the first time.
 
 ###################################################################################################
 */
-void main_ns::ShapeFunctions_ns::ShapeFunctions_FirstOrder_cls::DifferentialOfShapeFunctions ()  //Dif_ShapeFunc_1D_2N
+void main_ns::ShapeFunctions_ns::ShapeFunctions_FirstOrder_cls::DifferentialOfShapeFunctions() 
 {
-DFXI[0] = -0.5;
-DFXI[1] = +0.5;
-
+  DFXI[0] = -0.5;
+  DFXI[1] = +0.5;
 }
