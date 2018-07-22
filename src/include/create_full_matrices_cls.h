@@ -26,6 +26,7 @@ public:
   double **C; // global damping matrix
   double **M; // global mass matrix
 
+public:
   Matrices_Full_cls(main_ns::discretization_ns::discretization_cls *, main_ns::model_ns::model_cls *);
   
   virtual void assemble_local_to_global_fn();

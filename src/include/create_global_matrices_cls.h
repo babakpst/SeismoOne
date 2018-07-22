@@ -20,13 +20,12 @@ namespace Matrices_ns
 
 class Matrices_cls
 {
+// members
+private:
   int   MType; // material type
   double E;    // elastic modulus
   double Rho;  // density
 
-  void compute_elemental_matrices_fn(int, double, double);
-
-protected:
 public:
   int NEqEl; // Number of equations of each element
 
@@ -54,6 +53,11 @@ public:
 
   main_ns::ShapeFunctions_ns::ShapeFunctions_cls *SF;
 
+// methods
+private:
+  void compute_elemental_matrices_fn(int, double, double);
+
+public:
   Matrices_cls(main_ns::discretization_ns::discretization_cls *, main_ns::model_ns::model_cls *);
 
   void allocating_local_matrices_fn();

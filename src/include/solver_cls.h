@@ -20,22 +20,15 @@ namespace main_ns
 namespace Solver_ns
 {
 
-class Solver_cls: public main_ns::Solver_ns::apply_seismic_loads_to_the_domain_cls
+class Solver_cls : public main_ns::Solver_ns::apply_seismic_loads_to_the_domain_cls
 {
 
+  // members
 private:
-  std::ofstream info;     // information file
-  std::ofstream FullSol;  // file to write the entire solution at all times
-  std::ofstream History;  // file to write the history of the solution at some particular nodes
+  std::ofstream info;    // information file
+  std::ofstream FullSol; // file to write the entire solution at all times
+  std::ofstream History; // file to write the history of the solution at some particular nodes
 
-  virtual void Compute_the_effective_matrix(void)=0;
-  virtual void Reduce_the_effective_forece(void)=0;
-  //virtual void Matrix_Multiplication(double*&, double*&, double*&) =0;
-  virtual void Effective_forces_fn(double*&)=0;
-  virtual void Solve_the_system_for_this_RHS_using_Gaussina_Elimination(double*& )=0;
-
-
-protected:
 public:
   // Newmark constants
   double A0;
@@ -51,33 +44,40 @@ public:
 
   double Elapsed_Time; // The elapsed time in the simulation
   double Time;         // The actual simulation time, considering the effects of DRM
-  double Initial_Time; // Starting time of the simulation, usually negative, because of the DRM 
+  double Initial_Time; // Starting time of the simulation, usually negative, because of the DRM
 
+  double *UN;   // temporay arrays for the Newmark algorithm
+  double *U;    // temporay arrays for the Newmark algorithm
+  double *UD;   // temporay arrays for the Newmark algorithm
+  double *UDD;  // temporay arrays for the Newmark algorithm
+  double *Temp; // temporay arrays for the Newmark algorithm
 
-  double* UN;   // temporay arrays for the Newmark algorithm
-  double* U;    // temporay arrays for the Newmark algorithm
-  double* UD;   // temporay arrays for the Newmark algorithm
-  double* UDD;  // temporay arrays for the Newmark algorithm
-  double* Temp; // temporay arrays for the Newmark algorithm
-
-  double* F;   // global force vector
+  double *F; // global force vector
 
   //main_ns::Solver_ns::apply_seismic_loads_to_the_domain_cls* Loads;
 
-  main_ns::address_ns::address_cls* Addresses;
-  main_ns::model_ns::model_cls* Model;
-  main_ns::discretization_ns::discretization_cls* DiscretizedModel;
-  main_ns::Matrices_ns::Matrices_cls* Matrices;  
-
+  main_ns::address_ns::address_cls *Addresses;
+  main_ns::model_ns::model_cls *Model;
+  main_ns::discretization_ns::discretization_cls *DiscretizedModel;
+  main_ns::Matrices_ns::Matrices_cls *Matrices;
 
   main_ns::Solver_ns::apply_seismic_loads_to_the_domain_cls::InputLoad LoadPackage;
 
-  Solver_cls(main_ns::address_ns::address_cls*, main_ns::model_ns::model_cls*,
-             main_ns::discretization_ns::discretization_cls*,
-             main_ns::Matrices_ns::Matrices_cls*);
+  // methods
+private:
+  virtual void Compute_the_effective_matrix(void) = 0;
+  virtual void Reduce_the_effective_forece(void) = 0;
+  //virtual void Matrix_Multiplication(double*&, double*&, double*&) =0;
+  virtual void Effective_forces_fn(double *&) = 0;
+  virtual void Solve_the_system_for_this_RHS_using_Gaussina_Elimination(double *&) = 0;
+
+public:
+  Solver_cls(main_ns::address_ns::address_cls *, main_ns::model_ns::model_cls *,
+             main_ns::discretization_ns::discretization_cls *,
+             main_ns::Matrices_ns::Matrices_cls *);
 
   void solve_the_system_using_implicit_newmark_method(); //either using the skyline or full system
-  
+
   //(double &L, int &Wave_Type, int &Wave_Func, int &NStep, int &NEqM, int &LoadType, double &Gama, double &Beta, double &DT, double &Alpha, double **&M, double **&C, double **&K, double *&F, double **&PMat, double **&XYZ, ofstream &FullSol, ofstream &History, int *&ND_e, int *&ND_b, int *&Nodal_History);
 
   virtual ~Solver_cls();

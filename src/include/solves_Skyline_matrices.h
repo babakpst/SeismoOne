@@ -12,23 +12,25 @@ namespace Solver_ns
 class solve_Skyline_matrices_cls : public main_ns::Solver_ns::Solver_cls
 {
 
+  // members
+
+  // methos
+private:
   virtual void Compute_the_effective_matrix();
   virtual void Reduce_the_effective_forece();
-  void Matrix_Multiplication(double*&, double*&, double*&);
-virtual void Effective_forces_fn(double *&);
-  virtual void Solve_the_system_for_this_RHS_using_Gaussina_Elimination(double*&);
-  
+  void Matrix_Multiplication(double *&, double *&, double *&);
+  virtual void Effective_forces_fn(double *&);
+  virtual void Solve_the_system_for_this_RHS_using_Gaussina_Elimination(double *&);
+
 public:
   //main_ns::Matrices_ns::Matrices_Skyline_cls* Matrices;
-  
-  solve_Skyline_matrices_cls(main_ns::address_ns::address_cls*, 
-             main_ns::model_ns::model_cls*,
-             main_ns::discretization_ns::discretization_cls*,
-             main_ns::Matrices_ns::Matrices_cls*);
+
+  solve_Skyline_matrices_cls(main_ns::address_ns::address_cls *,
+                             main_ns::model_ns::model_cls *,
+                             main_ns::discretization_ns::discretization_cls *,
+                             main_ns::Matrices_ns::Matrices_cls *);
 
   //~solve_Skyline_matrices_cls();
- 
-
 };
 } // namespace Solver_ns
 

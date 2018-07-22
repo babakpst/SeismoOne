@@ -1,48 +1,44 @@
 
 
-#include <math.h> 
+#include <math.h>
 #include <iostream>
-
 
 #ifndef SHAPEFUNCTIONS_CLS_H
 #define SHAPEFUNCTIONS_CLS_H
 
 namespace main_ns
 {
-  
+
 namespace ShapeFunctions_ns
 {
 
-class ShapeFunctions_cls{
+class ShapeFunctions_cls
+{
+  // members
 
-public: 
+public:
+  int NInt;  // Number of Integration points (quadrature)
+  int NNode; // Number of nodes in the element
 
-int NInt;         // Number of Integration points (quadrature)
-int NNode;        // Number of nodes in the element
+  double x1;    // Location of the integration
+  double *Fn;   // Shape function based on the number of nodes
+  double *DFXI; // The differential of the shape function
 
-double x1;       // Location of the integration 
-double* Fn;      // Shape function based on the number of nodes
-double* DFXI;    // The differential of the shape function
+  double *XInt; // ABSCISSAE of the integration points
+  double *WInt; // WEIGHTS of the integration points
 
-double* XInt;    // ABSCISSAE of the integration points
-double* WInt;    // WEIGHTS of the integration points
+  // methods
+public:
+  ShapeFunctions_cls(int, int);
 
-ShapeFunctions_cls(int, int);
+  void Retrieving_Gauss_Points_fn();
 
-void Retrieving_Gauss_Points_fn();
+  virtual void ShapeFunctions(void) = 0;
+  virtual void DifferentialOfShapeFunctions(void) = 0;
 
-virtual void ShapeFunctions (void) = 0;
-virtual void DifferentialOfShapeFunctions (void)  = 0;
-
-virtual ~ShapeFunctions_cls();
-  
-}; 
-}
-}
+  virtual ~ShapeFunctions_cls();
+};
+} // namespace ShapeFunctions_ns
+} // namespace main_ns
 
 #endif
-
-
-
-
-  

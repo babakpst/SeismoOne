@@ -16,29 +16,29 @@ namespace main_ns
 namespace address_ns
 {
 
+class address_cls
+{
 
-class address_cls {
+  // members
+private:
+  std::string TempS; // temporary variable for reading strings from input files
 
-  private:
-    std::string TempS;         // temporary variable for reading strings from input files
+public:
+  std::string Name;      // name of the input file
+  std::string Directory; // Input/output directory
 
-	public:
-    // variables
-    std::string Name;          // name of the input file
-    std::string Directory;     // Input/output directory
+  std::string Input_Dir;            // Input directory
+  std::string OutputMatlab_Dir;     // directory to write the input file for Matlab visualizer interface
+  std::string Info_Dir;             // directory to write general information
+  std::string FullFile_Dir;         // directory to write the full results in the time domain analysis
+  std::string HistoryFile_Dir;      // directory to write the time history of displacement in the time domain analysis
+  std::string TransferFunction_Dir; // directory to write the frequency domain results
 
-    std::string Input_Dir;            // Input directory
-    std::string OutputMatlab_Dir;     // directory to write the input file for Matlab visualizer interface
-    std::string Info_Dir;             // directory to write general information
-    std::string FullFile_Dir;         // directory to write the full results in the time domain analysis
-    std::string HistoryFile_Dir;      // directory to write the time history of displacement in the time domain analysis
-    std::string TransferFunction_Dir; // directory to write the frequency domain results
-
-    // functions
-  	explicit address_cls();
-    void address_fn(); // Reads the file name and directories
-	
+  // methods
+public:
+  explicit address_cls();
+  void address_fn(); // Reads the file name and directories
 };
-}
-}
+} // namespace address_ns
+} // namespace main_ns
 #endif

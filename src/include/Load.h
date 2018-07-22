@@ -19,8 +19,7 @@ namespace Solver_ns
 class apply_seismic_loads_to_the_domain_cls
 {
 
-private:
-
+  // members
 public:
   double LoadFactor; // We use this apply pressure loads
   const double pi = {3.14159265359};
@@ -39,22 +38,22 @@ public:
     double c;         // the speed of wave
     double omega;     // the frequency of the incoming wave
 
-    double Time;      // Time instant that we want to calculate the DRM forces
-    double x; // The coordinate
-    double u; // Analytical displacement
-    double v; // Analytical velocity
-    double a; // Analytical acceleration
+    double Time; // Time instant that we want to calculate the DRM forces
+    double x;    // The coordinate
+    double u;    // Analytical displacement
+    double v;    // Analytical velocity
+    double a;    // Analytical acceleration
 
-    int* NoBndry_DRM;
-    int* NoLayer_DRM;
-    int* ND_e;
-    int* ND_b;
-   
-    double* UN;
-    double** XYZ;
-    double** M_eb;
-    double** C_eb;
-    double** K_eb;
+    int *NoBndry_DRM;
+    int *NoLayer_DRM;
+    int *ND_e;
+    int *ND_b;
+
+    double *UN;
+    double **XYZ;
+    double **M_eb;
+    double **C_eb;
+    double **K_eb;
   };
 
   struct InputLoad_frequency_domain
@@ -63,19 +62,19 @@ public:
     double c;         // the speed of wave
     double omega;     // the frequency of the incoming wave
 
-    double x; // The coordinate
+    double x;   // The coordinate
     double u_R; // Analytical displacement - real part
     double u_I; // Analytical displacement - imaginary part
   };
 
-
-
+  // methods
+public:
   apply_seismic_loads_to_the_domain_cls();
   double LoadFunction(const double, const double, const double);
-  void DRM_Loads_Implicit(main_ns::Solver_ns::apply_seismic_loads_to_the_domain_cls::InputLoad*);
-  void DRM_PointValues(main_ns::Solver_ns::apply_seismic_loads_to_the_domain_cls::InputLoad*);
-  void DRM_PointValues_for_frequency_domain(main_ns::Solver_ns::apply_seismic_loads_to_the_domain_cls::InputLoad_frequency_domain*);  
-  
+  void DRM_Loads_Implicit(main_ns::Solver_ns::apply_seismic_loads_to_the_domain_cls::InputLoad *);
+  void DRM_PointValues(main_ns::Solver_ns::apply_seismic_loads_to_the_domain_cls::InputLoad *);
+  void DRM_PointValues_for_frequency_domain(main_ns::Solver_ns::apply_seismic_loads_to_the_domain_cls::InputLoad_frequency_domain *);
+
   //void HistorySolution(int &NJ, double &TIME, double &Alpha, double &P, double &E, double &Rho, double &A, double *&U_EX, double **&XYZ);
 
 }; // load class
