@@ -29,7 +29,7 @@ public:
     int NDim;      // The dimension of the model (always 1 in this code)
     int NNBndry;   // Number of nodes on the DRM interface (always 1 in the 1D model)
     int NNLayer;   // Number of nodes on the DRM layer (always 2 in the 1D model)
-    int Wave_Type; // shear or pressure waves, even though in the 1D simulation, this really does not matter
+    int Wave_Type; // shear/pressure waves, in the 1D simulation, this does not matter
     int Wave_Func; // determine the shape of the incoming wave
 
     double alpha1;    // the lower bound of the phase of the incoming wave
@@ -70,12 +70,15 @@ public:
   // methods
 public:
   apply_seismic_loads_to_the_domain_cls();
-  double LoadFunction(const double, const double, const double);
-  void DRM_Loads_Implicit(main_ns::Solver_ns::apply_seismic_loads_to_the_domain_cls::InputLoad *);
-  void DRM_PointValues(main_ns::Solver_ns::apply_seismic_loads_to_the_domain_cls::InputLoad *);
-  void DRM_PointValues_for_frequency_domain(main_ns::Solver_ns::apply_seismic_loads_to_the_domain_cls::InputLoad_frequency_domain *);
 
-  //void HistorySolution(int &NJ, double &TIME, double &Alpha, double &P, double &E, double &Rho, double &A, double *&U_EX, double **&XYZ);
+  double LoadFunction(const double, const double, const double);
+
+  void DRM_Loads_Implicit(main_ns::Solver_ns::apply_seismic_loads_to_the_domain_cls::InputLoad *);
+
+  void DRM_PointValues(main_ns::Solver_ns::apply_seismic_loads_to_the_domain_cls::InputLoad *);
+
+  void DRM_PointValues_for_frequency_domain(
+      main_ns::Solver_ns::apply_seismic_loads_to_the_domain_cls::InputLoad_frequency_domain *);
 
 }; // load class
 } // namespace Solver_ns

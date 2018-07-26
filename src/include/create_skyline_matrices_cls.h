@@ -34,7 +34,8 @@ protected:
   virtual void create_DRM_matrices_fn();
 
 public:
-  Matrices_Skyline_cls(main_ns::discretization_ns::discretization_cls *, main_ns::model_ns::model_cls *);
+  Matrices_Skyline_cls(main_ns::discretization_ns::discretization_cls *,
+                       main_ns::model_ns::model_cls *);
 
   virtual void assemble_local_to_global_fn();
 };

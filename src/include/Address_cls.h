@@ -28,11 +28,11 @@ public:
   std::string Directory; // Input/output directory
 
   std::string Input_Dir;            // Input directory
-  std::string OutputMatlab_Dir;     // directory to write the input file for Matlab visualizer interface
-  std::string Info_Dir;             // directory to write general information
-  std::string FullFile_Dir;         // directory to write the full results in the time domain analysis
-  std::string HistoryFile_Dir;      // directory to write the time history of displacement in the time domain analysis
-  std::string TransferFunction_Dir; // directory to write the frequency domain results
+  std::string OutputMatlab_Dir;     // dir. for the input file for Matlab visualizer interface
+  std::string Info_Dir;             // dir. for general information file
+  std::string FullFile_Dir;         // dir. for the full results in the time domain analysis
+  std::string HistoryFile_Dir;      // dir. for the time history of displacement
+  std::string TransferFunction_Dir; // dir. for the frequency domain results
 
   // methods
 public:

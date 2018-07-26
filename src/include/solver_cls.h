@@ -67,7 +67,6 @@ public:
 private:
   virtual void Compute_the_effective_matrix(void) = 0;
   virtual void Reduce_the_effective_forece(void) = 0;
-  //virtual void Matrix_Multiplication(double*&, double*&, double*&) =0;
   virtual void Effective_forces_fn(double *&) = 0;
   virtual void Solve_the_system_for_this_RHS_using_Gaussina_Elimination(double *&) = 0;
 
@@ -77,8 +76,6 @@ public:
              main_ns::Matrices_ns::Matrices_cls *);
 
   void solve_the_system_using_implicit_newmark_method(); //either using the skyline or full system
-
-  //(double &L, int &Wave_Type, int &Wave_Func, int &NStep, int &NEqM, int &LoadType, double &Gama, double &Beta, double &DT, double &Alpha, double **&M, double **&C, double **&K, double *&F, double **&PMat, double **&XYZ, ofstream &FullSol, ofstream &History, int *&ND_e, int *&ND_b, int *&Nodal_History);
 
   virtual ~Solver_cls();
 };
