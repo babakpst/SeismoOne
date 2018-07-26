@@ -145,9 +145,9 @@ void main_ns::model_ns::model_cls::InputArrays()
 
   // Allocating required 1D arrays - vectors
   std::cout << " -allocating model arrays ..." << std::endl;
-  Length = new double[NMat]; // Material Type of Elements
+  Length.resize(NMat); // Material Type of Elements
 
-  Loc_History = new double[Dis_History];
+  Loc_History.resize(Dis_History);
 
   PMat = new double *[NMat]; // Properties of Materials
   for (int i = 0; i < NMat; i++)
@@ -155,9 +155,9 @@ void main_ns::model_ns::model_cls::InputArrays()
     PMat[i] = new double[NPM];
   }
 
-  Element_Layer = new int[NMat]; // Total number of layers in the model should be equal to the
+  Element_Layer.resize(NMat); // Total number of layers in the model should be equal to the
                                  // number of materials.
-  Layer_Depth = new int[NMat];
+  Layer_Depth.resize(NMat);
 
   std::cout << " -reading input files (arrays) ..." << std::endl;
 

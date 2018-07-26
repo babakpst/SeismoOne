@@ -6,6 +6,7 @@
 #include <fstream>
 #include <cmath>
 #include <iomanip>
+#include <vector>
 
 #include "../include/reading_the_model_cls.h"
 
@@ -27,13 +28,16 @@ private:
 public:
   int NEqM; // number of Equations (Modified i.e. after applying essential boundary conditions)
 
-  int *MTel;  // material type of each Element
+  std::vector<int> MTel;  // material type of each Element
+
   int **INod; // node connectivity
   int **ID;   // identity
 
-  int *Nodal_History; // a vector that holds the node no. to record the history of displc
-  int *NoBndry_DRM;   // a vector that holds the node numbers on the DRM boundary
-  int *NoLayer_DRM;   // a vector that holds the node numbers on the DRM layer
+  std::vector<int> Nodal_History; // a vector that holds the node no. to record the history of displc
+
+  std::vector<int> NoBndry_DRM;   // a vector that holds the node numbers on the DRM boundary
+  
+  std::vector<int> NoLayer_DRM;   // a vector that holds the node numbers on the DRM layer
 
   double **XYZ; // node coordinates
 

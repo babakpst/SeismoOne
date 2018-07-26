@@ -9,7 +9,7 @@ main_ns::discretization_ns::discretization_cls::
 
   std::cout << " -allocating arrays for discretization ..." << std::endl;
   // Allocating required 1D arrays - vectors
-  MTel = new int[model->NEl]; // Material Type of Elements
+  MTel.resize(model->NEl); // Material Type of Elements
 
   // Allocating required 2D arrays - matrices
   INod = new int *[model->NNode]; // node connectivity
@@ -30,11 +30,11 @@ main_ns::discretization_ns::discretization_cls::
     XYZ[i] = new double[model->NDim];
   }
 
-  Nodal_History = new int[model->Dis_History];
+  Nodal_History.resize(model->Dis_History);
 
-  NoBndry_DRM = new int[model->NNBndry]; // vector that holds the node numbers on the DRM boundary-
+  NoBndry_DRM.resize(model->NNBndry); // vector that holds the node numbers on the DRM boundary-
                                          // There is only one node on the DRM boundary
-  NoLayer_DRM = new int[model->NNLayer]; // vector that holds the node numbers on the DRM layer.
+  NoLayer_DRM.resize(model->NNLayer); // vector that holds the node numbers on the DRM layer.
                                          // There are only 2 nodes in the layer in a 1D wave motion
 }
 

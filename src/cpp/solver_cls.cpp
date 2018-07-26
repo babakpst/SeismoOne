@@ -25,10 +25,7 @@ main_ns::Solver_ns::Solver_cls::~Solver_cls()
   History.close();
   info.close();
 
-  // DeAllocating 1D arrays
-  delete DiscretizedModel->MTel;
-
-  // DeAllocating 2D arrays
+    // DeAllocating 2D arrays
   for (int i = 0; i < Model->NNode; i++)
   {
     delete[] DiscretizedModel->INod[i];

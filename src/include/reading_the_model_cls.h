@@ -6,6 +6,7 @@
 #include <fstream>
 #include <iomanip>
 #include <math.h>
+#include <vector>
 
 #include "Address_cls.h"
 
@@ -57,11 +58,12 @@ public:
   double amplitude;      // Amplitude of the incident wave
   double omega;          // central cyclic frequency in the Ricker pulse wave
 
-  int *Element_Layer; // Number of elements in each layer
-  int *Layer_Depth;   // Depth of each layer
+  
+  std::vector<int> Element_Layer; // Number of elements in each layer
+  std::vector<int> Layer_Depth;   // Depth of each layer
 
-  double *Length;      // global force vector
-  double *Loc_History; // holds required locations to store the time history of displacement
+  std::vector<double> Length;      // global force vector
+  std::vector<double> Loc_History; // holds required locations to store the time history of displacement
 
   double **PMat; // properties of materials
 
