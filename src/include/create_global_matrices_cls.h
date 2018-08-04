@@ -1,5 +1,4 @@
 
-
 #include <iostream>
 #include <string>
 #include <sstream>
@@ -33,7 +32,7 @@ public:
   double **C_eb; // global damping matrix
   double **M_eb; // global mass matrix
 
-  double *F; // global force vector
+  std::vector<double> F; // global force vector
 
   int LoadFunc; // Load Function  0:DRM
 
@@ -41,12 +40,13 @@ public:
   double **Ke; // stiffness matrix of each element
   double **Ce; // damping matrix of each element
   double **Me; // mass matrix of each element
-  double *Fe;  // element force vector
 
-    int *ND_b; // Nodal ID for DRM
-    int *ND_e; // Nodal ID for DRM
+  std::vector<double> Fe;  // element force vector
 
-    int *ND; // element constraints
+  std::vector<int> ND_b; // Nodal ID for DRM
+  std::vector<int> ND_e; // Nodal ID for DRM
+
+  std::vector<int> ND; // element constraints
 
   main_ns::discretization_ns::discretization_cls *DiscretizedModel;
   main_ns::model_ns::model_cls *Model;

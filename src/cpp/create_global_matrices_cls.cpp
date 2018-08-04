@@ -57,7 +57,7 @@ void main_ns::Matrices_ns::Matrices_cls::allocating_local_matrices_fn()
     XT[i] = new double[Model->NNode];
   }
 
-  Fe = new double[NEqEl];
+  Fe.resize(NEqEl);
 
   std::cout << " -allocating DRM matrices ..." << std::endl;
   K_eb = new double *[Model->NDim * Model->NNLayer]; //
@@ -78,7 +78,7 @@ void main_ns::Matrices_ns::Matrices_cls::allocating_local_matrices_fn()
     M_eb[i] = new double[Model->NDim * Model->NNBndry];
   }
 
-  ND = new int[NEqEl];
+  ND.resize(NEqEl);
 }
 
 /*
@@ -194,9 +194,6 @@ void main_ns::Matrices_ns::Matrices_cls::assembling_local_matrices_into_global_m
   //}
   //delete []XT;
   //
-
-  delete Fe;
-  delete ND;
 }
 
 /*
