@@ -44,12 +44,19 @@ public:
     double v;    // Analytical velocity
     double a;    // Analytical acceleration
 
-    int *NoBndry_DRM;
-    int *NoLayer_DRM;
+
+    std::vector<int> NoBndry_DRM;
+    std::vector<int> NoLayer_DRM;
+    
     int *ND_e;
     int *ND_b;
+    //std::vector<int> ND_e;
+    //std::vector<int> ND_b;
 
     double *UN;
+    //std::vector<double> UN;
+
+
     double **XYZ;
     double **M_eb;
     double **C_eb;

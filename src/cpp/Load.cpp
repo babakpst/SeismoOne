@@ -1,5 +1,4 @@
 
-
 #include "../include/Load.h"
 
 main_ns::Solver_ns::apply_seismic_loads_to_the_domain_cls::
