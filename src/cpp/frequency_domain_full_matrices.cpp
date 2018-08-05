@@ -152,7 +152,7 @@ void main_ns::Solver_ns::frequency_domain_analysis::
 
   // Right Hand Side of the equation (load vector) - The first half of the vector is the real
   // part and the second half is the imaginary part
-  RHS = new double[2 * DiscretizedModel->NEqM];
+  RHS.resize(2 * DiscretizedModel->NEqM);
 
   K_Eff = new double *[2 * DiscretizedModel->NEqM]; // Effective stiffness
   for (int i = 0; i < (2 * DiscretizedModel->NEqM); i++)

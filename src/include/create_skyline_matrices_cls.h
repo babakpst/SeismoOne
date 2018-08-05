@@ -18,12 +18,12 @@ class Matrices_Skyline_cls : public main_ns::Matrices_ns::Matrices_cls
 
   // members
 public:
-  int *JD;  // Skyline matrix
-  int *NTK; // Skyline matrix
+  std::vector<int> JD;  // Skyline matrix
+  std::vector<int> NTK; // Skyline matrix
 
-  double *K; // global stiffness matrix -skyline
-  double *C; // global damping matrix -skyline
-  double *M; // global mass matrix -skyline
+  std::vector<double> K; // global stiffness matrix -skyline
+  std::vector<double> C; // global damping matrix -skyline
+  std::vector<double> M; // global mass matrix -skyline
 
   // methods
 private:

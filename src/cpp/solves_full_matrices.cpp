@@ -109,7 +109,7 @@ V0.01: 07/02/2018 - Initiated: Compiled without error for the first time.
 ###################################################################################################
 */
 
-void main_ns::Solver_ns::solve_full_matrices_cls::Effective_forces_fn(double *&UN)
+void main_ns::Solver_ns::solve_full_matrices_cls::Effective_forces_fn(std::vector<double> &UN)
 {
   main_ns::Matrices_ns::Matrices_Full_cls *fullMatrices =
       static_cast<main_ns::Matrices_ns::Matrices_Full_cls *>(this->Matrices);
@@ -147,7 +147,7 @@ V0.01: 07/02/2018 - Initiated: Compiled without error for the first time.
 */
 
 void main_ns::Solver_ns::solve_full_matrices_cls::Matrix_Multiplication(
-    double **&Matrix, double *&Temp, double *&UN)
+    double **&Matrix, std::vector<double> &Temp, std::vector<double> &UN)
 {
   double TempVar;
   for (int i = 0; i < DiscretizedModel->NEqM; i++)
@@ -177,7 +177,7 @@ V0.01: 07/06/2018 - Initiated: Compiled without error for the first time.
 */
 
 void main_ns::Solver_ns::solve_full_matrices_cls::
-    Solve_the_system_for_this_RHS_using_Gaussina_Elimination(double *&UN)
+    Solve_the_system_for_this_RHS_using_Gaussina_Elimination(std::vector<double> &UN)
 {
   main_ns::Matrices_ns::Matrices_Full_cls *fullMatrices = 
   static_cast<main_ns::Matrices_ns::Matrices_Full_cls *>(this->Matrices);

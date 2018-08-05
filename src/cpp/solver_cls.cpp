@@ -78,13 +78,13 @@ void main_ns::Solver_ns::Solver_cls::solve_the_system_using_implicit_newmark_met
   Rho = Model->PMat[0][1]; // density of the base material required for the DRM loads
   c = sqrt(E / Rho);       // wave velocity of the base material required for the DRM loads
 
-  UN = new double[DiscretizedModel->NEqM];
-  U = new double[DiscretizedModel->NEqM];
-  UD = new double[DiscretizedModel->NEqM];
-  UDD = new double[DiscretizedModel->NEqM];
-  Temp = new double[DiscretizedModel->NEqM];
+  UN.resize(DiscretizedModel->NEqM);
+  U.resize(DiscretizedModel->NEqM);
+  UD.resize(DiscretizedModel->NEqM);
+  UDD.resize(DiscretizedModel->NEqM);
+  Temp.resize(DiscretizedModel->NEqM);
 
-  F = new double[DiscretizedModel->NEqM];
+  F.resize(DiscretizedModel->NEqM);
 
   // Initializing displacement, velocity and acceleration
   for (int i = 0; i < DiscretizedModel->NEqM; i++)

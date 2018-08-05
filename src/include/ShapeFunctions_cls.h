@@ -2,6 +2,7 @@
 
 #include <math.h>
 #include <iostream>
+#include <vector>
 
 #ifndef SHAPEFUNCTIONS_CLS_H
 #define SHAPEFUNCTIONS_CLS_H
@@ -21,11 +22,11 @@ public:
   int NNode; // Number of nodes in the element
 
   double x1;    // Location of the integration
-  double *Fn;   // Shape function based on the number of nodes
-  double *DFXI; // The differential of the shape function
 
-  double *XInt; // ABSCISSAE of the integration points
-  double *WInt; // WEIGHTS of the integration points
+  std::vector<double> Fn;   // Shape function based on the number of nodes
+  std::vector<double> DFXI; // The differential of the shape function
+  std::vector<double> XInt; // ABSCISSAE of the integration points
+  std::vector<double> WInt; // WEIGHTS of the integration points  
 
   // methods
 public:

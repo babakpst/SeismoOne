@@ -2,13 +2,13 @@
 #include "../include/ShapeFunctions_cls.h"
 
 main_ns::ShapeFunctions_ns::ShapeFunctions_cls::
-    ShapeFunctions_cls(int aNInt, int aNNode)
-    : NInt(aNInt),
-      NNode(aNNode),
-      Fn(new double[NNode]),
-      DFXI(new double[NNode]),
-      XInt(new double[NInt]),
-      WInt(new double[NInt])
+    ShapeFunctions_cls(int NInt, int NNode)
+    : NInt(NInt),
+      NNode(NNode),
+      Fn(NNode),
+      DFXI(NNode),
+      XInt(NInt),
+      WInt(NInt)
 {
 }
 

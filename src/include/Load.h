@@ -48,13 +48,10 @@ public:
     std::vector<int> NoBndry_DRM;
     std::vector<int> NoLayer_DRM;
     
-    int *ND_e;
-    int *ND_b;
-    //std::vector<int> ND_e;
-    //std::vector<int> ND_b;
-
-    double *UN;
-    //std::vector<double> UN;
+    std::vector<int> ND_e;
+    std::vector<int> ND_b;
+    
+    std::vector<double> UN;
 
 
     double **XYZ;

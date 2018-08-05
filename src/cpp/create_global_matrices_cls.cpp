@@ -337,8 +337,8 @@ V0.01: 06/02/2018 - Initiated: Compiled without error for the first time.
 
 void main_ns::Matrices_ns::Matrices_cls::allocate_matrices_for_assembling_fn()
 {
-  ND_b = new int[Model->NNBndry * Model->NDim];
-  ND_e = new int[Model->NNLayer * Model->NDim];
+  ND_b.resize(Model->NNBndry * Model->NDim);
+  ND_e.resize(Model->NNLayer * Model->NDim);
 
   // Filling the index for layered nodes
   for (int i = 0; i < Model->NNLayer; i++)

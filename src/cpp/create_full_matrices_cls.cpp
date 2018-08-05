@@ -49,7 +49,7 @@ void main_ns::Matrices_ns::Matrices_Full_cls::allocating_global_matrices_fn()
     M[i] = new double[DiscretizedModel->NEqM];
   }
 
-  F = new double[DiscretizedModel->NEqM];
+  F.resize(DiscretizedModel->NEqM);
 
   std::cout << " -initializing global matrices ..." << std::endl;
   for (int i = 0; i < DiscretizedModel->NEqM; i++)

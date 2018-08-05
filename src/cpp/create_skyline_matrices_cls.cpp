@@ -33,14 +33,14 @@ void main_ns::Matrices_ns::Matrices_Skyline_cls::allocating_global_matrices_fn()
 
   std::cout << " -allocating global matrices ..." << std::endl;
 
-  JD = new int[DiscretizedModel->NEqM];
-  NTK = new int[DiscretizedModel->NEqM];
+  JD.resize(DiscretizedModel->NEqM);
+  NTK.resize(DiscretizedModel->NEqM);
 
-  K = new double[JD[DiscretizedModel->NEqM - 1]]; // Stiffness Matrix
-  C = new double[JD[DiscretizedModel->NEqM - 1]]; // Damping matrix
-  M = new double[JD[DiscretizedModel->NEqM - 1]]; // Mass matrix
+  K.resize(JD[DiscretizedModel->NEqM - 1]); // Stiffness Matrix
+  C.resize(JD[DiscretizedModel->NEqM - 1]); // Damping matrix
+  M.resize(JD[DiscretizedModel->NEqM - 1]); // Mass matrix
 
-  F = new double[DiscretizedModel->NEqM];
+  F.resize(DiscretizedModel->NEqM);
 
   std::cout << " -initializing global matrices ..." << std::endl;
   for (int i = 0; i < DiscretizedModel->NEqM; i++)

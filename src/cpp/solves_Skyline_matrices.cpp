@@ -114,7 +114,7 @@ V0.01: 07/02/2018 - Initiated: Compiled without error for the first time.
 ###################################################################################################
 */
 
-void main_ns::Solver_ns::solve_Skyline_matrices_cls::Effective_forces_fn(double *&UN)
+void main_ns::Solver_ns::solve_Skyline_matrices_cls::Effective_forces_fn(std::vector<double> &UN)
 {
   main_ns::Matrices_ns::Matrices_Skyline_cls *skyMatrices =
       static_cast<main_ns::Matrices_ns::Matrices_Skyline_cls *>(this->Matrices);
@@ -152,7 +152,7 @@ V0.01: 07/02/2018 - Initiated: Compiled without error for the first time.
 */
 
 void main_ns::Solver_ns::solve_Skyline_matrices_cls::
-    Matrix_Multiplication(double *&Matrix, double *&Temp, double *&UN)
+    Matrix_Multiplication(std::vector<double> &Matrix, std::vector<double> &Temp, std::vector<double> &UN)
 {
   main_ns::Matrices_ns::Matrices_Skyline_cls *skyMatrices =
       static_cast<main_ns::Matrices_ns::Matrices_Skyline_cls *>(this->Matrices);
@@ -194,7 +194,7 @@ V0.01: 07//2018 - Initiated: Compiled without error for the first time.
 ###################################################################################################
 */
 void main_ns::Solver_ns::solve_Skyline_matrices_cls::
-    Solve_the_system_for_this_RHS_using_Gaussina_Elimination(double *&UN)
+    Solve_the_system_for_this_RHS_using_Gaussina_Elimination(std::vector<double> &UN)
 {
   main_ns::Matrices_ns::Matrices_Skyline_cls *skyMatrices =
       static_cast<main_ns::Matrices_ns::Matrices_Skyline_cls *>(this->Matrices);

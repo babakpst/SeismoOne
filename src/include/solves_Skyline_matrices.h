@@ -18,9 +18,9 @@ class solve_Skyline_matrices_cls : public main_ns::Solver_ns::Solver_cls
 private:
   virtual void Compute_the_effective_matrix();
   virtual void Reduce_the_effective_forece();
-  void Matrix_Multiplication(double *&, double *&, double *&);
-  virtual void Effective_forces_fn(double *&);
-  virtual void Solve_the_system_for_this_RHS_using_Gaussina_Elimination(double *&);
+  void Matrix_Multiplication(std::vector<double> &, std::vector<double> &, std::vector<double> &);
+  virtual void Effective_forces_fn(std::vector<double> &);
+  virtual void Solve_the_system_for_this_RHS_using_Gaussina_Elimination(std::vector<double> &);
 
 public:
   //main_ns::Matrices_ns::Matrices_Skyline_cls* Matrices;

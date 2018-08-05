@@ -26,7 +26,7 @@ private:
   std::ofstream TransferFunc;
 
   double **K_Eff;    // complex Effective stiffness (real + imaginary) - See notes
-  double *RHS;
+  std::vector<double> RHS;
   main_ns::Solver_ns::apply_seismic_loads_to_the_domain_cls::InputLoad_frequency_domain
  LoadPackage;
 

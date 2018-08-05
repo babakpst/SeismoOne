@@ -46,13 +46,14 @@ public:
   double Time;         // The actual simulation time, considering the effects of DRM
   double Initial_Time; // Starting time of the simulation, usually negative, because of the DRM
 
-  double *UN;   // temporay arrays for the Newmark algorithm
-  double *U;    // temporay arrays for the Newmark algorithm
-  double *UD;   // temporay arrays for the Newmark algorithm
-  double *UDD;  // temporay arrays for the Newmark algorithm
-  double *Temp; // temporay arrays for the Newmark algorithm
+  std::vector<double> UN;   // temporay arrays for the Newmark algorithm
 
-  double *F; // global force vector
+  std::vector<double> U;    // temporay arrays for the Newmark algorithm
+  std::vector<double> UD;   // temporay arrays for the Newmark algorithm
+  std::vector<double> UDD;  // temporay arrays for the Newmark algorithm
+  std::vector<double> Temp; // temporay arrays for the Newmark algorithm
+
+  std::vector<double> F; // global force vector
 
   //main_ns::Solver_ns::apply_seismic_loads_to_the_domain_cls* Loads;
 
@@ -67,8 +68,8 @@ public:
 private:
   virtual void Compute_the_effective_matrix(void) = 0;
   virtual void Reduce_the_effective_forece(void) = 0;
-  virtual void Effective_forces_fn(double *&) = 0;
-  virtual void Solve_the_system_for_this_RHS_using_Gaussina_Elimination(double *&) = 0;
+  virtual void Effective_forces_fn(std::vector<double> &) = 0;
+  virtual void Solve_the_system_for_this_RHS_using_Gaussina_Elimination(std::vector<double> &) = 0;
 
 public:
   Solver_cls(main_ns::address_ns::address_cls *, main_ns::model_ns::model_cls *,
