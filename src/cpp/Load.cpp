@@ -27,7 +27,7 @@ double main_ns::Solver_ns::apply_seismic_loads_to_the_domain_cls::
   if (Time < 2.0 * pi / Alpha)
     LoadFactor = -P * sin(Alpha * Time);
   else
-    LoadFactor = 0.0;
+    LoadFactor = {0.0};
 
   return (LoadFactor);
 }
@@ -123,7 +123,7 @@ void main_ns::Solver_ns::apply_seismic_loads_to_the_domain_cls::
 
     t_max = 6.0 * sqrt(6.0) / wr; // duration of loading
 
-    LowerLimit = 0.0;
+    LowerLimit = {0.0};
     UpperLimit = t_max;
 
     if (LowerLimit <= arg1 && arg1 <= UpperLimit)
@@ -232,29 +232,19 @@ void main_ns::Solver_ns::apply_seismic_loads_to_the_domain_cls::
         main_ns::Solver_ns::apply_seismic_loads_to_the_domain_cls::InputLoad *LoadPackage)
 {
   // the analytical acceleration at the boundary nodes. In this 1D problem, there is only one node.
-  double *U_b;
-  double *Ud_b; // Not needed because we do not have damping in the system.
-  double *Udd_b;
-  // holds the loads for the boundary nodes.
-  double *F_b;
-
-  // the analytical displacement at the boundary nodes. In this 1D problem, there is only one node.
-  double *U_e;
-  double *Ud_e; // Not needed because we do not have damping in the system.
-  double *Udd_e;
-  // holds the loads for the layer nodes.
-  double *F_e;
-
+  
   // Defining the required vectors
-  U_b = new double[LoadPackage->NNBndry * LoadPackage->NDim];
-  Ud_b = new double[LoadPackage->NNBndry * LoadPackage->NDim];
-  Udd_b = new double[LoadPackage->NNBndry * LoadPackage->NDim];
-
-  F_e = new double[LoadPackage->NNLayer * LoadPackage->NDim];
+  std::vector<double> U_b(LoadPackage->NNBndry * LoadPackage->NDim);
+  // Ud_b is not needed bcs there is no damping in the system.
+  std::vector<double> Ud_b(LoadPackage->NNBndry * LoadPackage->NDim); 
+  std::vector<double> Udd_b(LoadPackage->NNBndry * LoadPackage->NDim);
+  
+  // holds the loads for the boundary nodes.
+  std::vector<double> F_e(LoadPackage->NNLayer * LoadPackage->NDim);
 
   for (int i = 0; i < LoadPackage->NNLayer * LoadPackage->NDim; i++)
   {
-    F_e[i] = 0.0;
+    F_e[i] = {0.0};
   }
 
   // Loop on the nodes on the DRM boundary to find out the analytical soln (In 1D only one node)
@@ -298,16 +288,13 @@ void main_ns::Solver_ns::apply_seismic_loads_to_the_domain_cls::
     LoadPackage->UN[LoadPackage->ND_e[i]] += F_e[i];
   }
 
-  delete U_b;
-  delete Ud_b;
-  delete Udd_b;
-  delete F_e;
-
-  U_e = new double[LoadPackage->NNLayer * LoadPackage->NDim];
-  Ud_e = new double[LoadPackage->NNLayer * LoadPackage->NDim];
-  Udd_e = new double[LoadPackage->NNLayer * LoadPackage->NDim];
-
-  F_b = new double[LoadPackage->NNBndry * LoadPackage->NDim];
+  
+// the analytical displacement at the boundary nodes. In this 1D problem, there is only one node.
+  std::vector<double> U_e(LoadPackage->NNLayer * LoadPackage->NDim); // Not needed because we do not have damping in the system.
+  std::vector<double> Ud_e(LoadPackage->NNLayer * LoadPackage->NDim);
+  std::vector<double> Udd_e(LoadPackage->NNLayer * LoadPackage->NDim);
+// holds the loads for the layer nodes.
+  std::vector<double> F_b(LoadPackage->NNBndry * LoadPackage->NDim);
 
   for (int i = 0; i < LoadPackage->NNBndry * LoadPackage->NDim; i++)
   {
@@ -352,10 +339,6 @@ void main_ns::Solver_ns::apply_seismic_loads_to_the_domain_cls::
     LoadPackage->UN[LoadPackage->ND_b[i]] += F_b[i];
   }
 
-  delete U_e;
-  delete Ud_e;
-  delete Udd_e;
-  delete F_b;
 }
 
 /*

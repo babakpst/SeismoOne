@@ -28,9 +28,9 @@ V0.01: 06/02/2018 - Initiated: Compiled without error for the first time.
 
 void main_ns::ShapeFunctions_ns::ShapeFunctions_SecondOrder_cls::ShapeFunctions()
 {
-  Fn[0] = 0.5 * x1 * (x1 - 1);
-  Fn[1] = (1 - x1 * x1);
-  Fn[2] = 0.5 * x1 * (x1 + 1);
+  Fn[0] = 0.5 * x1 * (x1 - 1.0);
+  Fn[1] = (1.0 - x1 * x1);
+  Fn[2] = 0.5 * x1 * (x1 + 1.0);
 }
 
 /*

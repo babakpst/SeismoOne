@@ -134,7 +134,7 @@ void main_ns::discretization_ns::discretization_cls::Discretization()
   {
     for (j = 0; j < model->NDim; j++)
     {
-      ID[i][j] = 0;
+      ID[i][j] = {0};
     }
   }
 
@@ -153,7 +153,7 @@ void main_ns::discretization_ns::discretization_cls::Discretization()
 
   // material property of element
   std::cout << " -material properties of elements..." << std::endl;
-  Mat_index = 0;
+  Mat_index = {0};
   for (iel = 0; iel < model->NEl; iel++)
   {
     Coordinate = XYZ[INod[2][iel]][0];
@@ -176,7 +176,7 @@ void main_ns::discretization_ns::discretization_cls::Discretization()
   NoLayer_DRM[0] = NoBndry_DRM[0] - 2;
   NoLayer_DRM[1] = NoBndry_DRM[0] - 1;
 
-  tol = 0.0001;
+  tol = {0.0001};
 
   // Finding out the node numbers for recording the history of displacement
   for (i = 0; i < model->Dis_History; i++)

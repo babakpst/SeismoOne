@@ -62,10 +62,10 @@ void main_ns::model_ns::model_cls::InputBasic()
 
   InputFile >> NMat >> NPM >> NNodePWaveL >> LoadType >> Dis_History >> Solver;
 
-  NInt = 3;
-  NDim = 1;
-  NDOF = 1;
-  NNode = 3;
+  NInt = {3};
+  NDim = {1};
+  NDOF = {1};
+  NNode = {3};
 
   getline(InputFile, TempS);
   getline(InputFile, TempS);

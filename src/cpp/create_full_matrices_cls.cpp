@@ -56,11 +56,11 @@ void main_ns::Matrices_ns::Matrices_Full_cls::allocating_global_matrices_fn()
   {
     for (int j = 0; j < DiscretizedModel->NEqM; j++)
     {
-      M[i][j] = 0.0;
-      C[i][j] = 0.0;
-      K[i][j] = 0.0;
+      M[i][j] = {0.0};
+      C[i][j] = {0.0};
+      K[i][j] = {0.0};
     }
-    F[i] = 0.0;
+    F[i] = {0.0};
   }
 
   std::cout << " Done with allocation, successfully." << std::endl;

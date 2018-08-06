@@ -32,7 +32,7 @@ void main_ns::Solver_ns::frequency_domain_analysis::
 {
 
   std::cout << " Factorization of the matrices ... " << std::endl;
-  double *L = new double[2 * DiscretizedModel->NEqM]; // Identifications
+  std::vector<double> L(2 * DiscretizedModel->NEqM); // Identifications
 
   for (int j = 0; j < (2 * DiscretizedModel->NEqM); j++)
   {
@@ -80,7 +80,7 @@ void main_ns::Solver_ns::frequency_domain_analysis::substitute_the_RHS_and_solve
 {
 
   double temp;
-  double *L = new double[2 * DiscretizedModel->NEqM]; // Identifications- temp vector
+  std::vector<double> L(2 * DiscretizedModel->NEqM); // Identifications- temp vector
 
   // Forward substitution
   for (int i = 0; i < (2 * DiscretizedModel->NEqM); i++)
@@ -148,7 +148,7 @@ void main_ns::Solver_ns::frequency_domain_analysis::
 
   // Solution in for each frequency- The first half of the vector is the real part and the
   // second half is the imaginary part
-  double *U = new double[2 * DiscretizedModel->NEqM];
+  std::vector<double> U(2 * DiscretizedModel->NEqM);
 
   // Right Hand Side of the equation (load vector) - The first half of the vector is the real
   // part and the second half is the imaginary part
@@ -176,28 +176,28 @@ void main_ns::Solver_ns::frequency_domain_analysis::
 
   // Defining the required vectors:
   // The real part of the analytical solution on the boundary
-  double *U_b_R = new double[Model->NNBndry * Model->NDim];
+  std::vector<double> U_b_R(Model->NNBndry * Model->NDim);
   // The imaginary part of the analytical solution on the boundary
-  double *U_b_I = new double[Model->NNBndry * Model->NDim];
+  std::vector<double> U_b_I(Model->NNBndry * Model->NDim);
 
   // The real part of the DRM load on the DRM layer
-  double *F_e_R = new double[Model->NNLayer * Model->NDim];
+  std::vector<double> F_e_R(Model->NNLayer * Model->NDim);
   // The imaginary part of the DRM load on the DRM layer
-  double *F_e_I = new double[Model->NNLayer * Model->NDim];
+  std::vector<double> F_e_I(Model->NNLayer * Model->NDim);
 
   // Defining the required vectors:
   // The real part of the analytical solution on the layer
-  double *U_e_R = new double[Model->NNLayer * Model->NDim];
+  std::vector<double> U_e_R(Model->NNLayer * Model->NDim);
   // The imaginary part of the analytical solution on the boundary
-  double *U_e_I = new double[Model->NNLayer * Model->NDim];
+  std::vector<double> U_e_I(Model->NNLayer * Model->NDim);
 
   // The real part of the DRM load on the DRM boundary
-  double *F_b_R = new double[Model->NNBndry * Model->NDim];
+  std::vector<double> F_b_R(Model->NNBndry * Model->NDim);
   // The imaginary part of the DRM load on the DRM boundary
-  double *F_b_I = new double[Model->NNBndry * Model->NDim];
+  std::vector<double> F_b_I(Model->NNBndry * Model->NDim);
 
   // Define frequencies
-  double minf = 0.0;           // min cyclic frequency
+  double minf = {0.0};           // min cyclic frequency
   double maxf = Model->alpha1; // max cyclic frequency
   double df = Model->alpha2;   // cyclic frequency increment
 
@@ -393,15 +393,4 @@ void main_ns::Solver_ns::frequency_domain_analysis::
   // Close the output file
   TransferFunc.close();
 
-  // Deallocate vectors
-  delete U_b_R;
-  delete U_b_I;
-  delete F_e_R;
-  delete F_e_I;
-
-  // Deallocate vectors
-  delete U_e_R;
-  delete U_e_I;
-  delete F_b_R;
-  delete F_b_I;
 }

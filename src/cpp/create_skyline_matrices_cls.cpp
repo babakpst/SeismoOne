@@ -45,14 +45,14 @@ void main_ns::Matrices_ns::Matrices_Skyline_cls::allocating_global_matrices_fn()
   std::cout << " -initializing global matrices ..." << std::endl;
   for (int i = 0; i < DiscretizedModel->NEqM; i++)
   {
-    F[i] = 0.0;
+    F[i] = {0.0};
   }
 
   for (int i = 0; i < JD[DiscretizedModel->NEqM - 1]; i++)
   {
-    K[i] = 0.0;
-    C[i] = 0.0;
-    M[i] = 0.0;
+    K[i] = {0.0};
+    C[i] = {0.0};
+    M[i] = {0.0};
   }
 
   std::cout << " Done with allocation, successfully." << std::endl;
@@ -117,7 +117,7 @@ void main_ns::Matrices_ns::Matrices_Skyline_cls::Skyline_fn()
 
   for (int i = 0; i < NEqEl; i++)
   {
-    ND[i] = 0.0;
+    ND[i] = {0};
   }
 
   for (int i = 0; i < DiscretizedModel->NEqM; i++)
@@ -151,7 +151,7 @@ void main_ns::Matrices_ns::Matrices_Skyline_cls::Skyline_fn()
     }
   }
 
-  JD[0] = 0;
+  JD[0] = {0};
 
   for (int i = 1; i < DiscretizedModel->NEqM; i++)
   {

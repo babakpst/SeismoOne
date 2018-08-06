@@ -89,11 +89,11 @@ void main_ns::Solver_ns::Solver_cls::solve_the_system_using_implicit_newmark_met
   // Initializing displacement, velocity and acceleration
   for (int i = 0; i < DiscretizedModel->NEqM; i++)
   {
-    UN[i] = 0.0;
-    U[i] = 0.0;
-    UD[i] = 0.0;
-    UDD[i] = 0.0;
-    F[i] = 0.0;
+    UN[i] = {0.0};
+    U[i] = {0.0};
+    UD[i] = {0.0};
+    UDD[i] = {0.0};
+    F[i] = {0.0};
   }
 
   // fill the load package
@@ -147,7 +147,7 @@ void main_ns::Solver_ns::Solver_cls::solve_the_system_using_implicit_newmark_met
       UD[i] = A1 * U[i] - A4 * Temp[i] - A5 * UDD[i];
       UDD[i] = A0 * U[i] - A2 * Temp[i] - A3 * UDD[i];
       U[i] = UN[i];
-      UN[i] = 0.0;
+      UN[i] = {0.0};
     }
 
     Effective_forces_fn(UN);
@@ -163,7 +163,7 @@ void main_ns::Solver_ns::Solver_cls::solve_the_system_using_implicit_newmark_met
     }
     else if (Model->LoadType == 1) //        DRM_Load ();
     {
-      F[0] = 0;
+      F[0] = {0};
       // fill the load package
 
       DRM_Loads_Implicit(&LoadPackage);

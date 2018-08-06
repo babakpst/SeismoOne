@@ -28,8 +28,8 @@ V0.01: 06/02/2018 - Initiated: Compiled without error for the first time.
 
 void main_ns::ShapeFunctions_ns::ShapeFunctions_FirstOrder_cls::ShapeFunctions()
 { //ShapeFunc_1D_2N
-  Fn[0] = 0.5 * (1 - x1);
-  Fn[1] = 0.5 * (1 + x1);
+  Fn[0] = 0.5 * (1.0 - x1);
+  Fn[1] = 0.5 * (1.0 + x1);
 }
 
 /*

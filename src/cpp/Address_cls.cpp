@@ -43,6 +43,8 @@ void main_ns::address_ns::address_cls::address_fn()
     std::cout << " The error message is: " << inputerr.what() << std::endl;
   }
 
+
+
   // Reading simulation information
   std::cout << " -reading the information file ..." << std::endl;
   getline(Addressfile, TempS);

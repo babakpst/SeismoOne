@@ -152,7 +152,7 @@ void main_ns::Solver_ns::solve_full_matrices_cls::Matrix_Multiplication(
   double TempVar;
   for (int i = 0; i < DiscretizedModel->NEqM; i++)
   { // multiplying the vector by the mass matrix
-    TempVar = 0.0;
+    TempVar = {0.0};
     for (int j = 0; j < DiscretizedModel->NEqM; j++)
     {
       TempVar += Matrix[i][j] * Temp[j];
