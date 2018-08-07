@@ -32,6 +32,7 @@ public:
 
   int **INod; // node connectivity
   int **ID;   // identity
+  double **XYZ; // node coordinates
 
   std::vector<int> Nodal_History; // a vector that holds the node no. to record the history of displc
 
@@ -39,12 +40,11 @@ public:
   
   std::vector<int> NoLayer_DRM;   // a vector that holds the node numbers on the DRM layer
 
-  double **XYZ; // node coordinates
-
   // methods
 public:
   explicit discretization_cls(const main_ns::model_ns::model_cls *);
   void Discretization();
+  virtual ~discretization_cls();
 
 }; // class discretization_cls
 } // namespace discretization_ns

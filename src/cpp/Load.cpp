@@ -124,7 +124,7 @@ void main_ns::Solver_ns::apply_seismic_loads_to_the_domain_cls::
     t_max = 6.0 * sqrt(6.0) / wr; // duration of loading
 
     LowerLimit = {0.0};
-    UpperLimit = t_max;
+    UpperLimit = {t_max};
 
     if (LowerLimit <= arg1 && arg1 <= UpperLimit)
     {
@@ -232,13 +232,13 @@ void main_ns::Solver_ns::apply_seismic_loads_to_the_domain_cls::
         main_ns::Solver_ns::apply_seismic_loads_to_the_domain_cls::InputLoad *LoadPackage)
 {
   // the analytical acceleration at the boundary nodes. In this 1D problem, there is only one node.
-  
+
   // Defining the required vectors
   std::vector<double> U_b(LoadPackage->NNBndry * LoadPackage->NDim);
   // Ud_b is not needed bcs there is no damping in the system.
-  std::vector<double> Ud_b(LoadPackage->NNBndry * LoadPackage->NDim); 
+  std::vector<double> Ud_b(LoadPackage->NNBndry * LoadPackage->NDim);
   std::vector<double> Udd_b(LoadPackage->NNBndry * LoadPackage->NDim);
-  
+
   // holds the loads for the boundary nodes.
   std::vector<double> F_e(LoadPackage->NNLayer * LoadPackage->NDim);
 
@@ -288,12 +288,11 @@ void main_ns::Solver_ns::apply_seismic_loads_to_the_domain_cls::
     LoadPackage->UN[LoadPackage->ND_e[i]] += F_e[i];
   }
 
-  
-// the analytical displacement at the boundary nodes. In this 1D problem, there is only one node.
+  // the analytical displacement at the boundary nodes. In this 1D problem, there is only one node.
   std::vector<double> U_e(LoadPackage->NNLayer * LoadPackage->NDim); // Not needed because we do not have damping in the system.
   std::vector<double> Ud_e(LoadPackage->NNLayer * LoadPackage->NDim);
   std::vector<double> Udd_e(LoadPackage->NNLayer * LoadPackage->NDim);
-// holds the loads for the layer nodes.
+  // holds the loads for the layer nodes.
   std::vector<double> F_b(LoadPackage->NNBndry * LoadPackage->NDim);
 
   for (int i = 0; i < LoadPackage->NNBndry * LoadPackage->NDim; i++)
@@ -338,7 +337,6 @@ void main_ns::Solver_ns::apply_seismic_loads_to_the_domain_cls::
   {
     LoadPackage->UN[LoadPackage->ND_b[i]] += F_b[i];
   }
-
 }
 
 /*
@@ -369,7 +367,7 @@ void main_ns::Solver_ns::apply_seismic_loads_to_the_domain_cls::
   k = LoadPackage->omega / LoadPackage->c; // wavenumber
 
   // The real part of the analytical solution in the frequency domain
-  LoadPackage->u_R = 2.0 * LoadPackage->amplitude * cos(k * LoadPackage->x); 
+  LoadPackage->u_R = 2.0 * LoadPackage->amplitude * cos(k * LoadPackage->x);
   // The imaginary part of the analytical solution in the frequency domain
   LoadPackage->u_I = 0.0;
 }

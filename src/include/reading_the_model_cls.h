@@ -75,6 +75,8 @@ public:
 
   //template<int NMat, int NNBndry, int NNLayer, int Dis_History, int NPM>
   void InputArrays();
+  virtual ~model_cls();
+  
 };
 } // namespace model_ns
 } // namespace main_ns

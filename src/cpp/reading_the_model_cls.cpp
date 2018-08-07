@@ -10,8 +10,8 @@ main_ns::model_ns::model_cls::
 
   std::cout << " Reading the model ..." << std::endl;
 
-  NNBndry = 1; // Number of nodes on the bounday of the DRM
-  NNLayer = 2; // Number of nodes on the bounday layer of the DRM
+  NNBndry = {1}; // Number of nodes on the bounday of the DRM
+  NNLayer = {2}; // Number of nodes on the bounday layer of the DRM
 
   // Input File
   std::cout << " Opening the input file ..." << std::endl;
@@ -26,6 +26,16 @@ main_ns::model_ns::model_cls::
     std::cout << " Please double check the input file in the input folder. " << std::endl;
     std::cout << " The error message is: " << inputerr.what() << std::endl;
   }
+}
+
+main_ns::model_ns::model_cls::~model_cls()
+{
+
+  for (int i = 0; i < NMat; i++)
+  {
+    delete[] PMat[i];
+  }
+  delete[] PMat;
 }
 
 /*
@@ -156,7 +166,7 @@ void main_ns::model_ns::model_cls::InputArrays()
   }
 
   Element_Layer.resize(NMat); // Total number of layers in the model should be equal to the
-                                 // number of materials.
+                              // number of materials.
   Layer_Depth.resize(NMat);
 
   std::cout << " -reading input files (arrays) ..." << std::endl;

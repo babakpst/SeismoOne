@@ -66,7 +66,7 @@ void main_ns::Solver_ns::solve_full_matrices_cls::Reduce_the_effective_forece()
   std::cout << "Reduce effective matrix ..." << std::endl;
   int tempI;
 
-  double *L = new double[DiscretizedModel->NEqM]; // Identifications
+  std::vector<double> L(DiscretizedModel->NEqM); // Identifications
 
   for (int j = 0; j < DiscretizedModel->NEqM; j++)
   {
@@ -179,12 +179,12 @@ V0.01: 07/06/2018 - Initiated: Compiled without error for the first time.
 void main_ns::Solver_ns::solve_full_matrices_cls::
     Solve_the_system_for_this_RHS_using_Gaussina_Elimination(std::vector<double> &UN)
 {
-  main_ns::Matrices_ns::Matrices_Full_cls *fullMatrices = 
-  static_cast<main_ns::Matrices_ns::Matrices_Full_cls *>(this->Matrices);
+  main_ns::Matrices_ns::Matrices_Full_cls *fullMatrices =
+      static_cast<main_ns::Matrices_ns::Matrices_Full_cls *>(this->Matrices);
 
   int k, l; // temporary variables
   double temp;
-  double *L = new double[DiscretizedModel->NEqM]; // Identifications
+  std::vector<double> L(DiscretizedModel->NEqM); // Identifications
 
   //cout << "Forward" << endl;
   for (int i = 0; i < DiscretizedModel->NEqM; i++)

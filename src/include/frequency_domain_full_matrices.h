@@ -18,25 +18,25 @@ namespace main_ns
 namespace Solver_ns
 {
 
-class frequency_domain_analysis: public main_ns::Solver_ns::apply_seismic_loads_to_the_domain_cls
+class frequency_domain_analysis : public main_ns::Solver_ns::apply_seismic_loads_to_the_domain_cls
 {
 
-// members
+  // members
 private:
   std::ofstream TransferFunc;
 
-  double **K_Eff;    // complex Effective stiffness (real + imaginary) - See notes
+  double **K_Eff; // complex Effective stiffness (real + imaginary) - See notes
   std::vector<double> RHS;
   main_ns::Solver_ns::apply_seismic_loads_to_the_domain_cls::InputLoad_frequency_domain
- LoadPackage;
+      LoadPackage;
 
 public:
-  main_ns::address_ns::address_cls* Addresses;
-  main_ns::model_ns::model_cls* Model;
-  main_ns::discretization_ns::discretization_cls* DiscretizedModel;
-  main_ns::Matrices_ns::Matrices_cls* Matrices;  
+  main_ns::address_ns::address_cls *Addresses;
+  main_ns::model_ns::model_cls *Model;
+  main_ns::discretization_ns::discretization_cls *DiscretizedModel;
+  main_ns::Matrices_ns::Matrices_cls *Matrices;
 
-// methods
+  // methods
 private:
   void Reduce_the_effective_forece_in_the_freq_domain();
   void substitute_the_RHS_and_solve();
@@ -47,7 +47,7 @@ public:
                             main_ns::Matrices_ns::Matrices_cls *);
 
   void Compute_the_transfer_functions_in_the_frequency_domain();
-  
+  virtual ~frequency_domain_analysis();
 };
 
 } // namespace Solver_ns

@@ -12,6 +12,14 @@ main_ns::Solver_ns::frequency_domain_analysis::
 {
 }
 
+main_ns::Solver_ns::frequency_domain_analysis::~frequency_domain_analysis()
+{
+  for (int i = 0; i < 2 * DiscretizedModel->NEqM; i++)
+  {
+    delete[] K_Eff[i];
+  }
+  delete[] K_Eff;
+}
 /*
 ###################################################################################################
 Purpose: This function reduces the stiffness matrix using the LDLT method.
@@ -85,17 +93,17 @@ void main_ns::Solver_ns::frequency_domain_analysis::substitute_the_RHS_and_solve
   // Forward substitution
   for (int i = 0; i < (2 * DiscretizedModel->NEqM); i++)
   {
-    temp = 0.0;
+    temp = {0.0};
     for (int j = 0; j < i; j++)
     {
       temp += K_Eff[i][j] * RHS[j];
     }
-    RHS[i] = RHS[i] - temp;
+    RHS[i] = {RHS[i] - temp};
   }
 
   for (int i = 0; i < (2 * DiscretizedModel->NEqM); i++)
   {
-    RHS[i] = RHS[i] / K_Eff[i][i];
+    RHS[i] = {RHS[i] / K_Eff[i][i]};
   }
 
   int k, l; // temporary indices
@@ -111,12 +119,12 @@ void main_ns::Solver_ns::frequency_domain_analysis::substitute_the_RHS_and_solve
       l = (2 * DiscretizedModel->NEqM) - j - 1;
       temp += K_Eff[l][k] * L[l];
     }
-    L[k] = (RHS[k] - temp);
+    L[k] = {RHS[k] - temp};
   }
 
   for (int i = 0; i < (2 * DiscretizedModel->NEqM); i++)
   {
-    RHS[i] = L[i];
+    RHS[i] = {L[i]};
   }
 }
 
@@ -197,7 +205,7 @@ void main_ns::Solver_ns::frequency_domain_analysis::
   std::vector<double> F_b_I(Model->NNBndry * Model->NDim);
 
   // Define frequencies
-  double minf = {0.0};           // min cyclic frequency
+  double minf = {0.0};         // min cyclic frequency
   double maxf = Model->alpha1; // max cyclic frequency
   double df = Model->alpha2;   // cyclic frequency increment
 
@@ -393,4 +401,15 @@ void main_ns::Solver_ns::frequency_domain_analysis::
   // Close the output file
   TransferFunc.close();
 
+  for (int i = 0; i < Model->NDim * Model->NNLayer; i++)
+  {
+    delete[] K_Eff_eb[i];
+  }
+  delete[] K_Eff_eb;
+
+  for (int i = 0; i < Model->NDim * Model->NNLayer; i++)
+  {
+    delete[] C_Eff_eb[i];
+  }
+  delete[] C_Eff_eb;
 }

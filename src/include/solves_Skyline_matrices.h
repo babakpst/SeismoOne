@@ -30,7 +30,7 @@ public:
                              main_ns::discretization_ns::discretization_cls *,
                              main_ns::Matrices_ns::Matrices_cls *);
 
-  //~solve_Skyline_matrices_cls();
+  ~solve_Skyline_matrices_cls();
 };
 } // namespace Solver_ns
 

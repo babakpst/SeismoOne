@@ -11,6 +11,12 @@ main_ns::Solver_ns::solve_Skyline_matrices_cls::solve_Skyline_matrices_cls(
   this->Matrices = new main_ns::Matrices_ns::Matrices_Skyline_cls(DiscretizedModel, Model);
 }
 
+main_ns::Solver_ns::solve_Skyline_matrices_cls::~solve_Skyline_matrices_cls()
+{
+
+  delete this->Matrices;
+}
+
 /*
 ###################################################################################################
 Purpose: This function computes the effective matrix based on the Newmark algorithm.

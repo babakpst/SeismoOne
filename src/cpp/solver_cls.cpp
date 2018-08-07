@@ -25,7 +25,7 @@ main_ns::Solver_ns::Solver_cls::~Solver_cls()
   History.close();
   info.close();
 
-    // DeAllocating 2D arrays
+  // DeAllocating 2D arrays
   for (int i = 0; i < Model->NNode; i++)
   {
     delete[] DiscretizedModel->INod[i];
@@ -74,9 +74,9 @@ void main_ns::Solver_ns::Solver_cls::solve_the_system_using_implicit_newmark_met
   A5 = Model->DT * (Model->Gama / (2.0 * Model->Beta) - 1.0);
 
   // defining the material properties for the DRM
-  E = Model->PMat[0][0];   // Elastic Modulus of the base material required for the DRM loads
-  Rho = Model->PMat[0][1]; // density of the base material required for the DRM loads
-  c = sqrt(E / Rho);       // wave velocity of the base material required for the DRM loads
+  E = {Model->PMat[0][0]};   // Elastic Modulus of the base material required for the DRM loads
+  Rho = {Model->PMat[0][1]}; // density of the base material required for the DRM loads
+  c = sqrt(E / Rho);         // wave velocity of the base material required for the DRM loads
 
   UN.resize(DiscretizedModel->NEqM);
   U.resize(DiscretizedModel->NEqM);
@@ -97,26 +97,26 @@ void main_ns::Solver_ns::Solver_cls::solve_the_system_using_implicit_newmark_met
   }
 
   // fill the load package
-  LoadPackage.NDim = Model->NDim;
-  LoadPackage.NNBndry = Model->NNBndry;
-  LoadPackage.NNLayer = Model->NNLayer;
-  LoadPackage.Wave_Type = Model->Wave_Type;
-  LoadPackage.Wave_Func = Model->Wave_Func;
-  LoadPackage.alpha1 = Model->alpha1;
-  LoadPackage.alpha2 = Model->alpha2;
-  LoadPackage.amplitude = Model->amplitude;
-  LoadPackage.c = c;
-  LoadPackage.omega = Model->omega;
-  LoadPackage.NoBndry_DRM = DiscretizedModel->NoBndry_DRM;
-  LoadPackage.NoLayer_DRM = DiscretizedModel->NoLayer_DRM;
-  LoadPackage.ND_e = Matrices->ND_e;
-  LoadPackage.ND_b = Matrices->ND_b;
+  LoadPackage.NDim = {Model->NDim};
+  LoadPackage.NNBndry = {Model->NNBndry};
+  LoadPackage.NNLayer = {Model->NNLayer};
+  LoadPackage.Wave_Type = {Model->Wave_Type};
+  LoadPackage.Wave_Func = {Model->Wave_Func};
+  LoadPackage.alpha1 = {Model->alpha1};
+  LoadPackage.alpha2 = {Model->alpha2};
+  LoadPackage.amplitude = {Model->amplitude};
+  LoadPackage.c = {c};
+  LoadPackage.omega = {Model->omega};
+  LoadPackage.NoBndry_DRM = {DiscretizedModel->NoBndry_DRM};
+  LoadPackage.NoLayer_DRM = {DiscretizedModel->NoLayer_DRM};
+  LoadPackage.ND_e = {Matrices->ND_e};
+  LoadPackage.ND_b = {Matrices->ND_b};
 
-  LoadPackage.XYZ = DiscretizedModel->XYZ;
-  LoadPackage.M_eb = Matrices->M_eb;
-  LoadPackage.C_eb = Matrices->C_eb;
-  LoadPackage.K_eb = Matrices->K_eb;
-  LoadPackage.UN = UN;
+  LoadPackage.XYZ = {DiscretizedModel->XYZ};
+  LoadPackage.M_eb = {Matrices->M_eb};
+  LoadPackage.C_eb = {Matrices->C_eb};
+  LoadPackage.K_eb = {Matrices->K_eb};
+  LoadPackage.UN = {UN};
 
   // effective force
   Compute_the_effective_matrix();
@@ -142,11 +142,11 @@ void main_ns::Solver_ns::Solver_cls::solve_the_system_using_implicit_newmark_met
     // Update displacements, velocity and acceleration
     for (int i = 0; i < DiscretizedModel->NEqM; i++)
     {
-      Temp[i] = UD[i];
+      Temp[i] = {UD[i]};
       U[i] = UN[i] - U[i];
       UD[i] = A1 * U[i] - A4 * Temp[i] - A5 * UDD[i];
       UDD[i] = A0 * U[i] - A2 * Temp[i] - A3 * UDD[i];
-      U[i] = UN[i];
+      U[i] = {UN[i]};
       UN[i] = {0.0};
     }
 

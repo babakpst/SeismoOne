@@ -9,6 +9,50 @@ main_ns::Matrices_ns::Matrices_cls::Matrices_cls(main_ns::discretization_ns::dis
 
 main_ns::Matrices_ns::Matrices_cls::~Matrices_cls()
 {
+
+  for (int i = 0; i < Model->NDim * Model->NNLayer; i++)
+  {
+    delete[] K_eb[i];
+  }
+  delete[] K_eb;
+
+  for (int i = 0; i < Model->NDim * Model->NNLayer; i++)
+  {
+    delete[] C_eb[i];
+  }
+  delete[] C_eb;
+
+  for (int i = 0; i < Model->NDim * Model->NNLayer; i++)
+  {
+    delete[] M_eb[i];
+  }
+  delete[] M_eb;
+
+  for (int i = 0; i < Model->NDim; i++)
+  {
+    delete[] XT[i];
+  }
+  delete[] XT;
+
+  for (int i = 0; i < NEqEl; i++)
+  {
+    delete[] Ke[i];
+  }
+  delete[] Ke;
+
+  for (int i = 0; i < NEqEl; i++)
+  {
+    delete[] Ce[i];
+  }
+  delete[] Ce;
+
+  for (int i = 0; i < NEqEl; i++)
+  {
+    delete[] Me[i];
+  }
+  delete[] Me;
+
+  delete SF;
 }
 
 /*
@@ -143,9 +187,9 @@ void main_ns::Matrices_ns::Matrices_cls::assembling_local_matrices_into_global_m
     {
       for (int j = 0; j < NEqEl; j++)
       {
-        Ke[i][j] = 0.0;
-        Ce[i][j] = 0.0;
-        Me[i][j] = 0.0;
+        Ke[i][j] = {0.0};
+        Ce[i][j] = {0.0};
+        Me[i][j] = {0.0};
       }
       Fe[i] = 0.0;
     }
@@ -255,7 +299,7 @@ void main_ns::Matrices_ns::Matrices_cls::
     SF->DifferentialOfShapeFunctions();
 
     // Jacobian
-    DJ = 0.0;
+    DJ = {0.0};
     for (int i = 0; i < Model->NInt; i++)
     {
       DJ += XT[0][i] * SF->DFXI[i];
@@ -317,6 +361,8 @@ void main_ns::Matrices_ns::Matrices_cls::
     delete[] PsiX_PsiX_T[i];
   }
   delete[] PsiX_PsiX_T;
+
+  delete[] DFX;
 }
 
 /*

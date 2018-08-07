@@ -38,22 +38,22 @@ void main_ns::ShapeFunctions_ns::ShapeFunctions_cls::Retrieving_Gauss_Points_fn(
   switch (NInt)
   {
   case 1:
-    XInt[0] = 0.0;  // ABSCISSAE
-    WInt[0] = +2.0; // WEIGHTS
+    XInt[0] = {0.0};  // ABSCISSAE
+    WInt[0] = {+2.0}; // WEIGHTS
     break;
   case 2:
-    XInt[0] = -sqrt(1.0 / 3.0); // ABSCISSAE
-    XInt[1] = +sqrt(1.0 / 3.0); // ABSCISSAE
-    WInt[0] = +1.0;             // WEIGHTS
-    WInt[1] = +1.0;             // WEIGHTS
+    XInt[0] = {-sqrt(1.0 / 3.0)}; // ABSCISSAE
+    XInt[1] = {+sqrt(1.0 / 3.0)}; // ABSCISSAE
+    WInt[0] = {+1.0};             // WEIGHTS
+    WInt[1] = {+1.0};             // WEIGHTS
     break;
   case 3:
     XInt[0] = -sqrt(3.0 / 5.0); // ABSCISSAE
-    XInt[1] = 0.0;              // ABSCISSAE
-    XInt[2] = +sqrt(3.0 / 5.0); // ABSCISSAE
-    WInt[0] = 5.0 / 9.0;        // WEIGHTS
-    WInt[1] = 8.0 / 9.0;        // WEIGHTS
-    WInt[2] = 5.0 / 9.0;        // WEIGHTS
+    XInt[1] = {0.0};              // ABSCISSAE
+    XInt[2] = {+sqrt(3.0 / 5.0)}; // ABSCISSAE
+    WInt[0] = {5.0 / 9.0};        // WEIGHTS
+    WInt[1] = {8.0 / 9.0};        // WEIGHTS
+    WInt[2] = {5.0 / 9.0};        // WEIGHTS
     break;
   default:
     std::cout << "This NInt is not available in code." << std::endl;

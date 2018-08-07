@@ -4,11 +4,34 @@
 // Constructor: we also create and allocate matrices
 main_ns::Matrices_ns::Matrices_Full_cls::Matrices_Full_cls(
     main_ns::discretization_ns::discretization_cls *aDiscretization,
-    main_ns::model_ns::model_cls *aModel) : main_ns::Matrices_ns::Matrices_cls(aDiscretization, aModel)
+    main_ns::model_ns::model_cls *aModel)
+    : main_ns::Matrices_ns::Matrices_cls(aDiscretization, aModel)
 {
   main_ns::Matrices_ns::Matrices_Full_cls::allocating_global_matrices_fn();
   main_ns::Matrices_ns::Matrices_Full_cls::allocating_local_matrices_fn();
   main_ns::Matrices_ns::Matrices_cls::allocate_matrices_for_assembling_fn();
+}
+
+main_ns::Matrices_ns::Matrices_Full_cls::~Matrices_Full_cls()
+{
+
+  for (int i = 0; i < DiscretizedModel->NEqM; i++)
+  {
+    delete[] K[i];
+  }
+  delete[] K;
+
+  for (int i = 0; i < DiscretizedModel->NEqM; i++)
+  {
+    delete[] M[i];
+  }
+  delete[] M;
+
+  for (int i = 0; i < DiscretizedModel->NEqM; i++)
+  {
+    delete[] C[i];
+  }
+  delete[] C;
 }
 
 /*

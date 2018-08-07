@@ -77,7 +77,7 @@ int main()
   // = matrices ===================================================================================
   // creating global matrices
 
-  main_ns::Matrices_ns::Matrices_cls* Matrix;
+  main_ns::Matrices_ns::Matrices_cls *Matrix;
 
   switch (model.Solver)
   {
@@ -91,51 +91,51 @@ int main()
     Matrix = new main_ns::Matrices_ns::Matrices_Full_cls(&discretized_model, &model);
     break;
   default:
-    std::cout << "The input solver type is not available. Solver should be either 0 for full matrices or 1 for skyline method" << std::endl;
+    std::cout << "The input solver type is not available. Solver should be either 0 for full \
+                                                   matrices or 1 for skyline method" << std::endl;
     Matrix = NULL;
   }
 
   Matrix->assembling_local_matrices_into_global_matrices_fn();
   Matrix->create_DRM_matrices_fn();
 
-
-// = solver =====================================================================================
-main_ns::Solver_ns::Solver_cls* Solver;
-switch (model.Solver)
+  // = solver =====================================================================================
+  main_ns::Solver_ns::Solver_cls *Solver;
+  switch (model.Solver)
   {
   case 0: // solving the system using full matrices
-    Solver = new main_ns::Solver_ns::solve_full_matrices_cls(&input, &model, &discretized_model, Matrix);
+    Solver = new main_ns::Solver_ns::
+             solve_full_matrices_cls(&input, &model, &discretized_model, Matrix);
     break;
   case 1: // solving the system using skyline mathod
-    Solver = new main_ns::Solver_ns::solve_Skyline_matrices_cls(&input, &model, &discretized_model, Matrix);
+    Solver = new main_ns::Solver_ns::
+             solve_Skyline_matrices_cls(&input, &model, &discretized_model, Matrix);
     break;
-  case 2:   // Computing transfer functions in the frequency domain anaylsis using full matrices
-  
+  case 2: // Computing transfer functions in the frequency domain anaylsis using full matrices
+
   default:
-    std::cout << "The input solver type is not available. Solver should be either 0 for full matrices or 1 for skyline method" << std::endl;
+    std::cout << "The input solver type is not available. Solver should be either 0 for full \
+                                                   matrices or 1 for skyline method" << std::endl;
     Solver = NULL;
   }
   Solver->solve_the_system_using_implicit_newmark_method();
 
   /*
-
-      {
-
-    //Solver = new ;
-    break;
-
-      // - Computing the transfer functions in the frequency domain ------------------------------------------------------------------------------------
-      Transfer_Full ( alpha1, alpha2, Wave_Type, NEqM, M, C, K, PMat, XYZ, ND_e, ND_b, TransferFunc );
-
-
-      info.close();
-      break;
-    }
+  // - Computing the transfer functions in the frequency domain -----------------------------------
+  Transfer_Full ( alpha1, alpha2, Wave_Type, NEqM, M, C, K, PMat, XYZ, ND_e, ND_b, TransferFunc );
+  info.close();
+  break;
+  }
   }
 */
 
-// terminating the code
+  // terminating the code
   std::cout << "End of the code! " << std::endl;
-  std::cout << "Press 'Enter' to end! "  << std::endl;
+  std::cout << "Press 'Enter' to end! " << std::endl;
+
+  // delete objects
+  delete Matrix;
+  delete Solver;
+
   return 0;
 }

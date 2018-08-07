@@ -48,8 +48,8 @@ V0.01: 06/02/2018 - Initiated: Compiled without error for the first time.
 
 ###################################################################################################
 */
-void main_ns::ShapeFunctions_ns::ShapeFunctions_FirstOrder_cls::DifferentialOfShapeFunctions() 
+void main_ns::ShapeFunctions_ns::ShapeFunctions_FirstOrder_cls::DifferentialOfShapeFunctions()
 {
-  DFXI[0] = -0.5;
-  DFXI[1] = +0.5;
+  DFXI[0] = {-0.5};
+  DFXI[1] = {+0.5};
 }

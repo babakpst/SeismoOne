@@ -30,6 +30,8 @@ public:
                     main_ns::model_ns::model_cls *);
 
   virtual void assemble_local_to_global_fn();
+  virtual ~Matrices_Full_cls();
+  
 };
 } // namespace Matrices_ns
 } // namespace main_ns

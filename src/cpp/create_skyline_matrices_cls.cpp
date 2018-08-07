@@ -140,13 +140,13 @@ void main_ns::Matrices_ns::Matrices_Skyline_cls::Skyline_fn()
     {
       for (int k = 0; k < NEqEl; k++)
       {
-        i = ND[l];
-        j = ND[k];
+        i = {ND[l]};
+        j = {ND[k]};
         //if ((i==0) ||  (j==0)) continue;
         if (i > j)
           continue;
         if (i < NTK[j])
-          NTK[j] = i;
+          NTK[j] = {i};
       }
     }
   }
@@ -190,8 +190,8 @@ void main_ns::Matrices_ns::Matrices_Skyline_cls::create_DRM_matrices_fn()
     for (int n = 0; n < Model->NNBndry * Model->NDim; n++)
     {
 
-      i = ND_e[l];
-      j = ND_b[n];
+      i = {ND_e[l]};
+      j = {ND_b[n]};
 
       if (i > j)
       {
@@ -203,9 +203,9 @@ void main_ns::Matrices_ns::Matrices_Skyline_cls::create_DRM_matrices_fn()
 
       ij = JD[j] + i - j;
 
-      K_eb[l][n] = K[ij];
-      C_eb[l][n] = C[ij];
-      M_eb[l][n] = M[ij];
+      K_eb[l][n] = {K[ij]};
+      C_eb[l][n] = {C[ij]};
+      M_eb[l][n] = {M[ij]};
     }
   }
 

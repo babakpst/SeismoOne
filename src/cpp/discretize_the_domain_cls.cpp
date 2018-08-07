@@ -33,9 +33,31 @@ main_ns::discretization_ns::discretization_cls::
   Nodal_History.resize(model->Dis_History);
 
   NoBndry_DRM.resize(model->NNBndry); // vector that holds the node numbers on the DRM boundary-
-                                         // There is only one node on the DRM boundary
+                                      // There is only one node on the DRM boundary
   NoLayer_DRM.resize(model->NNLayer); // vector that holds the node numbers on the DRM layer.
-                                         // There are only 2 nodes in the layer in a 1D wave motion
+                                      // There are only 2 nodes in the layer in a 1D wave motion
+}
+
+main_ns::discretization_ns::discretization_cls::~discretization_cls()
+{
+
+  for (int i = 0; i < model->NNode; i++)
+  {
+    delete[] INod[i];
+  }
+  delete[] INod;
+
+  for (int i = 0; i < model->NJ; i++)
+  {
+    delete[] ID[i];
+  }
+  delete[] ID;
+
+  for (int i = 0; i < model->NJ; i++)
+  {
+    delete[] XYZ[i];
+  }
+  delete[] XYZ;
 }
 
 /*
@@ -139,13 +161,13 @@ void main_ns::discretization_ns::discretization_cls::Discretization()
   }
 
   // computing equation number
-  NEqM = -1;
+  NEqM = {-1};
   for (i = 0; i < model->NJ; i++)
   {
     for (j = 0; j < model->NDOF; j++)
     {
       NEqM++;
-      ID[i][j] = NEqM;
+      ID[i][j] = {NEqM};
       // We already know that no node has been fixed. Equation number then starts from zero.
     }
   }
