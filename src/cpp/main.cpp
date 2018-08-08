@@ -92,7 +92,7 @@ int main()
     break;
   default:
     std::cout << "The input solver type is not available. Solver should be either 0 for full \
-                                                   matrices or 1 for skyline method" << std::endl;
+                                                   matrices or 1 for skyline method" << "\n";
     Matrix = NULL;
   }
 
@@ -115,7 +115,7 @@ int main()
 
   default:
     std::cout << "The input solver type is not available. Solver should be either 0 for full \
-                                                   matrices or 1 for skyline method" << std::endl;
+                                                   matrices or 1 for skyline method" << "\n";
     Solver = NULL;
   }
   Solver->solve_the_system_using_implicit_newmark_method();
@@ -130,8 +130,8 @@ int main()
 */
 
   // terminating the code
-  std::cout << "End of the code! " << std::endl;
-  std::cout << "Press 'Enter' to end! " << std::endl;
+  std::cout << "End of the code! " << "\n";
+  std::cout << "Press 'Enter' to end! " << "\n";
 
   // delete objects
   delete Matrix;

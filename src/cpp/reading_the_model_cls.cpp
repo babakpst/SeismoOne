@@ -8,13 +8,13 @@ main_ns::model_ns::model_cls::
     : input(ModelInput)
 {
 
-  std::cout << " Reading the model ..." << std::endl;
+  std::cout << " Reading the model ..." << "\n";
 
   NNBndry = {1}; // Number of nodes on the bounday of the DRM
   NNLayer = {2}; // Number of nodes on the bounday layer of the DRM
 
   // Input File
-  std::cout << " Opening the input file ..." << std::endl;
+  std::cout << " Opening the input file ..." << "\n";
   InputFile.exceptions(std::ifstream::failbit | std::ifstream::badbit);
   try
   {
@@ -22,9 +22,9 @@ main_ns::model_ns::model_cls::
   }
   catch (std::ifstream::failure &inputerr)
   { // here is the catch for opening the input file.
-    std::cout << " Error while opening the input file. " << std::endl;
-    std::cout << " Please double check the input file in the input folder. " << std::endl;
-    std::cout << " The error message is: " << inputerr.what() << std::endl;
+    std::cout << " Error while opening the input file. " << "\n";
+    std::cout << " Please double check the input file in the input folder. " << "\n";
+    std::cout << " The error message is: " << inputerr.what() << "\n";
   }
 }
 
@@ -63,7 +63,7 @@ void main_ns::model_ns::model_cls::InputBasic()
 
   // = Code =======================================================================================
 
-  std::cout << " Basic data..." << std::endl;
+  std::cout << " Basic data..." << "\n";
 
   getline(InputFile, TempS);
   getline(InputFile, TempS);
@@ -95,28 +95,28 @@ void main_ns::model_ns::model_cls::InputBasic()
   getline(InputFile, TempS);
   InputFile >> Wave_Type >> Wave_Func >> alpha1 >> alpha2 >> amplitude >> omega >> NEl_DRM;
 
-  std::cout << std::endl;
-  std::cout << " Here is the model: " << std::endl;
+  std::cout << "\n";
+  std::cout << " Here is the model: " << "\n";
 
-  std::cout << " Number of materials: " << NMat << std::endl
-            << " Number of properties of material: " << NPM << std::endl
-            << " Requried number of nodes per wavelenght: " << NNodePWaveL << std::endl
-            << " Load Type is :" << LoadType << std::endl
+  std::cout << " Number of materials: " << NMat << "\n"
+            << " Number of properties of material: " << NPM << "\n"
+            << " Requried number of nodes per wavelenght: " << NNodePWaveL << "\n"
+            << " Load Type is :" << LoadType << "\n"
             << " Number of nodes for recording the history of displacement: "
-            << Dis_History << std::endl
-            << " The solver type is: " << Solver << std::endl
-            << " Number of integration points: " << NInt << std::endl
-            << " The dimension of the model: " << NDim << std::endl
-            << " The degrees of freedom of each node: " << NDOF << std::endl
-            << " Number of nodes per element: " << NNode << std::endl
-            << " Newmark variables: " << Beta << Gama << std::endl
-            << " Time step: " << DT << std::endl
-            << " Total simulation time: " << Total_Time << std::endl
-            << " Total Number of stets: " << NStep << std::endl
-            << std::endl;
+            << Dis_History << "\n"
+            << " The solver type is: " << Solver << "\n"
+            << " Number of integration points: " << NInt << "\n"
+            << " The dimension of the model: " << NDim << "\n"
+            << " The degrees of freedom of each node: " << NDOF << "\n"
+            << " Number of nodes per element: " << NNode << "\n"
+            << " Newmark variables: " << Beta << Gama << "\n"
+            << " Time step: " << DT << "\n"
+            << " Total simulation time: " << Total_Time << "\n"
+            << " Total Number of stets: " << NStep << "\n"
+            << "\n";
 
-  std::cout << " Done with the model reading, successfully." << std::endl
-            << std::endl;
+  std::cout << " Done with the model reading, successfully." << "\n"
+            << "\n";
 }
 
 /*
@@ -154,7 +154,7 @@ void main_ns::model_ns::model_cls::InputArrays()
   // = Code =======================================================================================
 
   // Allocating required 1D arrays - vectors
-  std::cout << " -allocating model arrays ..." << std::endl;
+  std::cout << " -allocating model arrays ..." << "\n";
   Length.resize(NMat); // Material Type of Elements
 
   Loc_History.resize(Dis_History);
@@ -169,12 +169,12 @@ void main_ns::model_ns::model_cls::InputArrays()
                               // number of materials.
   Layer_Depth.resize(NMat);
 
-  std::cout << " -reading input files (arrays) ..." << std::endl;
+  std::cout << " -reading input files (arrays) ..." << "\n";
 
   getline(InputFile, TempS);
   getline(InputFile, TempS);
 
-  std::cout << " Material properties ..." << std::endl;
+  std::cout << " Material properties ..." << "\n";
   for (i = 0; i < NMat; i++)
   {
     InputFile >> imat >> m1 >> m2;
@@ -182,7 +182,7 @@ void main_ns::model_ns::model_cls::InputArrays()
     PMat[imat - 1][1] = m2;
   }
 
-  std::cout << " Layeres ..." << std::endl;
+  std::cout << " Layeres ..." << "\n";
   getline(InputFile, TempS);
   getline(InputFile, TempS);
   Layer_check = 0.0;
@@ -197,12 +197,12 @@ void main_ns::model_ns::model_cls::InputArrays()
   if (Layer_check != L)
   { // To see if the length of layers match up with the total length
     std::cout << " Warning: Total sum of layers is not equal to the total length:  "
-              << L << " /= " << Layer_check << std::endl;
+              << L << " /= " << Layer_check << "\n";
     return;
   }
 
   // Reading the location of nodes for recording the history of displacement
-  std::cout << " Time history locations ..." << std::endl;
+  std::cout << " Time history locations ..." << "\n";
   getline(InputFile, TempS);
   getline(InputFile, TempS);
   for (i = 0; i < Dis_History; i++)
@@ -228,9 +228,9 @@ void main_ns::model_ns::model_cls::InputArrays()
 
   InputFile.close();
 
-  std::cout << " Total number of elements= " << NEl << std::endl;
-  std::cout << " Total number of joints  = " << NJ << std::endl;
+  std::cout << " Total number of elements= " << NEl << "\n";
+  std::cout << " Total number of joints  = " << NJ << "\n";
 
-  std::cout << " Done with reading arrays, successfully. " << std::endl
-            << std::endl;
+  std::cout << " Done with reading arrays, successfully. " << "\n"
+            << "\n";
 }

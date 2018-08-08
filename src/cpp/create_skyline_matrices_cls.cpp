@@ -31,7 +31,7 @@ V1.00: 06/27/2018 - compiled correctly.
 void main_ns::Matrices_ns::Matrices_Skyline_cls::allocating_global_matrices_fn()
 {
 
-  std::cout << " -allocating global matrices ..." << std::endl;
+  std::cout << " -allocating global matrices ..." << "\n";
 
   JD.resize(DiscretizedModel->NEqM);
   NTK.resize(DiscretizedModel->NEqM);
@@ -42,7 +42,7 @@ void main_ns::Matrices_ns::Matrices_Skyline_cls::allocating_global_matrices_fn()
 
   F.resize(DiscretizedModel->NEqM);
 
-  std::cout << " -initializing global matrices ..." << std::endl;
+  std::cout << " -initializing global matrices ..." << "\n";
   for (int i = 0; i < DiscretizedModel->NEqM; i++)
   {
     F[i] = {0.0};
@@ -55,7 +55,7 @@ void main_ns::Matrices_ns::Matrices_Skyline_cls::allocating_global_matrices_fn()
     M[i] = {0.0};
   }
 
-  std::cout << " Done with allocation, successfully." << std::endl;
+  std::cout << " Done with allocation, successfully." << "\n";
 }
 
 /*
@@ -158,7 +158,7 @@ void main_ns::Matrices_ns::Matrices_Skyline_cls::Skyline_fn()
     JD[i] = JD[i - 1] + i + 1 - NTK[i];
   }
 
-  std::cout << "End function skyline" << std::endl;
+  std::cout << "End function skyline" << "\n";
 }
 
 /*
@@ -183,7 +183,7 @@ void main_ns::Matrices_ns::Matrices_Skyline_cls::create_DRM_matrices_fn()
   int ij, i, j; // Loop indices
 
   // - Code ---------------------------------------------------------------------
-  std::cout << "Create DRM matrices ..." << std::endl;
+  std::cout << "Create DRM matrices ..." << "\n";
 
   for (int l = 0; l < Model->NNLayer * Model->NDim; l++)
   {
@@ -198,7 +198,7 @@ void main_ns::Matrices_ns::Matrices_Skyline_cls::create_DRM_matrices_fn()
         ij = i;
         i = j;
         j = ij;
-        std::cout << " i and j replaced" << std::endl;
+        std::cout << " i and j replaced" << "\n";
       }
 
       ij = JD[j] + i - j;
@@ -209,5 +209,5 @@ void main_ns::Matrices_ns::Matrices_Skyline_cls::create_DRM_matrices_fn()
     }
   }
 
-  std::cout << "DRM matrices created." << std::endl;
+  std::cout << "DRM matrices created." << "\n";
 }

@@ -32,7 +32,7 @@ void main_ns::Solver_ns::solve_full_matrices_cls::Compute_the_effective_matrix()
       static_cast<main_ns::Matrices_ns::Matrices_Full_cls *>(this->Matrices);
 
   // Effective stiffness matrix
-  std::cout << " Obtaining the effective matrix ..." << std::endl;
+  std::cout << " Obtaining the effective matrix ..." << "\n";
   for (int i = 0; i < DiscretizedModel->NEqM; i++)
   {
     for (int j = 0; j < DiscretizedModel->NEqM; j++)
@@ -63,14 +63,14 @@ void main_ns::Solver_ns::solve_full_matrices_cls::Reduce_the_effective_forece()
   main_ns::Matrices_ns::Matrices_Full_cls *fullMatrices =
       static_cast<main_ns::Matrices_ns::Matrices_Full_cls *>(this->Matrices);
 
-  std::cout << "Reduce effective matrix ..." << std::endl;
+  std::cout << "Reduce effective matrix ..." << "\n";
   int tempI;
 
   std::vector<double> L(DiscretizedModel->NEqM); // Identifications
 
   for (int j = 0; j < DiscretizedModel->NEqM; j++)
   {
-    std::cout << j << " reduces out of " << DiscretizedModel->NEqM << std::endl;
+    std::cout << j << " reduces out of " << DiscretizedModel->NEqM << "\n";
 
     tempI = 5 + j;
     if (tempI > DiscretizedModel->NEqM)

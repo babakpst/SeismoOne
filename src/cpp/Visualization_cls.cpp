@@ -10,14 +10,14 @@ main_ns::visualization_ns::visualization_cls::visualization_cls(
                                model(b),
                                discretized_model(c)
                                {
-std::cout << " -writing the input file for Matlab visualizer script ..." << std::endl;
+std::cout << " -writing the input file for Matlab visualizer script ..." << "\n";
 
 //address=a;
 //model=b;
 //discretized_model=c;
 
 // Output file for Matlab for visualization
-std::cout << " -opening the results file for Matlab ..."<< std::endl;
+std::cout << " -opening the results file for Matlab ..."<< "\n";
 OutputMatlab.open (address->OutputMatlab_Dir.c_str(), std::ios::out);
 
 }
@@ -41,38 +41,38 @@ V0.01: 05/21/2018 - Initiated: Compiled without error for the first time.
 
 void main_ns::visualization_ns::visualization_cls::MatlabOutput_fn(){
 
-OutputMatlab << model->NMat << std::endl;
-OutputMatlab << model->NEl << std::endl;
-OutputMatlab << model->Dis_History << std::endl;
-OutputMatlab << model->DT << std::endl;
-OutputMatlab << model->NStep << std::endl;
-OutputMatlab << model->L << std::endl;
-OutputMatlab << discretized_model->NEqM << std::endl;
+OutputMatlab << model->NMat << "\n";
+OutputMatlab << model->NEl << "\n";
+OutputMatlab << model->Dis_History << "\n";
+OutputMatlab << model->DT << "\n";
+OutputMatlab << model->NStep << "\n";
+OutputMatlab << model->L << "\n";
+OutputMatlab << discretized_model->NEqM << "\n";
 
   for (int i = 0; i<model->NMat; i++){
       for (int j = 0; j<model->NPM; j++){
         OutputMatlab << std::setw(20) << model->PMat[i][j] ;
       }
-    OutputMatlab << std::endl;
+    OutputMatlab << "\n";
   }
 
   for (int i = 0; i<model->NMat; i++){
     OutputMatlab << std::setw(20) << model->Length[i] ;
   }
-OutputMatlab << std::endl;
+OutputMatlab << "\n";
 
   for (int i = 0; i<model->Dis_History; i++){
     OutputMatlab << std::setw(20) << model->Loc_History [i]  ;
   }
-OutputMatlab << std::endl;
+OutputMatlab << "\n";
 
   for (int i = 0; i<model->NJ; i++){
-    OutputMatlab << discretized_model->XYZ[i][0]  << std::endl;
+    OutputMatlab << discretized_model->XYZ[i][0]  << "\n";
   }
 
-OutputMatlab << std::endl;
+OutputMatlab << "\n";
 
-std::cout << " Matlab input file created successfully." << std::endl << std::endl;
+std::cout << " Matlab input file created successfully." << "\n" << "\n";
 OutputMatlab.close();
 
 }

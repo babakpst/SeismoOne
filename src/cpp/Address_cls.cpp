@@ -4,10 +4,10 @@
 // Constructor
 main_ns::address_ns::address_cls::address_cls()
 {
-  std::cout << " --------------- SeismoOne ---------------" << std::endl;
-  std::cout << " ----- Developed by: Babak Poursartip ----" << std::endl;
-  std::cout << " -------------- version 3.0 --------------" << std::endl;
-  std::cout << std::endl;
+  std::cout << " --------------- SeismoOne ---------------" << "\n";
+  std::cout << " ----- Developed by: Babak Poursartip ----" << "\n";
+  std::cout << " -------------- version 3.0 --------------" << "\n";
+  std::cout << "\n";
 }
 
 /*
@@ -29,7 +29,7 @@ void main_ns::address_ns::address_cls::address_fn()
 {
 
   // Open address files
-  std::cout << " -opening the address file ..." << std::endl;
+  std::cout << " -opening the address file ..." << "\n";
   std::ifstream Addressfile;
   Addressfile.exceptions(std::ifstream::failbit | std::ifstream::badbit);
   try
@@ -38,15 +38,15 @@ void main_ns::address_ns::address_cls::address_fn()
   }
   catch (std::ifstream::failure &inputerr)
   { // here is the catch for opening the input file.
-    std::cout << " Error while opening the address file. " << std::endl;
-    std::cout << " Please double check the address file in the cpp folder. " << std::endl;
-    std::cout << " The error message is: " << inputerr.what() << std::endl;
+    std::cout << " Error while opening the address file. " << "\n";
+    std::cout << " Please double check the address file in the cpp folder. " << "\n";
+    std::cout << " The error message is: " << inputerr.what() << "\n";
   }
 
 
 
   // Reading simulation information
-  std::cout << " -reading the information file ..." << std::endl;
+  std::cout << " -reading the information file ..." << "\n";
   getline(Addressfile, TempS);
   Addressfile >> Name; // Input file name
 
@@ -54,12 +54,12 @@ void main_ns::address_ns::address_cls::address_fn()
   getline(Addressfile, TempS);
   Addressfile >> Directory; // Directory of the input file
 
-  std::cout << std::endl;
-  std::cout << " Analysis information:" << std::endl;
-  std::cout << " Name:  " << Name << std::endl;
-  std::cout << " Directory:  " << Directory << std::endl;
+  std::cout << "\n";
+  std::cout << " Analysis information:" << "\n";
+  std::cout << " Name:  " << Name << "\n";
+  std::cout << " Directory:  " << Directory << "\n";
 
-  std::cout << " -creating directories ..." << std::endl;
+  std::cout << " -creating directories ..." << "\n";
 
   // Windows
   /*
@@ -83,10 +83,10 @@ TransferFunction_Dir = Directory + "\\Output\\"  + Name + ".TRF";
   TransferFunction_Dir = Directory + "/output/" + Name + ".TRF";
 
   // Final Directories
-  std::cout << "  Input dir:   " << Input_Dir << std::endl;
-  std::cout << "  Output dir:  " << Info_Dir << std::endl;
+  std::cout << "  Input dir:   " << Input_Dir << "\n";
+  std::cout << "  Output dir:  " << Info_Dir << "\n";
 
   Addressfile.close();
-  std::cout << " -done with the address file, successfully." << std::endl
-            << std::endl;
+  std::cout << " -done with the address file, successfully." << "\n"
+            << "\n";
 }

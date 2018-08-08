@@ -53,7 +53,7 @@ V1.00: 06/18/2018 -
 void main_ns::Matrices_ns::Matrices_Full_cls::allocating_global_matrices_fn()
 {
 
-  std::cout << " -allocating global matrices ..." << std::endl;
+  std::cout << " -allocating global matrices ..." << "\n";
   K = new double *[DiscretizedModel->NEqM]; // Stiffness Matrix
   for (int i = 0; i < DiscretizedModel->NEqM; i++)
   {
@@ -74,7 +74,7 @@ void main_ns::Matrices_ns::Matrices_Full_cls::allocating_global_matrices_fn()
 
   F.resize(DiscretizedModel->NEqM);
 
-  std::cout << " -initializing global matrices ..." << std::endl;
+  std::cout << " -initializing global matrices ..." << "\n";
   for (int i = 0; i < DiscretizedModel->NEqM; i++)
   {
     for (int j = 0; j < DiscretizedModel->NEqM; j++)
@@ -86,7 +86,7 @@ void main_ns::Matrices_ns::Matrices_Full_cls::allocating_global_matrices_fn()
     F[i] = {0.0};
   }
 
-  std::cout << " Done with allocation, successfully." << std::endl;
+  std::cout << " Done with allocation, successfully." << "\n";
 }
 
 /*

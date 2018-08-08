@@ -39,12 +39,12 @@ void main_ns::Solver_ns::frequency_domain_analysis::
     Reduce_the_effective_forece_in_the_freq_domain()
 {
 
-  std::cout << " Factorization of the matrices ... " << std::endl;
+  std::cout << " Factorization of the matrices ... " << "\n";
   std::vector<double> L(2 * DiscretizedModel->NEqM); // Identifications
 
   for (int j = 0; j < (2 * DiscretizedModel->NEqM); j++)
   {
-    std::cout << j << " reduces out of " << 2 * DiscretizedModel->NEqM << std::endl;
+    std::cout << j << " reduces out of " << 2 * DiscretizedModel->NEqM << "\n";
 
     //tempI = 5+j;
     //if (tempI> NEqM) tempI = NEqM;
@@ -146,13 +146,13 @@ void main_ns::Solver_ns::frequency_domain_analysis::
     Compute_the_transfer_functions_in_the_frequency_domain()
 {
 
-  std::cout << "<<<<   Computing the Transfer functions for this domain >>>>" << std::endl;
+  std::cout << "<<<<   Computing the Transfer functions for this domain >>>>" << "\n";
 
   main_ns::Matrices_ns::Matrices_Full_cls *fullMatrices =
       static_cast<main_ns::Matrices_ns::Matrices_Full_cls *>(this->Matrices);
 
   // Define arrays
-  std::cout << " Create arrays ..." << std::endl;
+  std::cout << " Create arrays ..." << "\n";
 
   // Solution in for each frequency- The first half of the vector is the real part and the
   // second half is the imaginary part
@@ -239,7 +239,7 @@ void main_ns::Solver_ns::frequency_domain_analysis::
 
     freq = minf + iStep * df;
     omega = 2.0 * pi * freq;
-    std::cout << "Step: " << iStep << " Frequency: " << freq << std::endl;
+    std::cout << "Step: " << iStep << " Frequency: " << freq << "\n";
 
     // Effective stiffness matrix for this frequency
     //std::cout << "Effective stiffness ..." << endl;
@@ -395,7 +395,7 @@ void main_ns::Solver_ns::frequency_domain_analysis::
 
     // Recording the results in the output file
     TransferFunc << std::setw(20) << freq << std::setw(20) << Result_R << std::setw(20)
-                 << Result_I << std::setw(20) << Result << std::endl;
+                 << Result_I << std::setw(20) << Result << "\n";
   }
 
   // Close the output file

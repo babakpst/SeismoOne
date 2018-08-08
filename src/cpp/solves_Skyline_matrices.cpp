@@ -38,7 +38,7 @@ void main_ns::Solver_ns::solve_Skyline_matrices_cls::Compute_the_effective_matri
   main_ns::Matrices_ns::Matrices_Skyline_cls *skyMatrices =
       static_cast<main_ns::Matrices_ns::Matrices_Skyline_cls *>(this->Matrices);
 
-  std::cout << " Obtaining the effective matrix ..." << std::endl;
+  std::cout << " Obtaining the effective matrix ..." << "\n";
   Compute_the_effective_matrix();
 
   for (int i = 0; i < skyMatrices->JD[DiscretizedModel->NEqM - 1]; i++)
@@ -69,7 +69,7 @@ void main_ns::Solver_ns::solve_Skyline_matrices_cls::Reduce_the_effective_forece
   main_ns::Matrices_ns::Matrices_Skyline_cls *skyMatrices =
       static_cast<main_ns::Matrices_ns::Matrices_Skyline_cls *>(this->Matrices);
 
-  std::cout << "Reduce effective matrix ..." << std::endl;
+  std::cout << "Reduce effective matrix ..." << "\n";
   int K1, I1, KJ, KK, KI, IJ; //temp var
 
   double Fac; //temp var

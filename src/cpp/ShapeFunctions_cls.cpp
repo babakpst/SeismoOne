@@ -56,6 +56,6 @@ void main_ns::ShapeFunctions_ns::ShapeFunctions_cls::Retrieving_Gauss_Points_fn(
     WInt[2] = {5.0 / 9.0};        // WEIGHTS
     break;
   default:
-    std::cout << "This NInt is not available in code." << std::endl;
+    std::cout << "This NInt is not available in code." << "\n";
   }
 }

@@ -103,7 +103,7 @@ void main_ns::Matrices_ns::Matrices_cls::allocating_local_matrices_fn()
 
   Fe.resize(NEqEl);
 
-  std::cout << " -allocating DRM matrices ..." << std::endl;
+  std::cout << " -allocating DRM matrices ..." << "\n";
   K_eb = new double *[Model->NDim * Model->NNLayer]; //
   for (int i = 0; i < (Model->NDim * Model->NNLayer); i++)
   {
@@ -170,7 +170,7 @@ void main_ns::Matrices_ns::Matrices_cls::assembling_local_matrices_into_global_m
     if ((iel % ElementPercent) == 0)
     {
       AssemblyPercentage = ((double)iel / Model->NEl) * 100.0;
-      std::cout << "Assembly progress:  %" << AssemblyPercentage << std::endl;
+      std::cout << "Assembly progress:  %" << AssemblyPercentage << "\n";
     }
 
     // extracting the coordinates of this element
@@ -309,7 +309,7 @@ void main_ns::Matrices_ns::Matrices_cls::
     FAC = WX * DETJ;
 
     if (DETJ <= 0.0)
-      std::cout << "Jacobian is negative!!!" << std::endl;
+      std::cout << "Jacobian is negative!!!" << "\n";
 
     // CALCULATING THE INVERSE OF THE JACOBIAN
     DJI = 1.0 / DETJ;

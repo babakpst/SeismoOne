@@ -63,7 +63,7 @@ V0.01: 06/28/2018 - Initiated: Compiled without error for the first time.
 void main_ns::Solver_ns::Solver_cls::solve_the_system_using_implicit_newmark_method()
 {
 
-  std::cout << " -Time integration using the Newmark method for the skyline system-" << std::endl;
+  std::cout << " -Time integration using the Newmark method for the skyline system-" << "\n";
 
   // defining the Newmark constants
   A0 = 1.0 / (Model->Beta * Model->DT * Model->DT);
@@ -127,7 +127,7 @@ void main_ns::Solver_ns::Solver_cls::solve_the_system_using_implicit_newmark_met
   bool InitialTime = false; // var to check the if the initial time is correct.
 
   Initial_Time = -Model->L / c;
-  std::cout << "Initial time = " << Initial_Time << std::endl;
+  std::cout << "Initial time = " << Initial_Time << "\n";
 
   // Solve the PDE for each step
   for (int IStep = 0; IStep < Model->NStep + 1; IStep++)
@@ -137,7 +137,7 @@ void main_ns::Solver_ns::Solver_cls::solve_the_system_using_implicit_newmark_met
     Time = Initial_Time + IStep * Model->DT; // Time STEP
     LoadPackage.Time = Time;
     std::cout << std::showpoint << "Time Step:  " << std::setw(5) << IStep << "  Time: "
-              << std::setw(8) << std::left << Time << " Total time: " << Elapsed_Time << std::endl;
+              << std::setw(8) << std::left << Time << " Total time: " << Elapsed_Time << "\n";
 
     // Update displacements, velocity and acceleration
     for (int i = 0; i < DiscretizedModel->NEqM; i++)
@@ -183,7 +183,7 @@ void main_ns::Solver_ns::Solver_cls::solve_the_system_using_implicit_newmark_met
       }
       if (InitialTime == true)
       {
-        std::cout << "WARNING: REDUCE THE INITIAL TIME" << std::endl;
+        std::cout << "WARNING: REDUCE THE INITIAL TIME" << "\n";
         return;
       }
     }
@@ -198,7 +198,7 @@ void main_ns::Solver_ns::Solver_cls::solve_the_system_using_implicit_newmark_met
       History << std::showpoint << std::showpos << std::left << std::setw(25)
               << UN[DiscretizedModel->Nodal_History[i]];
     }
-    History << std::endl;
+    History << "\n";
 
     //FullSol << "Time= " << Time << endl;
     // writing down the full results in the entier doamin, for visualization purposes
@@ -206,6 +206,6 @@ void main_ns::Solver_ns::Solver_cls::solve_the_system_using_implicit_newmark_met
     {
       FullSol << std::showpoint << std::showpos << std::left << std::setw(25) << UN[i];
     }
-    FullSol << std::endl;
+    FullSol << "\n";
   }
 }

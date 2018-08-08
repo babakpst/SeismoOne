@@ -7,7 +7,7 @@ main_ns::discretization_ns::discretization_cls::
     discretization_cls(const main_ns::model_ns::model_cls *InputModel) : model(InputModel)
 {
 
-  std::cout << " -allocating arrays for discretization ..." << std::endl;
+  std::cout << " -allocating arrays for discretization ..." << "\n";
   // Allocating required 1D arrays - vectors
   MTel.resize(model->NEl); // Material Type of Elements
 
@@ -97,10 +97,10 @@ void main_ns::discretization_ns::discretization_cls::Discretization()
   std::string TempS; // Temporary variable for reading strings from input files
 
   // ==================== Code ====================================================================
-  std::cout << " -discretization ..." << std::endl;
+  std::cout << " -discretization ..." << "\n";
 
   // create the coordinates of nodes
-  std::cout << " -coordinates ..." << std::endl;
+  std::cout << " -coordinates ..." << "\n";
   NJ_Count = 0;
   XYZ[0][0] = -(model->L);
   for (i = 0; i < model->NMat; i++)
@@ -127,14 +127,14 @@ void main_ns::discretization_ns::discretization_cls::Discretization()
 
   if ((model->NJ - 1) != NJ_Count)
   {
-    std::cout << " Fatal Error: refer to the discretization function." << std::endl;
+    std::cout << " Fatal Error: refer to the discretization function." << "\n";
     std::cout << " Number of joints should be: " << model->NJ - 1 << " but it is: "
-              << NJ_Count << std::endl;
+              << NJ_Count << "\n";
     return;
   }
 
   // connectivity - Note: Node numbers start from zero
-  std::cout << " -connectivities ..." << std::endl;
+  std::cout << " -connectivities ..." << "\n";
   for (iel = 0; iel < model->NEl; iel++)
   {
     if (model->OrderOfShapeFunc == 1)
@@ -151,7 +151,7 @@ void main_ns::discretization_ns::discretization_cls::Discretization()
   }
 
   // constraints
-  std::cout << " -equation numbers ..." << std::endl;
+  std::cout << " -equation numbers ..." << "\n";
   for (i = 0; i < model->NJ; i++)
   {
     for (j = 0; j < model->NDim; j++)
@@ -174,7 +174,7 @@ void main_ns::discretization_ns::discretization_cls::Discretization()
   NEqM++;
 
   // material property of element
-  std::cout << " -material properties of elements..." << std::endl;
+  std::cout << " -material properties of elements..." << "\n";
   Mat_index = {0};
   for (iel = 0; iel < model->NEl; iel++)
   {
@@ -218,6 +218,6 @@ void main_ns::discretization_ns::discretization_cls::Discretization()
     }
   }
 
-  std::cout << " Done with discretization, successfully. " << std::endl
-            << std::endl;
+  std::cout << " Done with discretization, successfully. " << "\n"
+            << "\n";
 }
