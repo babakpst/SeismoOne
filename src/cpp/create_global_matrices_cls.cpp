@@ -350,6 +350,8 @@ void main_ns::Matrices_ns::Matrices_cls::
     Ce[NEqEl - 1][NEqEl - 1] = E / c;
   }
 
+
+  // killing arrays
   for (int i = 0; i < NEqEl; i++)
   {
     delete[] Psi_Psi_T[i];

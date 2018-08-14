@@ -4,8 +4,8 @@
 
 // Constructor
 main_ns::model_ns::model_cls::
-    model_cls(const main_ns::address_ns::address_cls *ModelInput)
-    : input(ModelInput)
+    model_cls(const main_ns::address_ns::address_cls *input)
+    : input{input}
 {
 
   std::cout << " Reading the model ..." << "\n";
