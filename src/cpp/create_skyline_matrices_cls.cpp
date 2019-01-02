@@ -184,7 +184,7 @@ void main_ns::Matrices_ns::Matrices_Skyline_cls::create_DRM_matrices_fn()
 
   // - Code ---------------------------------------------------------------------
   std::cout << "Create DRM matrices ..." << "\n";
-
+  
   for (int l = 0; l < Model->NNLayer * Model->NDim; l++)
   {
     for (int n = 0; n < Model->NNBndry * Model->NDim; n++)

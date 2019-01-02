@@ -16,7 +16,8 @@ INC = -I./
 ## General compile option
 CFLAGS = -Wall -Wextra -pedantic -std=c++14
 ## Release option
-RFLAGS = -O3
+RFLAGS = -O2
+
 ## DO NOT CHANGE ################################################
 .PHONY: all clean dep test help
 
@@ -32,8 +33,8 @@ $(OBJS): $(SRCS)
 	mkdir -p $(ODIR)
 	$(CC) $(CFLAGS) $(RFLAGS) $(INC) -c $(SRCS)
 cln:
-	rm *.o
 	rm $(TARGET)
+	#rm *.o
 test:
 	@echo "Sources are: " $(SRCS)
 	@echo "Objects are: " $(OBJS)

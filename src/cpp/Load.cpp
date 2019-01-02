@@ -235,6 +235,7 @@ void main_ns::Solver_ns::apply_seismic_loads_to_the_domain_cls::
 
   // Defining the required vectors
   std::vector<double> U_b(LoadPackage->NNBndry * LoadPackage->NDim);
+  
   // Ud_b is not needed bcs there is no damping in the system.
   std::vector<double> Ud_b(LoadPackage->NNBndry * LoadPackage->NDim);
   std::vector<double> Udd_b(LoadPackage->NNBndry * LoadPackage->NDim);
@@ -242,10 +243,14 @@ void main_ns::Solver_ns::apply_seismic_loads_to_the_domain_cls::
   // holds the loads for the boundary nodes.
   std::vector<double> F_e(LoadPackage->NNLayer * LoadPackage->NDim);
 
-  for (int i = 0; i < LoadPackage->NNLayer * LoadPackage->NDim; i++)
+  for (std::vector<double> :: iterator it = F_e.begin(); it < F_e.end(); it++)
   {
-    F_e[i] = {0.0};
+    *it = {0.0};
   }
+
+
+
+
 
   // Loop on the nodes on the DRM boundary to find out the analytical soln (In 1D only one node)
   for (int i = 0; i < LoadPackage->NNBndry; i++)
