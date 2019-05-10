@@ -38,8 +38,8 @@ void main_ns::address_ns::address_cls::address_fn()
   }
   catch (std::ifstream::failure &inputerr)
   { // here is the catch for opening the input file.
-    std::cout << " Error while opening the address file. " << "\n";
-    std::cout << " Please double check the address file in the cpp folder. " << "\n";
+    std::cout << " Error while opening the address file. \n";
+    std::cout << " Please double check the address file in the cpp folder.\n";
     std::cout << " The error message is: " << inputerr.what() << "\n";
   }
 
